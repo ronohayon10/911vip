@@ -864,30 +864,88 @@ const PAY=[
  {n:'הוצאות · נוזל שמשות',d:'30/06',h:'',v:25.00,exp:1},
 ];
 
-const WK_DAYS=[
- {d:'ראשון',dt:'07/06',cls:'past'},{d:'שני',dt:'08/06',cls:'past'},{d:'שלישי',dt:'09/06',cls:'past'},
- {d:'רביעי',dt:'10/06',cls:'past'},{d:'חמישי',dt:'11/06',cls:'today'},{d:'שישי',dt:'12/06',cls:''},{d:'שבת',dt:'13/06',cls:''},
+/* ===== מודל תאריכים ===== */
+const DEMO_TODAY='2026-06-11'; // "היום" של הדמו
+const DAY_NAMES=['ראשון','שני','שלישי','רביעי','חמישי','שישי','שבת'];
+const fromIso=s=>new Date(s+'T00:00:00');
+const toIso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+const addD=(s,n)=>{const d=fromIso(s);d.setDate(d.getDate()+n);return toIso(d)};
+const ddmm=s=>s.slice(8,10)+'/'+s.slice(5,7);
+const dayDiff=(a,b)=>Math.round((fromIso(a)-fromIso(b))/864e5);
+const startOfWeek=s=>{const d=fromIso(s);d.setDate(d.getDate()-d.getDay());return toIso(d)};
+const dayLabel=s=>DAY_NAMES[fromIso(s).getDay()]+' '+ddmm(s);
+let WEEK_START=startOfWeek(DEMO_TODAY);
+const weekDays=()=>Array.from({length:7},(_,i)=>{
+  const di=addD(WEEK_START,i);
+  return{iso:di,name:DAY_NAMES[i],dt:ddmm(di),cls:di<DEMO_TODAY?'past':di===DEMO_TODAY?'today':''};
+});
+
+/* שורות היומן (רכבים) */
+const ROWS=[
+ {v:'קאדילק משוריין 003',loc:'מוסך רחובות',arm:1},
+ {v:'קאדילק משוריין 004',loc:'הר חוצבים',arm:1},
+ {v:'סברבן משוריין 904',loc:'המצור ירושלים',arm:1},
+ {v:'סברבן משוריין 603',loc:'ראשל"צ ויקטורי',arm:1},
+ {v:'סברבן משוריין 203',loc:'קדר',arm:1},
+ {v:'טאהו משוריין 303',loc:'רון ויקטורי',arm:1},
+ {v:'סילברדו משוריין 503',loc:'פיק"א 44',arm:1},
+ {v:'סילברדו משוריין 801',loc:'הכרכום 11, מעלה אדומים',arm:1},
+ {v:'סברבן משוריין 901',loc:'גבעת זאב, רח׳ הזית',arm:1},
+ {v:'ספרינטר משוריין 911',loc:'ראשל"צ ויקטורי',arm:1},
+ {v:'ספרינטר משוריין 290',loc:'רון',arm:1},
+ {v:'טאהו רך 703',loc:'החומה מעלה אדומים',arm:0},
+ {v:'סברבן רך 803',loc:'מבשרת - אליאב',arm:0},
+ {v:'קאדילק רך 403',loc:'מוסך רחובות',arm:0},
+ {v:'קאדילק אסקלייד V',loc:'קידר',arm:0},
+ {v:'סברבן משוריין 803',loc:'',arm:1},
+ {v:'משימת נהיגה',loc:'',arm:0},
 ];
-/* cells: dayIndex -> [{n,drv,cls}]  cls: ''|live|self|admin */
-const WEEK=[
- {v:'קאדילק משוריין 003',loc:'מוסך רחובות',arm:1,c:{3:[{n:'לפיד',drv:'אופיר אוחיון'}],6:[{n:'איגור',drv:'שאול בנימין'}]}},
- {v:'קאדילק משוריין 004',loc:'הר חוצבים',arm:1,c:{3:[{n:'בית הנשיא',drv:'שבי מזרחי'}],5:[{n:'ביסמוט',drv:'שבי מזרחי'}]}},
- {v:'סברבן משוריין 904',loc:'המצור ירושלים',arm:1,c:{}},
- {v:'סברבן משוריין 603',loc:'ראשל"צ ויקטורי',arm:1,c:{1:[{n:'בית הנשיא',drv:'טירן שרון'}],3:[{n:'בית הנשיא',drv:'טירן שרון'}],4:[{n:'צבי סוכות',drv:'טירן שרון',cls:'live'}],6:[{n:'איגור',drv:'אופיר אוחיון'}]}},
- {v:'סברבן משוריין 203',loc:'קדר',arm:1,c:{0:[{n:'עליה וקליטה',drv:'עמיר אלוני'},{n:'חדשות 13',drv:'עמיר אלוני'},{n:'איסוף שגריר',drv:'עמיר אלוני'}],1:[{n:'בית הנשיא',drv:'איתן אוחיון'}],3:[{n:'תחבורה',drv:'איתן אוחיון'}]}},
- {v:'טאהו משוריין 303',loc:'רון ויקטורי',arm:1,c:{}},
- {v:'סילברדו משוריין 503',loc:'פיק"א 44',arm:1,c:{}},
- {v:'סילברדו משוריין 801',loc:'הכרכום 11, מעלה אדומים',arm:1,c:{0:[{n:'מחצבות',drv:'בר בנימין'}]}},
- {v:'סברבן משוריין 901',loc:'גבעת זאב, רח׳ הזית',arm:1,c:{3:[{n:'חדשות 13',drv:'בר בנימין'}]}},
- {v:'ספרינטר משוריין 911',loc:'ראשל"צ ויקטורי',arm:1,c:{}},
- {v:'ספרינטר משוריין 290',loc:'רון',arm:1,c:{0:[{n:'מחצבות',drv:'דוד יעקב'}]}},
- {v:'טאהו רך 703',loc:'החומה מעלה אדומים',arm:0,c:{1:[{n:'כ.ד נהיגה עצמית',cls:'self'}],2:[{n:'כ.ד נהיגה עצמית',cls:'self'}],3:[{n:'כ.ד נהיגה עצמית',cls:'self'}]}},
- {v:'סברבן רך 803',loc:'מבשרת - אליאב',arm:0,c:{}},
- {v:'קאדילק רך 403',loc:'מוסך רחובות',arm:0,c:{0:[{n:'טום ניידס',drv:'אופיר אוחיון'}],1:[{n:'טום ניידס',drv:'אופיר אוחיון'}]}},
- {v:'קאדילק אסקלייד V',loc:'קידר',arm:0,c:{4:[{n:'איגור',drv:'שאול בנימין',sid:'igor'}],5:[{n:'איגור',drv:'שאול בנימין',sid:'igor'}],6:[{n:'איגור',drv:'שאול בנימין',sid:'igor'}]}},
- {v:'סברבן משוריין 803',loc:'',arm:1,c:{0:[{n:'81',cls:'self'}],1:[{n:'81',cls:'self'}],2:[{n:'81',cls:'self'}],3:[{n:'81',cls:'self'}],4:[{n:'81',cls:'self'}],5:[{n:'81',cls:'self'}],6:[{n:'81',cls:'self'}]}},
- {v:'משימת נהיגה',loc:'',arm:0,c:{3:[{n:'תפוצות',drv:'דוד יעקב',cls:'admin'}],4:[{n:'תפוצות',drv:'דוד יעקב',cls:'admin'}]}},
+const RI={};ROWS.forEach((r,i)=>RI[r.v.replace(' משוריין','').replace(' רך','')]=i);
+
+/* משימות לפי תאריך אמיתי. ri = אינדקס רכב */
+const TASKS_DB=[
+ /* שבוע שעבר */
+ {ri:3,date:'2026-06-02',n:'מדע',drv:'טירן שרון'},
+ {ri:8,date:'2026-06-03',n:'ECI',drv:'בר בנימין'},
+ {ri:8,date:'2026-06-04',n:'IBC',drv:'בר בנימין'},
+ /* השבוע הנוכחי */
+ {ri:0,date:'2026-06-10',n:'לפיד',drv:'אופיר אוחיון'},
+ {ri:0,date:'2026-06-13',n:'איגור',drv:'שאול בנימין'},
+ {ri:1,date:'2026-06-10',n:'בית הנשיא',drv:'שבי מזרחי'},
+ {ri:1,date:'2026-06-12',n:'ביסמוט',drv:'שבי מזרחי'},
+ {ri:3,date:'2026-06-08',n:'בית הנשיא',drv:'טירן שרון'},
+ {ri:3,date:'2026-06-10',n:'בית הנשיא',drv:'טירן שרון'},
+ {ri:3,date:'2026-06-11',n:'צבי סוכות',drv:'טירן שרון',cls:'live'},
+ {ri:3,date:'2026-06-13',n:'איגור',drv:'אופיר אוחיון'},
+ {ri:4,date:'2026-06-07',n:'עליה וקליטה',drv:'עמיר אלוני'},
+ {ri:4,date:'2026-06-07',n:'חדשות 13',drv:'עמיר אלוני'},
+ {ri:4,date:'2026-06-07',n:'איסוף שגריר',drv:'עמיר אלוני'},
+ {ri:4,date:'2026-06-08',n:'בית הנשיא',drv:'איתן אוחיון'},
+ {ri:4,date:'2026-06-10',n:'תחבורה',drv:'איתן אוחיון'},
+ {ri:7,date:'2026-06-07',n:'מחצבות',drv:'בר בנימין'},
+ {ri:8,date:'2026-06-10',n:'חדשות 13',drv:'בר בנימין'},
+ {ri:10,date:'2026-06-07',n:'מחצבות',drv:'דוד יעקב'},
+ {ri:11,date:'2026-06-08',n:'כ.ד נהיגה עצמית',cls:'self'},
+ {ri:11,date:'2026-06-09',n:'כ.ד נהיגה עצמית',cls:'self'},
+ {ri:11,date:'2026-06-10',n:'כ.ד נהיגה עצמית',cls:'self'},
+ {ri:13,date:'2026-06-07',n:'טום ניידס',drv:'אופיר אוחיון'},
+ {ri:13,date:'2026-06-08',n:'טום ניידס',drv:'אופיר אוחיון'},
+ /* סדרת איגור — נמשכת ברצף אל השבוע הבא */
+ {ri:14,date:'2026-06-11',n:'איגור',drv:'שאול בנימין',sid:'igor'},
+ {ri:14,date:'2026-06-12',n:'איגור',drv:'שאול בנימין',sid:'igor'},
+ {ri:14,date:'2026-06-13',n:'איגור',drv:'שאול בנימין',sid:'igor'},
+ {ri:14,date:'2026-06-14',n:'איגור',drv:'שאול בנימין',sid:'igor'},
+ {ri:14,date:'2026-06-15',n:'איגור',drv:'שאול בנימין',sid:'igor'},
+ {ri:16,date:'2026-06-10',n:'תפוצות',drv:'דוד יעקב',cls:'admin'},
+ {ri:16,date:'2026-06-11',n:'תפוצות',drv:'דוד יעקב',cls:'admin'},
+ /* השבוע הבא */
+ {ri:3,date:'2026-06-16',n:'בית הנשיא',drv:'טירן שרון'},
+ {ri:4,date:'2026-06-17',n:'כנסת ישראל',drv:'איתן אוחיון'},
 ];
+/* '81' — נהיגה עצמית קבועה */
+for(let i=0;i<14;i++)TASKS_DB.push({ri:15,date:addD('2026-06-07',i),n:'81',cls:'self'});
+TASKS_DB.forEach((t,i)=>t.id=i+1);
+let NEXT_ID=TASKS_DB.length+1;
 
 /* תחזוקה: ק"מ נותר לטיפול — נכנס לרשימה מתחת ל-3,000. טסט/ביטוח — ספירה לאחור מ-30 יום */
 const MAINT=[
@@ -972,7 +1030,7 @@ function dpRender(){
   for(let d=1;d<=days;d++){
     const v=iso(DPS.y,DPS.m,d);
     const dow=new Date(DPS.y,DPS.m,d).getDay();
-    const cls=['dp-day',v==='2026-06-11'?'today':'',v===DPS.sel?'selected':'',dow===6?'shabat':''].join(' ');
+    const cls=['dp-day',v===DEMO_TODAY?'today':'',v===DPS.sel?'selected':'',dow===6?'shabat':''].join(' ');
     cells+=`<div class="${cls}" onclick="dpPick('${v}')">${d}</div>`;
   }
   const used=first+days;
@@ -981,11 +1039,14 @@ function dpRender(){
 }
 function dpPick(v){
   DPS.sel=v;
-  const d=new Date(v+'T00:00:00');
+  const d=fromIso(v);
   DPS.y=d.getFullYear();DPS.m=d.getMonth();
   $('#dp').classList.remove('open');
-  toast('מעבר לשבוע של '+d.toLocaleDateString('he-IL',{weekday:'long',day:'numeric',month:'long',year:'numeric'})+' (דמו)');
+  WEEK_START=startOfWeek(v);
+  renderWeek(WKQ);
 }
+function navWeek(n){WEEK_START=addD(WEEK_START,7*n);renderWeek(WKQ)}
+function goToday(){WEEK_START=startOfWeek(DEMO_TODAY);renderWeek(WKQ)}
 if(window.innerWidth>768)document.body.classList.add('railc');
 function toggleSide(open){
   SIDE_OPEN=open;
@@ -1002,11 +1063,11 @@ views.home=()=>`
 <div class="home-grid ${SIDE_OPEN?"":"collapsed"}" id="homeGrid">
 <div>
   <div class="topbar">
-    <div><h1>יומן נסיעות</h1><div class="sub">יוני 07 – יוני 13, 2026 · 4 משימות היום · 1 פעילה כרגע</div></div>
+    <div><h1>יומן נסיעות</h1><div class="sub" id="wkSub"></div></div>
     <div class="actions">
-      <button class="btn btn-gho btn-ico" title="שבוע אחורה" onclick="toast('שבוע קודם: 31/05 – 06/06 (דמו)')">‹</button>
-      <button class="btn btn-gho btn-ico" title="שבוע קדימה" onclick="toast('השבוע הבא: 14/06 – 20/06 (דמו)')">›</button>
-      <button class="btn btn-gho" onclick="toast('קפיצה להיום')">היום</button>
+      <button class="btn btn-gho btn-ico" title="שבוע אחורה" onclick="navWeek(-1)">‹</button>
+      <button class="btn btn-gho btn-ico" title="שבוע קדימה" onclick="navWeek(1)">›</button>
+      <button class="btn btn-gho" onclick="goToday()">היום</button>
       <button class="btn btn-gho" id="dpBtn" onclick="toggleDP(event)">📅 מעבר לתאריך</button>
       <button class="btn btn-gho ${SEL_MODE?'on-sel':''}" id="selModeBtn" onclick="toggleSelMode()">☑ בחירה</button>
       <button class="btn btn-pri" onclick="toast('כאן ייפתח טופס משימה חדשה')">+ משימה חדשה</button>
@@ -1017,7 +1078,7 @@ views.home=()=>`
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--mut)" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
       <input placeholder="חפש רכב…" oninput="renderWeek(this.value)" style="padding-inline-start:7px">
     </div>
-    ${WK_DAYS.map(d=>`<div class="wk-hd ${d.cls}">${d.d}<b>${d.dt}</b></div>`).join('')}
+    <div id="wkdays" style="display:contents"></div>
     <div id="wkrows" style="display:contents"></div>
   </div></div>
   <div class="wk-legend">
@@ -1218,36 +1279,46 @@ function go(v){
 }
 let WKQ='';
 const WK_EXP=new Set();
+const tasksAt=(ri,d)=>TASKS_DB.filter(t=>t.ri===ri&&t.date===d);
+const byId=id=>TASKS_DB.find(t=>t.id===+id);
 function renderWeek(q){
   WKQ=q=(q||'').trim();
-  const todayIdx=WK_DAYS.findIndex(d=>d.cls==='today');
-  $('#wkrows').innerHTML=WEEK.map((r,ri)=>({r,ri})).filter(o=>!q||o.r.v.includes(q)).map(({r,ri})=>{
+  const days=weekDays();
+  const hd=$('#wkdays');if(!hd)return;
+  hd.innerHTML=days.map(d=>`<div class="wk-hd ${d.cls}">${d.name}<b>${d.dt}</b></div>`).join('');
+  /* כותרת משנה דינמית */
+  const fmt=s=>fromIso(s).toLocaleDateString('he-IL',{day:'2-digit',month:'long'});
+  const todayN=TASKS_DB.filter(t=>t.date===DEMO_TODAY&&t.cls!=='self').length;
+  const liveN=TASKS_DB.filter(t=>t.cls==='live').length;
+  const sub=$('#wkSub');
+  if(sub)sub.textContent=fmt(WEEK_START)+' – '+fmt(addD(WEEK_START,6))+', '+WEEK_START.slice(0,4)+' · '+todayN+' משימות היום'+(liveN?' · '+liveN+' פעילה כרגע':'');
+  $('#wkrows').innerHTML=ROWS.map((r,ri)=>({r,ri})).filter(o=>!q||o.r.v.includes(q)).map(({r,ri})=>{
     const SH='<svg class="sh-ic" viewBox="0 0 24 24" fill="currentColor" aria-label="משוריין"><path d="M12 2l8 3v6c0 5-3.4 9.4-8 11-4.6-1.6-8-6-8-11V5z"/></svg>';
     const veh=`<div class="wk-veh"><b>${r.arm?SH:''}${r.v.replace(' משוריין','')}</b>${r.loc?`<span>${r.loc}</span>`:''}</div>`;
-    const cells=WK_DAYS.map((d,i)=>{
-      const arr=r.c[i]||[];
-      const past=todayIdx>-1&&i<todayIdx;
-      const key=ri+'-'+i;
+    const cells=days.map(d=>{
+      const arr=tasksAt(ri,d.iso);
+      const past=d.iso<DEMO_TODAY;
+      const key=ri+'-'+d.iso;
       const CK='<span class="ck"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.6"><path d="M5 13l4 4L19 7"/></svg></span>';
       const DONE='<span class="done-b" title="בוצעה"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>';
-      const chip=(t,si,mini)=>{const isDone=t.done||(past&&!t.cls);
-      return`<div class="wk-task ${mini?'mini':''} ${t.cls||''} ${t.sel?'sel':''} ${isDone?'is-done':''}" data-ri="${ri}" data-di="${i}" data-si="${si}" ${mini?`title="${t.n}${t.drv?' · '+t.drv:''}"`:''} onclick="event.stopPropagation();chipClick(this)">
+      const chip=(t,mini)=>{const isDone=t.done||(past&&!t.cls);
+      return`<div class="wk-task ${mini?'mini':''} ${t.cls||''} ${t.sel?'sel':''} ${isDone?'is-done':''}" data-id="${t.id}" data-ri="${ri}" data-date="${d.iso}" ${mini?`title="${t.n}${t.drv?' · '+t.drv:''}"`:''} onclick="event.stopPropagation();chipClick(this)">
         ${isDone?DONE:''}${CK}<b>${t.n}</b>${!mini&&t.drv?`<span>${t.drv}</span>`:''}</div>`};
       let items;
       if(past&&arr.length>=2){
         /* יום שעבר: 2 משימות בחצי-חצי בגובה סטנדרטי; מעבר לכך — כפתור +N */
         const open=WK_EXP.has(key);
         const shown=open?arr:arr.slice(0,2);
-        items=shown.map((t,si)=>chip(t,si,true)).join('');
+        items=shown.map(t=>chip(t,true)).join('');
         if(arr.length>2&&!open)items+=`<button class="wk-more" onclick="event.stopPropagation();WK_EXP.add('${key}');renderWeek(WKQ)">+${arr.length-2} עוד</button>`;
         if(open)items+=`<button class="wk-more" onclick="event.stopPropagation();WK_EXP.delete('${key}');renderWeek(WKQ)">סגור</button>`;
       }else{
-        items=arr.map((t,si)=>chip(t,si,false)).join('');
+        items=arr.map(t=>chip(t,false)).join('');
       }
-      /* בימים שעברו אין הוספת נסיעה — אין +, וכפתור +N בא במקומו בלי תוספת גובה */
-      const addBtn=past?'':`<button class="wk-add" title="שיבוץ ${r.v} ל${d.d}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 5v14M5 12h14"/></svg></button>`;
-      const cellClick=past?'':`onclick="toast('משימה חדשה: ${r.v} · ${d.d} ${d.dt}')"`;
-      return`<div class="wk-cell ${i===todayIdx?'today-col':''} ${past?'past':''}" data-ri="${ri}" data-di="${i}" ${cellClick}>
+      /* בימים שעברו אין הוספת נסיעה */
+      const addBtn=past?'':`<button class="wk-add" title="שיבוץ ${r.v} ל${d.name}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 5v14M5 12h14"/></svg></button>`;
+      const cellClick=past?'':`onclick="toast('משימה חדשה: ${r.v} · ${d.name} ${d.dt}')"`;
+      return`<div class="wk-cell ${d.cls==='today'?'today-col':''} ${past?'past':''}" data-ri="${ri}" data-date="${d.iso}" ${cellClick}>
         ${items}${addBtn}
       </div>`;
     }).join('');
@@ -1255,24 +1326,26 @@ function renderWeek(q){
   }).join('')||`<div style="grid-column:1/-1;text-align:center;color:var(--mut);padding:34px">לא נמצא רכב בשם הזה</div>`;
 }
 
-/* סדרות רב-יומיות: משימה אחת שמתפרסת על כמה ימים (תאריך התחלה–סיום).
-   ההמשך מעבר לשבוע המוצג נשמר במטא — והמערכת מציעה להחיל שינויים גם עליו, ברצף בלבד */
-const SERIES={
-  igor:{name:'איגור',cont:2,contLabel:'ראשון 14/06 – שני 15/06',lastVisibleDay:6}
-};
-function seriesPrompt(affected){
-  const bySid={};
-  affected.forEach(({t,di})=>{if(t&&t.sid)(bySid[t.sid]=bySid[t.sid]||[]).push(+di)});
-  Object.keys(bySid).forEach(sid=>{
-    const m=SERIES[sid];if(!m)return;
-    /* רק אם השינוי נוגע ביום האחרון הנראה — כלומר הרצף אל השבוע הבא לא נשבר */
-    if(bySid[sid].includes(m.lastVisibleDay)){
-      showConfirm(
-        '«'+m.name+'» ממשיכה ברצף גם בשבוע הבא ('+m.contLabel+')',
-        'להחיל את השינוי גם על '+m.cont+' הימים הבאים באותו רצף?',
-        ()=>toast('השינוי הוחל גם על '+m.contLabel+' · התראות בעוד 15 דק׳',3200)
-      );
+/* סדרות רב-יומיות: שינוי שנוגע ביום האחרון של קטע — מציע להמשיך אל הימים העוקבים ברצף */
+function seriesPrompt(affected,applyFn){
+  const sids=[...new Set(affected.map(o=>o.t&&o.t.sid).filter(Boolean))];
+  sids.forEach(sid=>{
+    const aff=affected.filter(o=>o.t.sid===sid);
+    const last=aff.map(o=>o.t.date).sort().pop();
+    const rest=TASKS_DB.filter(t=>t.sid===sid&&t.date>last&&!aff.some(o=>o.t===t))
+                       .sort((a,b)=>a.date<b.date?-1:1);
+    const chain=[];let next=addD(last,1);
+    for(const t of rest){
+      if(t.date===next){chain.push(t);next=addD(next,1)}
+      else if(t.date>next)break;
     }
+    if(!chain.length)return;
+    const label=dayLabel(chain[0].date)+(chain.length>1?' – '+dayLabel(chain[chain.length-1].date):'');
+    showConfirm(
+      '«'+chain[0].n+'» ממשיכה ברצף ('+label+')',
+      'להחיל את השינוי גם על '+chain.length+' הימים הבאים באותו רצף?',
+      ()=>{applyFn(chain);renderWeek(WKQ);toast('השינוי הוחל גם על '+label+' · התראות בעוד 15 דק׳',3200)}
+    );
   });
 }
 function showConfirm(title,q,onYes){
@@ -1292,16 +1365,12 @@ function toggleSelMode(){
   document.getElementById('selModeBtn')?.classList.toggle('on-sel',SEL_MODE);
   renderWeek(WKQ);updateSelBar();
 }
-function clearSel(){WEEK.forEach(r=>Object.values(r.c).forEach(a=>a.forEach(t=>t.sel=false)))}
+function clearSel(){TASKS_DB.forEach(t=>t.sel=false)}
 function endSelMode(){if(SEL_MODE)toggleSelMode()}
-function selTasks(){
-  const out=[];
-  WEEK.forEach((r,ri)=>Object.keys(r.c).forEach(di=>r.c[di].forEach(t=>{if(t.sel)out.push({t,ri,di:+di})})));
-  return out;
-}
+function selTasks(){return TASKS_DB.filter(t=>t.sel).map(t=>({t}))}
 function chipClick(el){
   if(DND.moved)return;
-  const t=WEEK[+el.dataset.ri].c[+el.dataset.di][+el.dataset.si];
+  const t=byId(el.dataset.id);if(!t)return;
   if(SEL_MODE){t.sel=!t.sel;el.classList.toggle('sel',t.sel);updateSelBar();}
   else openTask(t.cls==='live'?1:3);
 }
@@ -1319,48 +1388,43 @@ function openSelMenu(kind,e){
   closeSelMenus();
   if(was)return;
   if(kind==='drv')m.innerHTML=DRIVERS.map(d=>`<button onclick="bulkDriver('${d.n}')">${d.n}</button>`).join('');
-  else m.innerHTML=WEEK.filter(r=>r.v!=='משימת נהיגה').map((r,)=>`<button onclick="bulkVehicle(${WEEK.indexOf(r)})">${r.v.replace(' משוריין','')}${r.arm?' 🛡':''}</button>`).join('');
+  else m.innerHTML=ROWS.map((r,i)=>r.v==='משימת נהיגה'?'':`<button onclick="bulkVehicle(${i})">${r.v.replace(' משוריין','')}${r.arm?' 🛡':''}</button>`).join('');
   m.classList.add('open');
 }
-function removeByRef(t){
-  for(const r of WEEK)for(const k of Object.keys(r.c)){
-    const a=r.c[k],i=a.indexOf(t);
-    if(i>-1){a.splice(i,1);if(!a.length)delete r.c[k];return}
-  }
-}
-function restoreSnap(snap){
-  snap.forEach(({t})=>removeByRef(t));
-  snap.forEach(({t,ri,di})=>{(WEEK[ri].c[di]=WEEK[ri].c[di]||[]).push(t)});
+function restorePos(snap){
+  snap.forEach(({t,ri,date})=>{
+    if(!TASKS_DB.includes(t))TASKS_DB.push(t);
+    t.ri=ri;t.date=date;
+  });
   renderWeek(WKQ);updateSelBar();
 }
 function bulkDriver(name){
   const list=selTasks();if(!list.length)return;
-  const snap=list.map(({t,ri,di})=>({t,ri,di,drv:t.drv}));
+  const snap=list.map(({t})=>({t,drv:t.drv}));
   list.forEach(({t})=>t.drv=name);
   endSelMode();
   toastA(list.length+' משימות שובצו לנהג '+name+' · התראות בעוד 15 דק׳','בטל',()=>{
     snap.forEach(s=>s.t.drv=s.drv);renderWeek(WKQ);toast('השיבוץ בוטל — לא נשלחו התראות');
   },8000);
-  seriesPrompt(list);
+  seriesPrompt(list,ch=>ch.forEach(t=>t.drv=name));
 }
 function bulkVehicle(tri){
   const list=selTasks();if(!list.length)return;
-  const snap=list.map(({t,ri,di})=>({t,ri,di}));
-  list.forEach(({t})=>removeByRef(t));
-  list.forEach(({t,di})=>{(WEEK[tri].c[di]=WEEK[tri].c[di]||[]).push(t)});
+  const snap=list.map(({t})=>({t,ri:t.ri,date:t.date}));
+  list.forEach(({t})=>t.ri=tri);
   endSelMode();
-  toastA(list.length+' משימות הועברו ל'+WEEK[tri].v+' · התראות בעוד 15 דק׳','בטל',()=>{
-    restoreSnap(snap);toast('ההעברה בוטלה — לא נשלחו התראות');
+  toastA(list.length+' משימות הועברו ל'+ROWS[tri].v+' · התראות בעוד 15 דק׳','בטל',()=>{
+    restorePos(snap);toast('ההעברה בוטלה — לא נשלחו התראות');
   },8000);
-  seriesPrompt(list);
+  seriesPrompt(list,ch=>ch.forEach(t=>t.ri=tri));
 }
 function bulkDelete(){
   const list=selTasks();if(!list.length)return;
-  const snap=list.map(({t,ri,di})=>({t,ri,di}));
-  list.forEach(({t})=>removeByRef(t));
+  const snap=list.map(({t})=>({t,ri:t.ri,date:t.date}));
+  list.forEach(({t})=>{const i=TASKS_DB.indexOf(t);if(i>-1)TASKS_DB.splice(i,1)});
   endSelMode();
   toastA(list.length+' משימות נמחקו','בטל מחיקה',()=>{
-    restoreSnap(snap);toast('המחיקה בוטלה');
+    restorePos(snap);toast('המחיקה בוטלה');
   },8000);
 }
 
@@ -1371,9 +1435,8 @@ document.addEventListener('pointerdown',e=>{
   if(!t||e.button>0)return;
   if(t.classList.contains('is-done'))return; // משימה שהושלמה — לא ניתנת לגרירה
   DND.el=t;DND.moved=false;DND.active=false;DND.sx=e.clientX;DND.sy=e.clientY;
-  DND.src={ri:+t.dataset.ri,di:+t.dataset.di,si:+t.dataset.si};
+  DND.src={id:+t.dataset.id,ri:+t.dataset.ri,date:t.dataset.date};
   if(e.pointerType==='touch'){
-    // לחיצה ארוכה מתחילה גרירה; תזוזה לפני כן = גלילה רגילה
     DND.timer=setTimeout(()=>startDrag(e.clientX,e.clientY),330);
   }
 });
@@ -1382,7 +1445,7 @@ document.addEventListener('pointermove',e=>{
   const dx=Math.abs(e.clientX-DND.sx),dy=Math.abs(e.clientY-DND.sy);
   if(!DND.active){
     if(DND.timer&&(dx>9||dy>9)){clearTimeout(DND.timer);DND.timer=null;DND.el=null;return}
-    if(!DND.timer&&(dx>6||dy>6))startDrag(e.clientX,e.clientY); // עכבר
+    if(!DND.timer&&(dx>6||dy>6))startDrag(e.clientX,e.clientY);
     if(!DND.active)return;
   }
   moveDrag(e.clientX,e.clientY);
@@ -1396,8 +1459,10 @@ document.addEventListener('pointerup',()=>{
 function startDrag(x,y){
   if(!DND.el)return;
   DND.active=true;DND.moved=true;
+  DND.x=x;DND.y=y;
+  if(!DND.raf)DND.raf=requestAnimationFrame(dragLoop);
   document.body.classList.add('dragging-now');
-  const srcTask=WEEK[DND.src.ri].c[DND.src.di][DND.src.si];
+  const srcTask=byId(DND.src.id);
   DND.group=(SEL_MODE&&srcTask&&srcTask.sel)?selTasks():null;
   const g=DND.el.cloneNode(true);
   g.classList.add('drag-ghost');g.classList.remove('dragging');
@@ -1408,28 +1473,48 @@ function startDrag(x,y){
   if(navigator.vibrate)navigator.vibrate(12);
 }
 function moveDrag(x,y){
+  DND.x=x;DND.y=y;
   DND.ghost.style.left=x+'px';DND.ghost.style.top=y+'px';
   DND.ghost.style.display='none';
-  const cell=document.elementFromPoint(x,y)?.closest('.wk-cell');
+  const cell=document.elementFromPoint(x,y)?.closest('.wk-cell:not(.past)');
   DND.ghost.style.display='';
   if(cell===DND.over)return;
   document.querySelectorAll('.wk-cell.drop-on').forEach(c=>c.classList.remove('drop-on'));
   DND.over=cell||null;
   if(!cell)return;
   if(DND.group&&DND.group.length>1){
-    /* תצוגה מקדימה: מדגישים את כל תאי היעד של הקבוצה לפי הדלתא */
-    const s=DND.src,tri=+cell.dataset.ri,tdi=+cell.dataset.di;
-    const vehChanged=tri!==s.ri,dd=tdi-s.di;
-    DND.group.forEach(({ri,di})=>{
-      const nri=vehChanged?tri:ri;
-      const ndi=Math.min(6,Math.max(0,di+dd));
-      document.querySelector(`.wk-cell[data-ri="${nri}"][data-di="${ndi}"]`)?.classList.add('drop-on');
+    /* תצוגה מקדימה: כל תאי היעד של הקבוצה לפי הדלתא בימים */
+    const s=DND.src,tri=+cell.dataset.ri,tDate=cell.dataset.date;
+    const vehChanged=tri!==s.ri,dd=dayDiff(tDate,s.date);
+    DND.group.forEach(({t})=>{
+      const nri=vehChanged?tri:t.ri;
+      const nd=addD(t.date,dd);
+      document.querySelector(`.wk-cell[data-ri="${nri}"][data-date="${nd}"]`)?.classList.add('drop-on');
     });
   }else{
     cell.classList.add('drop-on');
   }
 }
+/* גלילה אוטומטית של היומן בזמן גרירה ליד הקצוות */
+function dragLoop(){
+  if(!DND.active){DND.raf=null;return}
+  const wrap=document.querySelector('.wk-wrap');
+  if(wrap&&DND.ghost){
+    const r=wrap.getBoundingClientRect(),M=60,MAX=16;
+    let sx=0,sy=0;
+    if(DND.y<r.top+M&&DND.y>r.top-30)sy=-MAX*Math.min(1,(r.top+M-DND.y)/M);
+    else if(DND.y>r.bottom-M&&DND.y<r.bottom+30)sy=MAX*Math.min(1,(DND.y-(r.bottom-M))/M);
+    if(DND.x<r.left+M&&DND.x>r.left-30)sx=-MAX*Math.min(1,(r.left+M-DND.x)/M);
+    else if(DND.x>r.right-M&&DND.x<r.right+30)sx=MAX*Math.min(1,(DND.x-(r.right-M))/M);
+    if(sx||sy){
+      wrap.scrollBy(sx,sy);
+      moveDrag(DND.x,DND.y); // רענון תא היעד אחרי הגלילה
+    }
+  }
+  DND.raf=requestAnimationFrame(dragLoop);
+}
 function endDrag(){
+  if(DND.raf){cancelAnimationFrame(DND.raf);DND.raf=null}
   document.body.classList.remove('dragging-now');
   DND.ghost?.remove();DND.ghost=null;
   DND.el?.classList.remove('dragging');
@@ -1437,47 +1522,44 @@ function endDrag(){
   document.querySelectorAll('.wk-cell.drop-on').forEach(c=>c.classList.remove('drop-on'));
   DND.over=null;DND.active=false;
   if(!tgt)return;
-  const s=DND.src,tri=+tgt.dataset.ri,tdi=+tgt.dataset.di;
-  if(tri===s.ri&&tdi===s.di)return;
+  const s=DND.src,tri=+tgt.dataset.ri,tDate=tgt.dataset.date;
+  if(tri===s.ri&&tDate===s.date)return;
   /* גרירה קבוצתית: רכב — מוחלף לכולן; יום — הזזה יחסית לפי הדלתא */
   if(DND.group&&DND.group.length>0){
-    const list=DND.group,vehChanged=tri!==s.ri,dd=tdi-s.di;
-    const snap=list.map(({t,ri,di})=>({t,ri,di}));
-    list.forEach(({t})=>removeByRef(t));
-    list.forEach(({t,ri,di})=>{
-      const nri=vehChanged?tri:ri;
-      const ndi=Math.min(6,Math.max(0,di+dd));
-      (WEEK[nri].c[ndi]=WEEK[nri].c[ndi]||[]).push(t);
+    const list=DND.group,vehChanged=tri!==s.ri,dd=dayDiff(tDate,s.date);
+    const snap=list.map(({t})=>({t,ri:t.ri,date:t.date}));
+    list.forEach(({t})=>{
+      if(vehChanged)t.ri=tri;
+      if(dd)t.date=addD(t.date,dd);
     });
     DND.group=null;
     endSelMode();
     const parts=[];
-    if(vehChanged)parts.push('רכב: '+WEEK[tri].v);
-    if(dd)parts.push('הזזה של '+Math.abs(dd)+' '+(Math.abs(dd)===1?'יום':'ימים'));
+    if(vehChanged)parts.push('רכב: '+ROWS[tri].v);
+    if(dd)parts.push('הזזה של '+Math.abs(dd)+' '+(Math.abs(dd)===1?'יום':'ימים')+(dd>0?' קדימה':' אחורה'));
     toastA(list.length+' משימות עודכנו · '+parts.join(' · ')+' · התראות בעוד 15 דק׳','בטל',()=>{
-      restoreSnap(snap);toast('השינוי בוטל — לא נשלחו התראות');
+      restorePos(snap);toast('השינוי בוטל — לא נשלחו התראות');
     },8000);
-    if(vehChanged&&!dd)seriesPrompt(list);
+    if(vehChanged&&!dd)seriesPrompt(list,ch=>ch.forEach(t=>t.ri=tri));
     return;
   }
-  const task=WEEK[s.ri].c[s.di].splice(s.si,1)[0];
-  if(!WEEK[s.ri].c[s.di].length)delete WEEK[s.ri].c[s.di];
-  (WEEK[tri].c[tdi]=WEEK[tri].c[tdi]||[]).push(task);
+  const task=byId(s.id);if(!task)return;
+  task.ri=tri;task.date=tDate;
   const parts=[];
-  if(tri!==s.ri)parts.push('רכב: '+WEEK[tri].v);
-  if(tdi!==s.di)parts.push('יום: '+WK_DAYS[tdi].d+' '+WK_DAYS[tdi].dt);
-  queueDriverNotice(task,s,{ri:tri,di:tdi},parts);
+  if(tri!==s.ri)parts.push('רכב: '+ROWS[tri].v);
+  if(tDate!==s.date)parts.push('יום: '+dayLabel(tDate));
+  queueDriverNotice(task,s,parts);
   renderWeek(WKQ);
-  if(task.sid&&tri!==s.ri&&tdi===s.di)seriesPrompt([{t:task,di:tdi}]);
+  if(task.sid&&tri!==s.ri&&tDate===s.date)seriesPrompt([{t:task}],ch=>ch.forEach(t=>t.ri=tri));
 }
 
 /* התראת שינוי לנהג נשלחת בדיליי של 15 דק' — חלון ביטול לטעויות גרירה.
-   (בדמו: 15 שניות. במערכת אמיתית: שינוי נוסף באותה משימה מאפס את הטיימר) */
-function queueDriverNotice(task,from,to,parts){
-  if(task._t)clearTimeout(task._t); // שינוי נוסף לפני שנשלחה — הטיימר מתאפס
+   (בדמו: 15 שניות. שינוי נוסף באותה משימה מאפס את הטיימר) */
+function queueDriverNotice(task,from,parts){
+  if(task._t)clearTimeout(task._t);
   task.pn=true;
   task._t=setTimeout(()=>{
-    task.pn=false;task._t=null;renderWeek(WKQ);
+    task.pn=false;task._t=null;
     toast('התראת שינוי על «'+task.n+'» נשלחה לנהג'+(task.drv?' '+task.drv:''));
   },15000);
   toastA(
@@ -1485,10 +1567,7 @@ function queueDriverNotice(task,from,to,parts){
     'בטל שינוי',
     ()=>{
       clearTimeout(task._t);task._t=null;task.pn=false;
-      const arr=WEEK[to.ri].c[to.di];
-      arr.splice(arr.indexOf(task),1);
-      if(!arr.length)delete WEEK[to.ri].c[to.di];
-      (WEEK[from.ri].c[from.di]=WEEK[from.ri].c[from.di]||[]).splice(from.si,0,task);
+      task.ri=from.ri;task.date=from.date;
       renderWeek(WKQ);
       toast('השינוי בוטל — לא נשלחה התראה לנהג');
     },
