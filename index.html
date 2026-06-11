@@ -108,6 +108,7 @@ body.railc .nav button.on:hover .lbl::after{background:var(--lime);border-color:
 .btn-pri:hover{box-shadow:0 6px 18px -6px rgba(14,15,17,.4)}
 .btn-gho{background:var(--card);border:1px solid var(--line2)}
 .btn-gho:hover{border-color:var(--ink2)}
+.btn-eq{min-width:62px;justify-content:center;padding-inline:10px}
 .btn-ico{width:38px;height:38px;padding:0;justify-content:center;font-size:17px;font-weight:700;border-radius:50%}
 
 /* ---------- Cards / chips ---------- */
@@ -272,9 +273,13 @@ body.selmode .wk-add{display:none}
   display:grid;place-items:center;z-index:2;line-height:0;
 }
 .wk-task.mini .done-b{top:3px;inset-inline-end:4px}
+.live-b{
+  position:absolute;top:7px;inset-inline-end:7px;width:7px;height:7px;border-radius:50%;
+  background:var(--green);z-index:2;animation:pulse 1.6s infinite;
+}
 .wk-task.is-done{cursor:default}
 .wk-task.is-done:hover{transform:none;box-shadow:none}
-body.selmode .done-b{display:none}
+body.selmode .done-b,body.selmode .live-b{display:none}
 .wk-task.sel{box-shadow:0 0 0 2px var(--lime);background:#FFF3E2}
 .wk-task.sel .ck{background:var(--lime);border-color:var(--lime)}
 .btn-gho.on-sel{background:var(--ink);color:var(--lime);border-color:var(--ink)}
@@ -311,6 +316,11 @@ body.selmode .done-b{display:none}
   border-radius:999px;padding:7px;font-size:12.5px;font-weight:700;color:var(--ink2);
 }
 .dp-today:hover{border-color:var(--ink2);color:var(--ink)}
+.cb-list button.ext-step{
+  width:26px;height:26px;border-radius:8px;background:var(--paper);border:1px solid var(--line2);
+  font-size:14px;font-weight:700;color:var(--ink2);display:grid;place-items:center;flex:none;padding:0;text-align:center;
+}
+.cb-list button.ext-step:hover{border-color:var(--ink);background:var(--paper)}
 .confirm{
   position:fixed;bottom:152px;left:50%;transform:translateX(-50%) translateY(12px);
   opacity:0;pointer-events:none;transition:opacity .2s,transform .24s;z-index:74;
@@ -353,6 +363,11 @@ body.selmode .done-b{display:none}
   border-radius:999px;padding:7px;font-size:12.5px;font-weight:700;color:var(--ink2);
 }
 .dp-today:hover{border-color:var(--ink2);color:var(--ink)}
+.cb-list button.ext-step{
+  width:26px;height:26px;border-radius:8px;background:var(--paper);border:1px solid var(--line2);
+  font-size:14px;font-weight:700;color:var(--ink2);display:grid;place-items:center;flex:none;padding:0;text-align:center;
+}
+.cb-list button.ext-step:hover{border-color:var(--ink);background:var(--paper)}
 .confirm{bottom:calc(218px + env(safe-area-inset-bottom))}.toast{bottom:calc(152px + env(safe-area-inset-bottom))}}
 .selbar{
   position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(14px);
@@ -403,6 +418,11 @@ body.selmode .done-b{display:none}
   border-radius:999px;padding:7px;font-size:12.5px;font-weight:700;color:var(--ink2);
 }
 .dp-today:hover{border-color:var(--ink2);color:var(--ink)}
+.cb-list button.ext-step{
+  width:26px;height:26px;border-radius:8px;background:var(--paper);border:1px solid var(--line2);
+  font-size:14px;font-weight:700;color:var(--ink2);display:grid;place-items:center;flex:none;padding:0;text-align:center;
+}
+.cb-list button.ext-step:hover{border-color:var(--ink);background:var(--paper)}
 .confirm{
   position:fixed;bottom:152px;left:50%;transform:translateX(-50%) translateY(12px);
   opacity:0;pointer-events:none;transition:opacity .2s,transform .24s;z-index:74;
@@ -445,6 +465,11 @@ body.selmode .done-b{display:none}
   border-radius:999px;padding:7px;font-size:12.5px;font-weight:700;color:var(--ink2);
 }
 .dp-today:hover{border-color:var(--ink2);color:var(--ink)}
+.cb-list button.ext-step{
+  width:26px;height:26px;border-radius:8px;background:var(--paper);border:1px solid var(--line2);
+  font-size:14px;font-weight:700;color:var(--ink2);display:grid;place-items:center;flex:none;padding:0;text-align:center;
+}
+.cb-list button.ext-step:hover{border-color:var(--ink);background:var(--paper)}
 .confirm{bottom:calc(218px + env(safe-area-inset-bottom))}.toast{bottom:calc(152px + env(safe-area-inset-bottom))}}
 .selbar{bottom:calc(80px + env(safe-area-inset-bottom))}}
 .wk-task.dragging{opacity:.3;cursor:grabbing}
@@ -470,6 +495,17 @@ body.dragging-now .wk-wrap{overscroll-behavior:none}
 .wk-more:hover{color:var(--ink);border-color:var(--ink)}
 .wk-task.self{background:#FBF6DC;border-color:#EFE3AC;border-inline-start-color:var(--amber)}
 .wk-task.admin{border-inline-start-color:var(--violet)}
+.wk-task.adm{
+  display:flex;align-items:center;gap:6px;
+  background:var(--violet-bg);border-color:transparent;border-inline-start:3px solid var(--violet);
+}
+.wk-task.adm b{color:var(--violet);font-weight:700}
+.adm-ic{
+  width:15px;height:15px;border-radius:4.5px;background:var(--violet);color:#fff;
+  font-size:9.5px;font-weight:800;display:grid;place-items:center;flex:none;line-height:1;
+}
+.wk-task.ext{background:#F0F0EC;border-color:var(--line);border-inline-start-color:#A9ACA2}
+.wk-task.ext b,.wk-task.ext span{color:var(--mut)}
 .wk-add{
   margin:auto;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;
   color:var(--line2);border:1.5px dashed currentColor;font-size:0;transition:all .12s;flex:none;
@@ -592,7 +628,6 @@ body.dragging-now .wk-wrap{overscroll-behavior:none}
   transition:transform .26s cubic-bezier(.32,.72,.32,1);display:flex;flex-direction:column;
   box-shadow:-12px 0 40px rgba(14,15,17,.18);
 }
-html[dir="rtl"] .drawer{transform:translateX(-100%)}
 .drawer.open{transform:translateX(0)}
 .dr-head{padding:18px 20px 14px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
 .dr-head h3{font-size:17px;font-weight:800}
@@ -613,6 +648,69 @@ html[dir="rtl"] .drawer{transform:translateX(-100%)}
 .dr-foot{padding:14px 20px calc(14px + env(safe-area-inset-bottom));border-top:1px solid var(--line);display:flex;gap:8px}
 .dr-foot .btn{flex:1;justify-content:center}
 .x{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:var(--paper)}
+
+/* ---------- New task form ---------- */
+.fld{display:flex;flex-direction:column;gap:5px;margin-bottom:13px}
+.fld>label{font-size:11.5px;font-weight:700;color:var(--ink2)}
+.fld>label .req{color:var(--red)}
+.fld input[type=text],.fld input[type=date],.fld input[type=time],.fld select,.fld textarea{
+  width:100%;border:1px solid var(--line2);border-radius:10px;padding:9px 12px;font-size:14px;
+  background:var(--card);outline:none;transition:border-color .12s;font-family:inherit;
+}
+.fld input:focus,.fld select:focus,.fld textarea:focus{border-color:var(--ink)}
+.fld textarea{resize:vertical;min-height:64px}
+.fld .hint{font-size:11px;color:var(--mut)}
+.f-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tseg{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:15px}
+.tseg>button,.tseg .combo>button{
+  border:1.5px solid var(--line2);border-radius:11px;padding:9px 8px;font-size:12.5px;font-weight:700;
+  color:var(--ink2);background:var(--card);transition:all .12s;text-align:center;
+}
+.tseg>button.on,.tseg .combo>button.on{background:var(--ink);color:var(--lime);border-color:var(--ink)}
+.tseg .combo>button{width:100%}
+.combo{position:relative}
+.cb-list{
+  position:absolute;top:calc(100% + 5px);inset-inline:0;z-index:70;display:none;
+  background:var(--card);border:1px solid var(--line);border-radius:12px;
+  box-shadow:0 14px 38px rgba(14,15,17,.22);max-height:200px;overflow:auto;padding:4px;
+}
+.cb-list.open{display:block}
+.cb-list button{display:block;width:100%;text-align:start;padding:8px 12px;border-radius:8px;font-size:13.5px;font-weight:500}
+.cb-list button:hover{background:var(--paper)}
+.cb-list .cb-empty{padding:9px 12px;color:var(--mut);font-size:12.5px}
+.f-datebtn{
+  width:100%;border:1px solid var(--line2);border-radius:10px;padding:9px 12px;font-size:14px;
+  background:var(--card);text-align:start;font-weight:600;transition:border-color .12s;
+}
+.f-datebtn:hover{border-color:var(--ink2)}
+.dtabs{display:flex;gap:7px;padding:12px 20px;border-bottom:1px solid var(--line)}
+.dtabs button{flex:1;padding:9px;border-radius:11px;font-weight:700;font-size:13px;color:var(--mut);background:var(--paper);transition:all .12s}
+.dtabs button.on{background:var(--ink);color:var(--lime)}
+.st-opt{
+  display:flex;align-items:center;gap:11px;padding:11px 13px;border:1.5px solid var(--line2);
+  border-radius:12px;margin-bottom:8px;cursor:pointer;font-weight:600;font-size:13.5px;transition:all .12s;
+}
+.st-opt:hover{border-color:var(--ink2)}
+.st-opt.on{border-color:var(--ink);background:#FAF7F1}
+.st-opt .dot2{width:17px;height:17px;border-radius:50%;border:2px solid var(--line2);flex:none;display:grid;place-items:center}
+.st-opt.on .dot2{border-color:var(--ink)}
+.st-opt.on .dot2::after{content:'';width:9px;height:9px;border-radius:50%;background:var(--lime)}
+.rep-row{display:grid;grid-template-columns:92px 1fr 1fr;gap:8px;align-items:center;margin-bottom:9px}
+.rep-row>label{font-size:12px;font-weight:700;color:var(--ink2)}
+.rep-row input{border:1px solid var(--line2);border-radius:9px;padding:8px 10px;font-size:13.5px;width:100%;outline:none}
+.rep-row input:focus{border-color:var(--ink)}
+.rep-hd{display:grid;grid-template-columns:92px 1fr 1fr;gap:8px;font-size:10.5px;color:var(--mut);font-weight:700;margin-bottom:5px}
+.lic{display:inline-block;font-style:normal;margin-inline-end:3px;vertical-align:-1.5px;line-height:0}
+.rstamp{display:block;font-size:10.5px;color:var(--mut);font-weight:500;margin-top:2px}
+.rstamp.gap{color:#C2590B;font-weight:700}
+.step .gapline{color:#C2590B;font-weight:700}
+.f-check{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--ink2);cursor:pointer;margin-bottom:13px}
+.f-check input{width:16px;height:16px;accent-color:var(--ink)}
+.multiday-note{
+  background:var(--violet-bg);color:var(--violet);border-radius:10px;padding:8px 12px;
+  font-size:12px;font-weight:600;margin-bottom:13px;display:none;
+}
+.multiday-note.show{display:block}
 
 /* ---------- Toast ---------- */
 .toast{
@@ -723,6 +821,9 @@ html[dir="rtl"] .drawer{transform:translateX(-100%)}
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="13" rx="2"/><path d="M2 10h20M6 15h4"/></svg>
       <span class="lbl">שכר והוצאות</span>
     </button>
+  <a href="911vip-driver.html" style="display:flex;align-items:center;gap:11px;padding:10px 13px;border-radius:11px;color:inherit;text-decoration:none;font-size:13.5px;font-weight:600">
+    <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg>ממשק נהג
+  </a>
     <div class="spacer"></div>
     <button class="ntg" onclick="toggleRail()">
       <svg class="tg-ic" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 17l5-5-5-5M6 17l5-5-5-5"/></svg>
@@ -747,7 +848,7 @@ html[dir="rtl"] .drawer{transform:translateX(-100%)}
   <button data-v="vehicles"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 16l1.5-5h11L19 16M5 16h14M5 16v3h2v-2h10v2h2v-3"/></svg>רכבים</button>
   <button data-v="pay"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="13" rx="2"/><path d="M2 10h20"/></svg>שכר</button>
 </div></nav>
-<button class="fab" onclick="toast('כאן ייפתח טופס משימה חדשה')"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg></button>
+<button class="fab" onclick="openNewTask()"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg></button>
 
 <div class="scrim" id="scrim" onclick="closeDrawer()"></div>
 <aside class="drawer" id="drawer"></aside>
@@ -899,6 +1000,7 @@ const ROWS=[
  {v:'קאדילק אסקלייד V',loc:'קידר',arm:0},
  {v:'סברבן משוריין 803',loc:'',arm:1},
  {v:'משימת נהיגה',loc:'',arm:0},
+ {v:'משימה חיצונית',loc:'',arm:0},
 ];
 const RI={};ROWS.forEach((r,i)=>RI[r.v.replace(' משוריין','').replace(' רך','')]=i);
 
@@ -915,7 +1017,7 @@ const TASKS_DB=[
  {ri:1,date:'2026-06-12',n:'ביסמוט',drv:'שבי מזרחי'},
  {ri:3,date:'2026-06-08',n:'בית הנשיא',drv:'טירן שרון'},
  {ri:3,date:'2026-06-10',n:'בית הנשיא',drv:'טירן שרון'},
- {ri:3,date:'2026-06-11',n:'צבי סוכות',drv:'טירן שרון',cls:'live'},
+ {ri:3,date:'2026-06-11',n:'צבי סוכות',drv:'טירן שרון',cls:'live',ts:{start:'06:30'},km:{start:'99218'},rts:{ap:'21:14',start:'06:31'}},
  {ri:3,date:'2026-06-13',n:'איגור',drv:'אופיר אוחיון'},
  {ri:4,date:'2026-06-07',n:'עליה וקליטה',drv:'עמיר אלוני'},
  {ri:4,date:'2026-06-07',n:'חדשות 13',drv:'עמיר אלוני'},
@@ -923,7 +1025,7 @@ const TASKS_DB=[
  {ri:4,date:'2026-06-08',n:'בית הנשיא',drv:'איתן אוחיון'},
  {ri:4,date:'2026-06-10',n:'תחבורה',drv:'איתן אוחיון'},
  {ri:7,date:'2026-06-07',n:'מחצבות',drv:'בר בנימין'},
- {ri:8,date:'2026-06-10',n:'חדשות 13',drv:'בר בנימין'},
+ {ri:8,date:'2026-06-10',n:'חדשות 13',drv:'בר בנימין',ts:{start:'06:30',rel:'10:52',end:'11:07'},km:{start:'99218',rel:'99245',end:'99251'},locs:{rel:'כנסת ישראל',end:'גבעת זאב'},rts:{ap:'21:14',start:'06:31',rel:'12:47',end:'11:09'}},
  {ri:10,date:'2026-06-07',n:'מחצבות',drv:'דוד יעקב'},
  {ri:11,date:'2026-06-08',n:'כ.ד נהיגה עצמית',cls:'self'},
  {ri:11,date:'2026-06-09',n:'כ.ד נהיגה עצמית',cls:'self'},
@@ -936,9 +1038,13 @@ const TASKS_DB=[
  {ri:14,date:'2026-06-13',n:'איגור',drv:'שאול בנימין',sid:'igor'},
  {ri:14,date:'2026-06-14',n:'איגור',drv:'שאול בנימין',sid:'igor'},
  {ri:14,date:'2026-06-15',n:'איגור',drv:'שאול בנימין',sid:'igor'},
- {ri:16,date:'2026-06-10',n:'תפוצות',drv:'דוד יעקב',cls:'admin'},
- {ri:16,date:'2026-06-11',n:'תפוצות',drv:'דוד יעקב',cls:'admin'},
+ {ri:10,date:'2026-06-10',n:'החלפת רכב',drv:'דוד יעקב',cls:'admin'},
+ {ri:10,date:'2026-06-11',n:'טיפול במוסך',drv:'דוד יעקב',cls:'admin'},
+ {ri:1,date:'2026-06-09',n:'שטיפה',drv:'שבי מזרחי',cls:'admin'},
+ {ri:3,date:'2026-06-11',n:'החלפת רכב',drv:'טירן שרון',cls:'admin'},
  /* השבוע הבא */
+ {ri:17,date:'2026-06-12',n:'יוניברסל',cls:'ext'},
+ {ri:17,date:'2026-06-13',n:'יוניברסל',cls:'ext'},
  {ri:3,date:'2026-06-16',n:'בית הנשיא',drv:'טירן שרון'},
  {ri:4,date:'2026-06-17',n:'כנסת ישראל',drv:'איתן אוחיון'},
 ];
@@ -1000,10 +1106,11 @@ function syncSideHeight(){
 window.addEventListener('resize',()=>syncSideHeight());
 /* ---- לוח שנה מותאם למעבר לתאריך ---- */
 const DPS={y:2026,m:5,sel:'2026-06-11'}; // m: 0-based
-function toggleDP(e){
+function openDPAt(e,onPick,selected){
   e.stopPropagation();
   const dp=$('#dp');
-  if(dp.classList.contains('open')){dp.classList.remove('open');return}
+  DPS.onPick=onPick||null;
+  if(selected){DPS.sel=selected;const d=fromIso(selected);DPS.y=d.getFullYear();DPS.m=d.getMonth()}
   dpRender();
   const r=e.currentTarget.getBoundingClientRect();
   if(window.innerWidth<480){
@@ -1015,7 +1122,15 @@ function toggleDP(e){
   dp.style.top=Math.min(r.bottom+8,window.innerHeight-380)+'px';
   dp.classList.add('open');
 }
-document.addEventListener('click',e=>{if(!e.target.closest('#dp')&&!e.target.closest('#dpBtn'))$('#dp')?.classList.remove('open')});
+function toggleDP(e){
+  const dp=$('#dp');
+  if(dp.classList.contains('open')){dp.classList.remove('open');return}
+  openDPAt(e,null);
+}
+document.addEventListener('click',e=>{
+  if(!e.target.closest('#dp')&&!e.target.closest('.dp-anchor'))$('#dp')?.classList.remove('open');
+  if(!e.target.closest('.combo'))document.querySelectorAll('.cb-list').forEach(l=>l.classList.remove('open'));
+});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')$('#dp')?.classList.remove('open')});
 function dpNav(d){DPS.m+=d;if(DPS.m<0){DPS.m=11;DPS.y--}if(DPS.m>11){DPS.m=0;DPS.y++}dpRender()}
 function dpRender(){
@@ -1042,6 +1157,7 @@ function dpPick(v){
   const d=fromIso(v);
   DPS.y=d.getFullYear();DPS.m=d.getMonth();
   $('#dp').classList.remove('open');
+  if(DPS.onPick){const f=DPS.onPick;DPS.onPick=null;f(v);return}
   WEEK_START=startOfWeek(v);
   renderWeek(WKQ);
 }
@@ -1067,10 +1183,17 @@ views.home=()=>`
     <div class="actions">
       <button class="btn btn-gho btn-ico" title="שבוע אחורה" onclick="navWeek(-1)">‹</button>
       <button class="btn btn-gho btn-ico" title="שבוע קדימה" onclick="navWeek(1)">›</button>
-      <button class="btn btn-gho" onclick="goToday()">היום</button>
-      <button class="btn btn-gho" id="dpBtn" onclick="toggleDP(event)">📅 מעבר לתאריך</button>
-      <button class="btn btn-gho ${SEL_MODE?'on-sel':''}" id="selModeBtn" onclick="toggleSelMode()">☑ בחירה</button>
-      <button class="btn btn-pri" onclick="toast('כאן ייפתח טופס משימה חדשה')">+ משימה חדשה</button>
+      <button class="btn btn-gho btn-eq" onclick="goToday()">היום</button>
+      <button class="btn btn-gho btn-eq dp-anchor" id="dpBtn" title="מעבר לתאריך" onclick="toggleDP(event)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+      </button>
+      <button class="btn btn-gho btn-eq ${SHOW_ADMIN?'on-sel':''}" id="admBtn" title="הצג נסיעות מנהלתיות שנפתחו ע&quot;י נהגים" onclick="toggleAdmin()">
+        <span class="adm-ic">מ</span>
+      </button>
+      <button class="btn btn-gho btn-eq ${SEL_MODE?'on-sel':''}" id="selModeBtn" title="מצב בחירה מרובה" onclick="toggleSelMode()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8.5 12l2.5 2.5L15.5 9.5"/></svg>
+      </button>
+      <button class="btn btn-pri" onclick="openNewTask()">+ משימה חדשה</button>
     </div>
   </div>
   <div class="card wk-wrap"><div class="wk" id="wk">
@@ -1085,6 +1208,7 @@ views.home=()=>`
     <span><i style="background:var(--green)"></i>נסיעה פעילה</span>
     <span><i style="background:var(--amber)"></i>נהיגה עצמית</span>
     <span><i style="background:var(--violet)"></i>נסיעה מנהלתית</span>
+    <span><i style="background:#A9ACA2"></i>משימה חיצונית</span>
   </div>
 </div>
 
@@ -1137,7 +1261,7 @@ views.overview=()=>`
   <div><h1>ערב טוב, רון 👋</h1><div class="sub">חמישי, 11 ביוני 2026 · תמונת מצב חיה</div></div>
   <div class="actions">
     <button class="btn btn-gho" onclick="toast('בקשת זמינות נשלחה ל-27 נהגים')">בקשת זמינות</button>
-    <button class="btn btn-pri" onclick="toast('כאן ייפתח טופס משימה חדשה')">+ משימה חדשה</button>
+    <button class="btn btn-pri" onclick="openNewTask()">+ משימה חדשה</button>
   </div>
 </div>
 <div class="kpis">
@@ -1184,7 +1308,7 @@ views.tasks=()=>`
   <div><h1>משימות</h1><div class="sub">01–30 ביוני · ${TASKS.length} משימות מוצגות</div></div>
   <div class="actions">
     <button class="btn btn-gho" onclick="toast('הקובץ יורד… (דמו)')">ייצוא לאקסל</button>
-    <button class="btn btn-pri" onclick="toast('כאן ייפתח טופס משימה חדשה')">+ משימה חדשה</button>
+    <button class="btn btn-pri" onclick="openNewTask()">+ משימה חדשה</button>
   </div>
 </div>
 <div class="toolbar">
@@ -1278,6 +1402,12 @@ function go(v){
   window.scrollTo({top:0});$('#main').scrollTo({top:0});
 }
 let WKQ='';
+let SHOW_ADMIN=false;
+function toggleAdmin(){
+  SHOW_ADMIN=!SHOW_ADMIN;
+  document.getElementById('admBtn')?.classList.toggle('on-sel',SHOW_ADMIN);
+  renderWeek(WKQ);
+}
 const WK_EXP=new Set();
 const tasksAt=(ri,d)=>TASKS_DB.filter(t=>t.ri===ri&&t.date===d);
 const byId=id=>TASKS_DB.find(t=>t.id===+id);
@@ -1296,14 +1426,16 @@ function renderWeek(q){
     const SH='<svg class="sh-ic" viewBox="0 0 24 24" fill="currentColor" aria-label="משוריין"><path d="M12 2l8 3v6c0 5-3.4 9.4-8 11-4.6-1.6-8-6-8-11V5z"/></svg>';
     const veh=`<div class="wk-veh"><b>${r.arm?SH:''}${r.v.replace(' משוריין','')}</b>${r.loc?`<span>${r.loc}</span>`:''}</div>`;
     const cells=days.map(d=>{
-      const arr=tasksAt(ri,d.iso);
+      const arr=tasksAt(ri,d.iso).filter(t=>SHOW_ADMIN||t.cls!=='admin');
       const past=d.iso<DEMO_TODAY;
       const key=ri+'-'+d.iso;
       const CK='<span class="ck"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.6"><path d="M5 13l4 4L19 7"/></svg></span>';
       const DONE='<span class="done-b" title="בוצעה"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>';
       const chip=(t,mini)=>{const isDone=t.done||(past&&!t.cls);
+      if(t.cls==='admin')return`<div class="wk-task mini adm ${t.sel?'sel':''} ${(t.done||t.stage===3)?'is-done':''}" data-id="${t.id}" data-ri="${ri}" data-date="${d.iso}" title="${t.n}${t.drv?' · '+t.drv:''}" onclick="event.stopPropagation();chipClick(this)">
+        ${(t.done||t.stage===3)?DONE:t.stage===1?'<span class="live-b" title="בנסיעה כעת"></span>':''}${CK}<span class="adm-ic">מ</span><b>${t.drv||t.n}</b></div>`;
       return`<div class="wk-task ${mini?'mini':''} ${t.cls||''} ${t.sel?'sel':''} ${isDone?'is-done':''}" data-id="${t.id}" data-ri="${ri}" data-date="${d.iso}" ${mini?`title="${t.n}${t.drv?' · '+t.drv:''}"`:''} onclick="event.stopPropagation();chipClick(this)">
-        ${isDone?DONE:''}${CK}<b>${t.n}</b>${!mini&&t.drv?`<span>${t.drv}</span>`:''}</div>`};
+        ${isDone?DONE:t.cls==='live'?'<span class="live-b" title="בנסיעה כעת"></span>':''}${CK}<b>${t.n}</b>${!mini&&t.drv?`<span>${t.drv}</span>`:''}</div>`};
       let items;
       if(past&&arr.length>=2){
         /* יום שעבר: 2 משימות בחצי-חצי בגובה סטנדרטי; מעבר לכך — כפתור +N */
@@ -1317,7 +1449,7 @@ function renderWeek(q){
       }
       /* בימים שעברו אין הוספת נסיעה */
       const addBtn=past?'':`<button class="wk-add" title="שיבוץ ${r.v} ל${d.name}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 5v14M5 12h14"/></svg></button>`;
-      const cellClick=past?'':`onclick="toast('משימה חדשה: ${r.v} · ${d.name} ${d.dt}')"`;
+      const cellClick=past?'':`onclick="openNewTask(${ri},'${d.iso}')"`;
       return`<div class="wk-cell ${d.cls==='today'?'today-col':''} ${past?'past':''}" data-ri="${ri}" data-date="${d.iso}" ${cellClick}>
         ${items}${addBtn}
       </div>`;
@@ -1344,7 +1476,7 @@ function seriesPrompt(affected,applyFn){
     showConfirm(
       '«'+chain[0].n+'» ממשיכה ברצף ('+label+')',
       'להחיל את השינוי גם על '+chain.length+' הימים הבאים באותו רצף?',
-      ()=>{applyFn(chain);renderWeek(WKQ);toast('השינוי הוחל גם על '+label+' · התראות בעוד 15 דק׳',3200)}
+      ()=>{applyFn(chain);renderWeek(WKQ);toast('השינוי הוחל גם על '+label,3200)}
     );
   });
 }
@@ -1372,7 +1504,254 @@ function chipClick(el){
   if(DND.moved)return;
   const t=byId(el.dataset.id);if(!t)return;
   if(SEL_MODE){t.sel=!t.sel;el.classList.toggle('sel',t.sel);updateSelBar();}
-  else openTask(t.cls==='live'?1:3);
+  else openJournalTask(t.id);
+}
+
+/* פרטי משימה אמיתיים מתוך היומן */
+function openJournalTask(id){
+  const t=byId(id);if(!t)return;
+  const past=t.date<DEMO_TODAY;
+  const isDone=t.done||t.stage===3||(past&&!t.cls);
+  const st=isDone?'<span class="chip c-mut">בוצע</span>'
+    :t.cls==='live'?'<span class="chip c-green"><span class="dot pulse"></span>בנסיעה</span>'
+    :t.cls==='self'?'<span class="chip c-amber">נהיגה עצמית</span>'
+    :t.cls==='ext'?'<span class="chip c-mut">משימה חיצונית</span>'
+    :t.cls==='admin'&&t.stage===1?'<span class="chip c-green"><span class="dot pulse"></span>בנסיעה</span>'
+    :t.cls==='admin'?'<span class="chip c-violet">מנהלתית</span>'
+    :'<span class="chip c-amber"><span class="dot"></span>ממתינה לביצוע</span>';
+  const vehName=ROWS[t.ri].v==='משימת נהיגה'?'רכב של הלקוח'
+    :ROWS[t.ri].v==='משימה חיצונית'?'רכב חיצוני'
+    :ROWS[t.ri].v;
+  const _series=t.sid?TASKS_DB.filter(x=>x.sid===t.sid):[t];
+  const extBase=_series.reduce((a,b)=>a.date>b.date?a:b).date;
+  const ts=t.ts||{},km=t.km||{},rts=t.rts||{},locs=t.locs||{};
+  const IC={
+    clock:'<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+    odo:'<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3.34 19a10 10 0 1 1 17.32 0"/><path d="M12 14l4-4"/></svg>',
+    pin:'<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>'
+  };
+  const det=(h,k,l)=>[
+    h?`<i class="lic">${IC.clock}</i>${h}`:'',
+    k?`<i class="lic">${IC.odo}</i>${(+k).toLocaleString()} ק"מ`:'',
+    l?`<i class="lic">${IC.pin}</i>${l}`:''
+  ].filter(Boolean).join(' · ');
+  const gapMin=(a,b)=>{
+    if(!a||!b)return 0;
+    const p=x=>{const m=String(x).match(/(\d{1,2}):(\d{2})/);return m?+m[1]*60+ +m[2]:null};
+    const x=p(a),y=p(b);if(x==null||y==null)return 0;
+    let d=Math.abs(y-x);return Math.min(d,1440-d);
+  };
+  const stamp=(rep,act)=>{
+    if(!act)return '';
+    const gap=rep&&gapMin(rep,act)>20;
+    return `<i class="rstamp ${gap?'gap':''}">דווח בפועל ב-${act}${gap?' · פער מהשעה שדווחה':''}</i>`;
+  };
+  const isAdmin=t.cls==='admin';
+  const stepStart={n:'התחלת משימה',d:det(ts.start,km.start),st:stamp(ts.start,rts.start),gap:ts.start&&rts.start&&gapMin(ts.start,rts.start)>20};
+  const stepEnd={n:'סיום משימה',d:det(ts.end,km.end,locs.end),st:stamp(ts.end,rts.end),gap:ts.end&&rts.end&&gapMin(ts.end,rts.end)>20};
+  const steps=isAdmin?[stepStart,stepEnd]:[
+    {n:'שיבוץ אושר ע"י הנהג',d:'',st:stamp(null,rts.ap)},
+    stepStart,
+    {n:'הסרת אחריות',d:det(ts.rel,km.rel,locs.rel),st:stamp(ts.rel,rts.rel),gap:ts.rel&&rts.rel&&gapMin(ts.rel,rts.rel)>20},
+    stepEnd,
+  ];
+  const doneCount=isAdmin
+    ?(isDone?2:t.stage===1?1:0)
+    :(t.stage!==undefined?[1,2,3,4][t.stage]:(isDone?4:t.cls==='live'?2:0));
+  const showSteps=!t.cls||t.cls==='live'||isAdmin;
+  $('#drawer').innerHTML=`
+  <div class="dr-head"><div><h3>${t.n}</h3><div class="tsub">${t.client?t.client+' · ':''}${dayLabel(t.date)}/${t.date.slice(0,4)}</div></div>
+  <button class="x" onclick="closeDrawer()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div>
+  <div class="dr-body">
+    <div>${st}</div>
+    <div class="dr-grid">
+      <div class="dr-item"><span class="l">נהג</span><span class="v">${t.drv||'— טרם שובץ —'}</span></div>
+      <div class="dr-item"><span class="l">רכב</span><span class="v">${vehName}</span></div>
+      <div class="dr-item"><span class="l">תאריך</span><span class="v num">${ddmm(t.date)}/${t.date.slice(0,4)}</span></div>
+      <div class="dr-item"><span class="l">סדרה</span><span class="v">${t.sid?'רב-יומית':'יום בודד'}</span></div>
+      ${t.pay?`<div class="dr-item"><span class="l">סה"כ שעות${t.pay.shabbat?' · שבת':''}</span><span class="v num">${t.pay.h}</span></div>
+      <div class="dr-item"><span class="l">שכר משימה${t.pay.km!==undefined?' · '+t.pay.km+' ק"מ':''}</span><span class="v num">₪${t.pay.amt.toLocaleString()}</span></div>`:''}
+    </div>
+    ${showSteps?`<div><h3 style="font-size:14px;margin-bottom:12px">מהלך המשימה</h3>
+    <div class="steps">${steps.map((s,i)=>`<div class="step ${i<doneCount?'done':''} ${i===doneCount&&t.cls==='live'?'cur':''}">
+      <div class="step-dot">${i<doneCount?'<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><path d="M5 13l4 4L19 7"/></svg>':''}</div>
+      <div><b>${s.n}</b><span>${i<doneCount?(s.d||'דווח'):'טרם דווח'}</span>${i<doneCount?(s.st||''):''}</div></div>`).join('')}</div></div>`:''}
+  </div>
+  <div class="dr-foot" style="flex-wrap:wrap">
+    <button class="btn btn-gho" onclick="openEditTask(${t.id},'details')">עריכה</button>
+    ${t.drv?`<button class="btn btn-gho" onclick="toast('הודעה נשלחה ל${t.drv} (דמו)')">הודעה לנהג</button>`:''}
+    <div class="combo" style="flex:1">
+      <button type="button" class="btn btn-gho" style="width:100%;justify-content:center" onclick="event.stopPropagation();$('#extList').classList.toggle('open');extUpdate();$('#extN')?.focus()">+ הארכה</button>
+      <div class="cb-list" id="extList" data-base="${extBase}" style="top:auto;bottom:calc(100% + 6px);inset-inline:auto 0;width:178px;padding:12px">
+        <div style="display:flex;align-items:center;justify-content:center;gap:8px">
+          <button type="button" class="ext-step" onclick="extStep(-1)">−</button>
+          <input type="text" inputmode="numeric" id="extN" value="1" oninput="extUpdate()"
+            style="width:46px;text-align:center;border:1px solid var(--line2);border-radius:9px;padding:7px 2px;font-size:16px;font-weight:700;font-family:var(--mono)">
+          <button type="button" class="ext-step" onclick="extStep(1)">+</button>
+        </div>
+        <div id="extUntil" style="text-align:center;font-size:12px;color:var(--mut);font-weight:600;margin-top:8px"></div>
+        <button type="button" onclick="extendTask(${t.id},Math.max(1,+($('#extN').value||1)))"
+          style="margin-top:9px;width:100%;background:var(--ink);color:var(--lime);border-radius:999px;padding:8px;font-weight:700;font-size:13px;text-align:center">הארך משימה</button>
+      </div>
+    </div>
+    <button class="btn btn-pri" onclick="duplicateTask(${t.id})">שכפול</button>
+  </div>`;
+  $('#drawer').classList.add('open');$('#scrim').classList.add('open');
+}
+function extStep(d){const i=$('#extN');i.value=Math.max(1,Math.min(60,(+i.value||1)+d));extUpdate()}
+function extUpdate(){
+  const list=$('#extList');if(!list)return;
+  const n=Math.max(1,Math.min(60,+($('#extN').value||1)));
+  $('#extUntil').textContent='עד '+dayLabel(addD(list.dataset.base,n));
+}
+function extendTask(id,n){
+  const t=byId(id);if(!t)return;
+  /* אם זו סדרה — ממשיכים מהיום האחרון שלה; משימה בודדת הופכת לסדרה */
+  let series=t.sid?TASKS_DB.filter(x=>x.sid===t.sid):[t];
+  if(!t.sid){t.sid='s'+NEXT_ID;series=[t]}
+  const sid=t.sid;
+  const last=series.reduce((a,b)=>a.date>b.date?a:b);
+  for(let i=1;i<=n;i++){
+    TASKS_DB.push({id:NEXT_ID++,ri:last.ri,date:addD(last.date,i),n:last.n,drv:last.drv,cls:last.cls,sid});
+  }
+  closeDrawer();
+  renderWeek(WKQ);
+  toast('«'+t.n+'» הוארכה ב-'+n+' '+(n===1?'יום':'ימים')+' · עד '+dayLabel(addD(last.date,n)),4200);
+}
+/* ============ עריכת משימה — שתי כרטיסיות ============ */
+const ED={id:null,date:null,stage:0};
+function openEditTask(id,tab){
+  const t=byId(id);if(!t)return;
+  ED.id=id;ED.date=t.date;
+  ED.stage=t.done?3:t.cls==='live'?(t.stage??1):(t.stage??0);
+  const isPseudo=['משימת נהיגה','משימה חיצונית'].includes(ROWS[t.ri].v);
+  $('#drawer').innerHTML=`
+  <div class="dr-head" style="padding-bottom:10px"><div><h3>עריכת «${t.n}»</h3><div class="tsub">${dayLabel(t.date)}/${t.date.slice(0,4)}</div></div>
+  <button class="x" onclick="closeDrawer()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div>
+  <div class="dtabs">
+    <button class="${tab!=='status'?'on':''}" onclick="openEditTask(${id},'details')">פרטי המשימה</button>
+    <button class="${tab==='status'?'on':''}" onclick="openEditTask(${id},'status')">סטטוס ודיווחים</button>
+  </div>
+  <div class="dr-body">${tab==='status'?edStatusTab(t):edDetailsTab(t,isPseudo)}</div>
+  <div class="dr-foot">
+    <button class="btn btn-gho" onclick="openJournalTask(${id})">ביטול</button>
+    <button class="btn btn-pri" style="flex:2" onclick="${tab==='status'?'saveEditStatus':'saveEditDetails'}(${id})">שמירת שינויים</button>
+  </div>`;
+  if(tab!=='status'){
+    cbSet('cb-client',CLIENTS.map((c,i)=>({v:i,label:c.n})));
+    cbSet('cb-veh',ROWS.map((r,i)=>({v:i,label:r.v.replace(' משוריין','')+(r.arm?' 🛡':'')})).filter((_,i)=>!['משימת נהיגה','משימה חיצונית'].includes(ROWS[i].v)));
+    cbSet('cb-drv',[{v:'',label:'ללא שיבוץ כרגע'},...DRIVERS.map(d=>({v:d.n,label:d.n}))]);
+  }
+  $('#drawer').classList.add('open');$('#scrim').classList.add('open');
+}
+function edDetailsTab(t,isPseudo){
+  return `
+    <div class="fld"><label>כינוי המשימה <span class="req">*</span></label>
+      <input type="text" id="edName" value="${t.n}"></div>
+    ${t.cls!=='admin'?`<div class="fld"><label>לקוח</label>${comboHTML('cb-client','בחר לקוח',t.client||'',t.client?'':'')}</div>`:''}
+    <div class="fld"><label>תאריך</label>
+      <button type="button" class="f-datebtn dp-anchor" id="edDateBtn" onclick="openDPAt(event,v=>{ED.date=v;$('#edDateBtn').textContent=dayLabel(v)+'/'+v.slice(0,4)},ED.date)">${dayLabel(t.date)}/${t.date.slice(0,4)}</button></div>
+    <div class="f-row">
+      <div class="fld"><label>שעת התייצבות</label><input type="time" id="edTime" value="${t.time||''}"></div>
+      ${!isPseudo&&t.cls!=='self'?'':''}
+      ${!isPseudo?`<div class="fld"><label>שיבוץ רכב</label>${comboHTML('cb-veh','בחר רכב',ROWS[t.ri].v.replace(' משוריין',''),t.ri)}</div>`:'<div></div>'}
+    </div>
+    <div class="fld"><label>מיקום התייצבות</label><input type="text" id="edLoc" value="${t.loc||''}"></div>
+    ${t.cls!=='self'&&t.cls!=='ext'?`<div class="fld"><label>שיבוץ נהג</label>${comboHTML('cb-drv','בחר נהג',t.drv||'ללא שיבוץ כרגע',t.drv||'')}</div>`:''}
+    <div class="fld"><label>הערות לנהג</label><textarea id="edNotes">${t.notes||''}</textarea></div>`;
+}
+function edStatusTab(t){
+  const ts=t.ts||{},km=t.km||{},locs=t.locs||{};
+  const isAdmin=t.cls==='admin';
+  const opts=isAdmin
+    ?[[0,'ממתינה לביצוע'],[1,'נסיעה פעילה'],[3,'סיום משימה']]
+    :[[0,'ממתינה לביצוע'],[1,'נסיעה פעילה'],[2,'הסרת אחריות'],[3,'סיום משימה']];
+  return `
+    <div>
+      <h3 style="font-size:14px;margin-bottom:10px">סטטוס המשימה <span class="hint" style="font-weight:400;color:var(--mut)">— שינוי ידני ע"י מנהל</span></h3>
+      ${opts.map(([v,o])=>`<div class="st-opt ${ED.stage===v?'on':''}" data-v="${v}" onclick="edSetStage(${v},this)"><span class="dot2"></span>${o}</div>`).join('')}
+    </div>
+    <div>
+      <h3 style="font-size:14px;margin-bottom:10px">דיווחי שעות וק"מ</h3>
+      <div class="rep-hd"><span></span><span>שעה</span><span>ק"מ</span></div>
+      <div class="rep-row"><label>התחלה</label>
+        <input type="time" id="edT0" value="${ts.start||''}">
+        <input type="text" inputmode="numeric" id="edK0" value="${km.start||''}"></div>
+      ${isAdmin?'':`<div class="rep-row"><label>הסרת אחריות</label>
+        <input type="time" id="edT1" value="${ts.rel||''}">
+        <input type="text" inputmode="numeric" id="edK1" value="${km.rel||''}"></div>
+      <div class="rep-row" style="margin-top:-3px"><label></label>
+        <input type="text" id="edL1" value="${locs.rel||''}" placeholder="מיקום הסרת אחריות" style="grid-column:2/4"></div>`}
+      <div class="rep-row"><label>סיום</label>
+        <input type="time" id="edT2" value="${ts.end||''}">
+        <input type="text" inputmode="numeric" id="edK2" value="${km.end||''}"></div>
+      <div class="rep-row" style="margin-top:-3px"><label></label>
+        <input type="text" id="edL2" value="${locs.end||''}" placeholder="מיקום סיום" style="grid-column:2/4"></div>
+    </div>`;
+}
+function edSetStage(v,el){
+  ED.stage=v;
+  el.parentElement.querySelectorAll('.st-opt').forEach(o=>o.classList.toggle('on',+o.dataset.v===v));
+}
+function saveEditDetails(id){
+  const t=byId(id);if(!t)return;
+  const name=$('#edName').value.trim();
+  if(!name){toast('חסר כינוי משימה');return}
+  const oldDrv=t.drv,oldRi=t.ri;
+  t.n=name;
+  t.date=ED.date;
+  t.time=$('#edTime')?.value||undefined;
+  t.loc=$('#edLoc')?.value.trim()||undefined;
+  t.notes=$('#edNotes')?.value.trim()||undefined;
+  if(document.querySelector('#cb-client'))t.client=cbLabel('cb-client')||undefined;
+  if(document.querySelector('#cb-veh')&&cbVal('cb-veh')!=='')t.ri=+cbVal('cb-veh');
+  if(document.querySelector('#cb-drv'))t.drv=cbVal('cb-drv')||undefined;
+  closeDrawer();renderWeek(WKQ);
+  toast('«'+t.n+'» — השינויים נשמרו');
+  /* שינוי רכב/נהג בסדרה — הצעה להמשך הרצף */
+  if(t.sid&&(t.drv!==oldDrv||t.ri!==oldRi)){
+    const nd=t.drv,nr=t.ri;
+    seriesPrompt([{t}],ch=>ch.forEach(x=>{if(t.drv!==oldDrv)x.drv=nd;if(t.ri!==oldRi)x.ri=nr}));
+  }
+}
+function saveEditStatus(id){
+  const t=byId(id);if(!t)return;
+  t.stage=ED.stage;
+  t.done=ED.stage===3;
+  if(t.cls!=='admin')t.cls=(ED.stage===1||ED.stage===2)?'live':(t.cls==='live'?undefined:t.cls);
+  const _old=t.ts||{};
+  const _nt={start:$('#edT0')?.value||undefined,rel:$('#edT1')?.value||undefined,end:$('#edT2')?.value||undefined};
+  t.rts=t.rts||{};
+  const now=new Date(),nowHM=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
+  ['start','rel','end'].forEach(k=>{if(_nt[k]&&_nt[k]!==_old[k])t.rts[k]=nowHM+' · עדכון ידני'});
+  t.ts=_nt;
+  t.km={start:($('#edK0')?.value||'').replace(/[^\d]/g,'')||undefined,rel:($('#edK1')?.value||'').replace(/[^\d]/g,'')||undefined,end:($('#edK2')?.value||'').replace(/[^\d]/g,'')||undefined};
+  t.locs={rel:$('#edL1')?.value.trim()||undefined,end:$('#edL2')?.value.trim()||undefined};
+  const pay=recalcPay(t);
+  closeDrawer();renderWeek(WKQ);
+  toast('«'+t.n+'» — עודכן'+(pay?' · שכר חושב מחדש: '+pay.h+' שע׳ × ₪'+pay.rate+(pay.shabbat?' (שבת)':'')+' = ₪'+pay.amt.toLocaleString():''),5200);
+}
+/* חישוב שכר מחדש לפי הדיווחים העדכניים: שעות × תעריף נהג (חול/שבת) */
+function recalcPay(t){
+  if(!t.drv||!t.ts||!t.ts.start||!t.ts.end){t.pay=undefined;return null}
+  const d=DRIVERS.find(x=>x.n===t.drv);
+  const base=d?.rate||60;
+  const [h1,m1]=t.ts.start.split(':').map(Number),[h2,m2]=t.ts.end.split(':').map(Number);
+  let mins=(h2*60+m2)-(h1*60+m1);
+  if(mins<=0)mins+=1440; // משימה שנגמרת אחרי חצות
+  const shabbat=fromIso(t.date).getDay()===6;
+  const rate=shabbat?Math.round(base*1.5):base;
+  const amt=Math.round(mins/60*rate);
+  const km=(t.km&&t.km.start&&t.km.end)?Math.max(0,+t.km.end-+t.km.start):undefined;
+  const h=String(Math.floor(mins/60)).padStart(2,'0')+':'+String(mins%60).padStart(2,'0');
+  t.pay={h,rate,amt,km,shabbat};
+  return t.pay;
+}
+function duplicateTask(id){
+  const t=byId(id);if(!t)return;
+  TASKS_DB.push({id:NEXT_ID++,ri:t.ri,date:t.date,n:t.n,drv:t.drv,cls:t.cls==='live'?undefined:t.cls});
+  closeDrawer();renderWeek(WKQ);
+  toast('«'+t.n+'» שוכפלה לאותו יום ורכב');
 }
 function updateSelBar(){
   const n=selTasks().length;
@@ -1388,7 +1767,7 @@ function openSelMenu(kind,e){
   closeSelMenus();
   if(was)return;
   if(kind==='drv')m.innerHTML=DRIVERS.map(d=>`<button onclick="bulkDriver('${d.n}')">${d.n}</button>`).join('');
-  else m.innerHTML=ROWS.map((r,i)=>r.v==='משימת נהיגה'?'':`<button onclick="bulkVehicle(${i})">${r.v.replace(' משוריין','')}${r.arm?' 🛡':''}</button>`).join('');
+  else m.innerHTML=ROWS.map((r,i)=>(r.v==='משימת נהיגה'||r.v==='משימה חיצונית')?'':`<button onclick="bulkVehicle(${i})">${r.v.replace(' משוריין','')}${r.arm?' 🛡':''}</button>`).join('');
   m.classList.add('open');
 }
 function restorePos(snap){
@@ -1403,8 +1782,8 @@ function bulkDriver(name){
   const snap=list.map(({t})=>({t,drv:t.drv}));
   list.forEach(({t})=>t.drv=name);
   endSelMode();
-  toastA(list.length+' משימות שובצו לנהג '+name+' · התראות בעוד 15 דק׳','בטל',()=>{
-    snap.forEach(s=>s.t.drv=s.drv);renderWeek(WKQ);toast('השיבוץ בוטל — לא נשלחו התראות');
+  toastA(list.length+' משימות שובצו לנהג '+name,'בטל',()=>{
+    snap.forEach(s=>s.t.drv=s.drv);renderWeek(WKQ);toast('השיבוץ בוטל');
   },8000);
   seriesPrompt(list,ch=>ch.forEach(t=>t.drv=name));
 }
@@ -1413,8 +1792,8 @@ function bulkVehicle(tri){
   const snap=list.map(({t})=>({t,ri:t.ri,date:t.date}));
   list.forEach(({t})=>t.ri=tri);
   endSelMode();
-  toastA(list.length+' משימות הועברו ל'+ROWS[tri].v+' · התראות בעוד 15 דק׳','בטל',()=>{
-    restorePos(snap);toast('ההעברה בוטלה — לא נשלחו התראות');
+  toastA(list.length+' משימות הועברו ל'+ROWS[tri].v,'בטל',()=>{
+    restorePos(snap);toast('ההעברה בוטלה');
   },8000);
   seriesPrompt(list,ch=>ch.forEach(t=>t.ri=tri));
 }
@@ -1537,8 +1916,8 @@ function endDrag(){
     const parts=[];
     if(vehChanged)parts.push('רכב: '+ROWS[tri].v);
     if(dd)parts.push('הזזה של '+Math.abs(dd)+' '+(Math.abs(dd)===1?'יום':'ימים')+(dd>0?' קדימה':' אחורה'));
-    toastA(list.length+' משימות עודכנו · '+parts.join(' · ')+' · התראות בעוד 15 דק׳','בטל',()=>{
-      restorePos(snap);toast('השינוי בוטל — לא נשלחו התראות');
+    toastA(list.length+' משימות עודכנו · '+parts.join(' · '),'בטל',()=>{
+      restorePos(snap);toast('השינוי בוטל');
     },8000);
     if(vehChanged&&!dd)seriesPrompt(list,ch=>ch.forEach(t=>t.ri=tri));
     return;
@@ -1553,23 +1932,190 @@ function endDrag(){
   if(task.sid&&tri!==s.ri&&tDate===s.date)seriesPrompt([{t:task}],ch=>ch.forEach(t=>t.ri=tri));
 }
 
-/* התראת שינוי לנהג נשלחת בדיליי של 15 דק' — חלון ביטול לטעויות גרירה.
-   (בדמו: 15 שניות. שינוי נוסף באותה משימה מאפס את הטיימר) */
+/* ============ טופס הקמת משימה ============ */
+const CLIENTS=[
+ {n:'משרד ראש הממשלה',contacts:['רעות לוי · 050-1112233','אבי כהן · 052-9988776']},
+ {n:'בית הנשיא',contacts:['מיכל בר · 054-7765432']},
+ {n:'כנסת ישראל',contacts:['יוסי פרץ · 050-3322110']},
+ {n:'ECI אי סי איי טלקום',contacts:['Dana Levi · 053-1234567']},
+ {n:'IBC — איי בי סי',contacts:['רון שגב · 058-7654321']},
+ {n:'חדשות 10 בע"מ',contacts:['עומר ניב · 052-1212121']},
+ {n:'מודיעין אזרחי בע"מ',contacts:['גיא אלון · 050-9090909']},
+ {n:'מחצבות',contacts:['שלמה דהן · 054-5050505']},
+];
+const NT={type:'regular',start:null,end:null};
+/* ---- combobox: הקלדה + בחירה מרשימה ---- */
+function comboHTML(id,placeholder,initLabel,initV){
+  return `<div class="combo" id="${id}">
+    <input type="text" placeholder="${placeholder}" value="${initLabel||''}" data-v="${initV??''}"
+      oninput="cbRender('${id}',this.value)" onfocus="cbRender('${id}','')" autocomplete="off">
+    <div class="cb-list"></div>
+  </div>`;
+}
+const CB_ITEMS={};
+function cbSet(id,items){CB_ITEMS[id]=items}
+function cbRender(id,q){
+  const el=document.getElementById(id),list=el.querySelector('.cb-list');
+  const items=(CB_ITEMS[id]||[]).filter(it=>!q||it.label.includes(q));
+  list.innerHTML=items.length
+    ?items.map(it=>`<button type="button" onclick="cbPick('${id}','${String(it.v)}',this.textContent)">${it.label}</button>`).join('')
+    :'<div class="cb-empty">אין תוצאות</div>';
+  list.classList.add('open');
+}
+function cbPick(id,v,label){
+  const el=document.getElementById(id),inp=el.querySelector('input');
+  inp.value=label;inp.dataset.v=v;
+  el.querySelector('.cb-list').classList.remove('open');
+  if(id==='cb-client')ntContacts();
+}
+const cbVal=id=>document.querySelector('#'+id+' input')?.dataset.v??'';
+const cbLabel=id=>document.querySelector('#'+id+' input')?.value??'';
+
+function openNewTask(ri,dateIso){
+  NT.type='regular';
+  NT.start=dateIso||DEMO_TODAY;NT.end=NT.start;
+  const hasVeh=Number.isInteger(ri);
+  $('#drawer').innerHTML=`
+  <div class="dr-head"><div><h3>משימה חדשה</h3><div class="tsub" id="ntSub">משימה רגילה</div></div>
+  <button class="x" onclick="closeDrawer()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div>
+  <div class="dr-body">
+    <div class="tseg" id="ntSeg">
+      <button class="on" id="ntRegBtn" onclick="ntType('regular')">משימה רגילה</button>
+      <div class="combo">
+        <button type="button" id="ntOtherBtn" onclick="event.stopPropagation();$('#ntOtherList').classList.toggle('open')">אחר ▾</button>
+        <div class="cb-list" id="ntOtherList">
+          <button type="button" onclick="ntType('self')">נהיגה עצמית</button>
+          <button type="button" onclick="ntType('drive')">משימת נהיגה</button>
+          <button type="button" onclick="ntType('ext')">משימה חיצונית</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="fld">
+      <label>כינוי המשימה <span class="req">*</span></label>
+      <input type="text" id="ntName">
+    </div>
+
+    <div id="f-client">
+      <label class="f-check"><input type="checkbox" id="ntCasual" onchange="$('#ntClientSel').style.display=this.checked?'none':'';$('#ntClientFree').style.display=this.checked?'':'none'">לקוח מזדמן</label>
+      <div class="fld" id="ntClientSel">
+        <label>לקוח <span class="req">*</span></label>
+        ${comboHTML('cb-client','בחר לקוח')}
+      </div>
+      <div class="fld" id="ntClientFree" style="display:none">
+        <label>שם לקוח מזדמן</label>
+        <input type="text" id="ntCasualName">
+      </div>
+      <div class="fld" id="f-contact">
+        <label>איש קשר</label>
+        ${comboHTML('cb-contact','בחר איש קשר','ללא איש קשר','')}
+      </div>
+    </div>
+
+    <div class="f-row">
+      <div class="fld"><label>תאריך התחלה <span class="req">*</span></label>
+        <button type="button" class="f-datebtn dp-anchor" id="ntStartBtn" onclick="openDPAt(event,v=>setNTDate('start',v),NT.start)"></button></div>
+      <div class="fld"><label>תאריך סיום</label>
+        <button type="button" class="f-datebtn dp-anchor" id="ntEndBtn" onclick="openDPAt(event,v=>setNTDate('end',v),NT.end)"></button></div>
+    </div>
+
+    <div class="f-row" id="f-time-row">
+      <div class="fld" id="f-time"><label>שעת התייצבות</label><input type="time" id="ntTime"></div>
+      <div class="fld" id="f-veh"><label>שיבוץ רכב <span class="hint">(טנטטיבי)</span></label>
+        ${comboHTML('cb-veh','בחר רכב',hasVeh?ROWS[ri].v.replace(' משוריין',''):'',hasVeh?ri:'')}
+      </div>
+    </div>
+
+    <div class="fld" id="f-loc"><label>מיקום התייצבות</label>
+      <input type="text" id="ntLoc"></div>
+
+    <div class="fld" id="f-drv"><label>שיבוץ נהג</label>
+      ${comboHTML('cb-drv','בחר נהג','ללא שיבוץ כרגע','')}
+    </div>
+
+    <div class="fld" id="f-notes"><label>הערות לנהג</label><textarea id="ntNotes"></textarea></div>
+  </div>
+  <div class="dr-foot">
+    <button class="btn btn-gho" onclick="saveTask(false)">סיום ושמירה</button>
+    <button class="btn btn-pri" id="ntSend" onclick="saveTask(true)">סיום ושליחה לנהג</button>
+  </div>`;
+  cbSet('cb-client',CLIENTS.map((c,i)=>({v:i,label:c.n})));
+  cbSet('cb-veh',ROWS.map((r,i)=>({v:i,label:r.v.replace(' משוריין','')+(r.arm?' 🛡':'')})).filter((_,i)=>!['משימת נהיגה','משימה חיצונית'].includes(ROWS[i].v)));
+  cbSet('cb-drv',[{v:'',label:'ללא שיבוץ כרגע'},...DRIVERS.map(d=>({v:d.n,label:d.n}))]);
+  ntContacts();ntDates();
+  $('#drawer').classList.add('open');$('#scrim').classList.add('open');
+}
+function setNTDate(which,v){
+  NT[which]=v;
+  if(which==='start'&&NT.end<NT.start)NT.end=NT.start;
+  if(which==='end'&&NT.end<NT.start)NT.start=NT.end;
+  ntDates();
+}
+function ntType(t){
+  NT.type=t;
+  $('#ntOtherList').classList.remove('open');
+  const other={self:'נהיגה עצמית',drive:'משימת נהיגה',ext:'משימה חיצונית'};
+  $('#ntRegBtn').classList.toggle('on',t==='regular');
+  $('#ntOtherBtn').classList.toggle('on',t!=='regular');
+  $('#ntOtherBtn').textContent=(t==='regular'?'אחר':other[t])+' ▾';
+  $('#ntSub').textContent={regular:'משימה רגילה',self:'נהיגה עצמית',drive:'משימת נהיגה — רכב של הלקוח',ext:'משימה חיצונית — רכב של חברה חיצונית'}[t];
+  const ext=t==='ext';
+  $('#f-veh').style.display=(t==='drive'||ext)?'none':'';
+  $('#f-drv').style.display=(t==='self'||ext)?'none':'';
+  $('#f-time').style.display=ext?'none':'';
+  $('#f-loc').style.display=ext?'none':'';
+  $('#f-notes').style.display=ext?'none':'';
+  $('#ntSend').style.display=(t==='self'||ext)?'none':'';
+}
+function ntContacts(){
+  const ci=cbVal('cb-client');
+  const c=ci!==''?CLIENTS[+ci]:null;
+  cbSet('cb-contact',[{v:'',label:'ללא איש קשר'},...((c?c.contacts:[]).map(x=>({v:x,label:x}))),{v:'casual',label:'+ איש קשר מזדמן…'}]);
+  const inp=document.querySelector('#cb-contact input');
+  if(inp){inp.value='ללא איש קשר';inp.dataset.v=''}
+}
+function ntDates(){
+  const s=NT.start,e=NT.end;
+  $('#ntStartBtn').textContent=dayLabel(s)+'/'+s.slice(0,4);
+  $('#ntEndBtn').textContent=dayLabel(e)+'/'+e.slice(0,4);
+}
+function saveTask(send){
+  const name=$('#ntName').value.trim();
+  if(!name){toast('חסר כינוי משימה');$('#ntName').focus();return}
+  const t=NT.type;
+  const vehV=cbVal('cb-veh');
+  if((t==='regular'||t==='self')&&vehV===''){toast('בחר רכב');return}
+  const s=NT.start,e=NT.end;
+  const n=dayDiff(e,s)+1;
+  const drv=(t==='self'||t==='ext')?'':cbVal('cb-drv');
+  const ri=t==='drive'?ROWS.findIndex(r=>r.v==='משימת נהיגה')
+          :t==='ext'?ROWS.findIndex(r=>r.v==='משימה חיצונית')
+          :+vehV;
+  const sid=n>1?'s'+NEXT_ID:undefined;
+  const cls=t==='self'?'self':t==='ext'?'ext':undefined;
+  const client=$('#ntCasual')?.checked?($('#ntCasualName').value.trim()||undefined):(cbVal('cb-client')!==''?cbLabel('cb-client'):undefined);
+  const time=$('#ntTime')?.value||undefined,loc=$('#ntLoc')?.value.trim()||undefined,notes=$('#ntNotes')?.value.trim()||undefined;
+  for(let i=0;i<n;i++){
+    TASKS_DB.push({id:NEXT_ID++,ri,date:addD(s,i),n:name,drv:drv||undefined,cls,sid,client,time,loc,notes});
+  }
+  closeDrawer();
+  WEEK_START=startOfWeek(s);
+  renderWeek(WKQ);
+  let msg=(n>1?n+' משימות נוצרו':'המשימה נוצרה');
+  if(send&&drv)msg+=' · תישלח הודעת שיבוץ ל'+drv;
+  else if(send&&!drv)msg+=' · לא שובץ נהג — לא תישלח הודעה';
+  if(t==='drive'&&!drv)msg+=' · ⚠ זכור לשבץ נהג';
+  toast(msg,4200);
+}
+
 function queueDriverNotice(task,from,parts){
-  if(task._t)clearTimeout(task._t);
-  task.pn=true;
-  task._t=setTimeout(()=>{
-    task.pn=false;task._t=null;
-    toast('התראת שינוי על «'+task.n+'» נשלחה לנהג'+(task.drv?' '+task.drv:''));
-  },15000);
   toastA(
-    '«'+task.n+'» עודכנה · '+parts.join(' · ')+' · התראה לנהג בעוד 15 דק׳',
+    '«'+task.n+'» עודכנה · '+parts.join(' · '),
     'בטל שינוי',
     ()=>{
-      clearTimeout(task._t);task._t=null;task.pn=false;
       task.ri=from.ri;task.date=from.date;
       renderWeek(WKQ);
-      toast('השינוי בוטל — לא נשלחה התראה לנהג');
+      toast('השינוי בוטל');
     },
     8000);
 }
@@ -1643,7 +2189,7 @@ function openTask(id){
       <div><b>${s.n}</b><span class="num">${s.s}</span></div></div>`).join('')}</div></div>
   </div>
   <div class="dr-foot">
-    <button class="btn btn-gho" onclick="toast('עריכת משימה (דמו)')">עריכה</button>
+    <button class="btn btn-gho" onclick="openEditTask(${t.id},'details')">עריכה</button>
     <button class="btn btn-gho" onclick="toast('הודעה נשלחה לנהג (דמו)')">הודעה לנהג</button>
     <button class="btn btn-pri" onclick="toast('שכפול משימה (דמו)')">שכפול</button>
   </div>`;
