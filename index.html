@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>911VIP · מערך נסיעות</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800&family=Heebo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0E0F11; --ink2:#3A3D42; --mut:#8A8E96;
+  --paper:#F4F4F0; --card:#FFFFFF; --line:#E5E5DE; --line2:#D8D8D0;
+  --lime:#E0892F; --lime-ink:#FFF7EE;
+  --violet:#7C5CFC; --violet-bg:#EFEAFF;
+  --green:#1E9E5E; --green-bg:#E2F6EA;
+  --amber:#D98E0B; --amber-bg:#FCF0D8;
+  --red:#D14848; --red-bg:#FBE7E7;
+  --blue:#2D6CDF; --blue-bg:#E6EEFC;
+  --r:14px; --r-s:9px;
+  --shadow:0 1px 2px rgba(14,15,17,.05),0 8px 24px -12px rgba(14,15,17,.12);
+  --mono:'IBM Plex Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:'Heebo',sans-serif; background:var(--paper); color:var(--ink);
+  font-size:15px; line-height:1.45; min-height:100dvh;
+}
+h1,h2,h3,.disp{font-family:'Rubik',sans-serif}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+input,select{font-family:inherit;font-size:inherit;color:inherit}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+
+/* ---------- App shell ---------- */
+.shell{display:flex;min-height:100dvh}
+.rail{
+  position:fixed;inset-block:0;inset-inline-start:0;width:218px;z-index:40;
+  background:var(--ink);color:#EDEEE9;display:flex;flex-direction:column;
+  padding:20px 14px calc(16px + env(safe-area-inset-bottom));overflow:visible;
+}
+.brand{display:flex;justify-content:center;padding:2px 8px 14px}
+.logo-img{width:64px;height:auto;filter:drop-shadow(0 2px 8px rgba(0,0,0,.4))}
+.badge911{
+  width:38px;height:42px;display:grid;place-items:center;flex:none;
+  background:var(--lime);color:var(--ink);font-family:'Rubik';font-weight:800;font-size:15px;
+  clip-path:polygon(50% 0,100% 12%,100% 62%,50% 100%,0 62%,0 12%);
+}
+.brand b{font-family:'Rubik';font-size:17px;letter-spacing:.02em}
+.brand small{display:block;color:#9CA0A8;font-size:11px;font-weight:400}
+.nav{display:flex;flex-direction:column;gap:2px;flex:1}
+.nav button{
+  display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:11px;
+  color:#C9CBC4;font-size:14.5px;font-weight:500;text-align:start;transition:background .12s,color .12s;
+}
+.nav button svg{flex:none}
+.nav button:hover{background:rgba(255,255,255,.07);color:#fff}
+.nav button.on{background:var(--lime);color:var(--lime-ink);font-weight:700}
+.nav .spacer{flex:1}
+.me{display:flex;align-items:center;gap:10px;padding:10px 8px;border-top:1px solid rgba(255,255,255,.1)}
+.ava{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#5b5f66,#2c2f34);display:grid;place-items:center;font-family:'Rubik';font-weight:700;font-size:13px;color:var(--lime)}
+.me small{color:#9CA0A8;font-size:11.5px}
+
+.main{flex:1;margin-inline-start:218px;padding:22px clamp(16px,3vw,34px) 96px;transition:margin-inline-start .22s cubic-bezier(.32,.72,.32,1)}
+/* --- תפריט מכווץ: אייקונים בלבד, נפתח במעבר עכבר --- */
+.rail{transition:width .22s cubic-bezier(.32,.72,.32,1)}
+.lbl{white-space:nowrap}
+.tg-ic{transition:transform .22s ease}
+.t-exp{display:none}
+body.railc .t-col{display:none}
+body.railc .t-exp{display:inline}
+body.railc .tg-ic{transform:rotate(180deg)}
+body.railc .ntg:hover .tg-ic{transform:rotate(180deg) scale(1.28)}
+body.railc .rail{width:72px}
+body.railc .main{margin-inline-start:72px}
+body.railc .me-txt,body.railc .brand small{display:none}
+body.railc .logo-img{width:38px}
+body.railc .me{justify-content:center;padding-inline:0}
+body.railc .nav button{justify-content:center;padding:12px 0;position:relative}
+body.railc .nav button svg{transition:transform .16s ease}
+body.railc .nav button:hover svg{transform:scale(1.28)}
+/* תווית צפה פר-פריט: נפתחת רק לפריט שמרחפים מעליו */
+body.railc .nav button .lbl{
+  position:absolute;right:calc(100% + 14px);top:50%;
+  transform:translateY(-50%) translateX(12px) scale(.92);transform-origin:right center;
+  background:var(--ink);color:#F4F4EF;padding:8px 16px;border-radius:10px;
+  font-size:13.5px;font-weight:600;opacity:0;pointer-events:none;
+  box-shadow:0 10px 28px rgba(14,15,17,.4);border:1px solid rgba(255,255,255,.09);
+  transition:opacity .14s ease,transform .2s cubic-bezier(.32,.72,.32,1);z-index:60;
+}
+body.railc .nav button .lbl::after{
+  content:'';position:absolute;right:-5px;top:50%;transform:translateY(-50%) rotate(45deg);
+  width:9px;height:9px;background:var(--ink);border-inline-end:1px solid rgba(255,255,255,.09);border-top:1px solid rgba(255,255,255,.09);
+}
+body.railc .nav button:hover .lbl{opacity:1;transform:translateY(-50%) translateX(0) scale(1)}
+body.railc .nav button.on:hover .lbl{background:var(--lime);color:var(--lime-ink);border-color:transparent}
+body.railc .nav button.on:hover .lbl::after{background:var(--lime);border-color:transparent}
+.main>.view>*:not(.home-grid){max-width:1280px}
+.topbar{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;margin-bottom:18px;flex-wrap:wrap}
+.topbar h1{font-size:clamp(22px,3vw,28px);font-weight:800;letter-spacing:-.01em}
+.topbar .sub{color:var(--mut);font-size:13.5px;margin-top:2px}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn{
+  display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:999px;
+  font-weight:600;font-size:14px;transition:transform .08s,box-shadow .12s;white-space:nowrap;
+}
+.btn:active{transform:scale(.97)}
+.btn-pri{background:var(--ink);color:var(--lime)}
+.btn-pri:hover{box-shadow:0 6px 18px -6px rgba(14,15,17,.4)}
+.btn-gho{background:var(--card);border:1px solid var(--line2)}
+.btn-gho:hover{border-color:var(--ink2)}
+
+/* ---------- Cards / chips ---------- */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+.chip{display:inline-flex;align-items:center;gap:5px;padding:2.5px 10px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap}
+.c-green{background:var(--green-bg);color:var(--green)}
+.c-amber{background:var(--amber-bg);color:var(--amber)}
+.c-red{background:var(--red-bg);color:var(--red)}
+.c-blue{background:var(--blue-bg);color:var(--blue)}
+.c-violet{background:var(--violet-bg);color:var(--violet)}
+.c-mut{background:#EFEFEA;color:var(--ink2)}
+.dot{width:7px;height:7px;border-radius:50%;background:currentColor}
+.pulse{animation:pulse 1.6s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+
+/* ---------- Dashboard ---------- */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+.kpi{padding:14px 16px;display:flex;flex-direction:column;gap:2px}
+.kpi .v{font-family:'Rubik';font-size:26px;font-weight:800;line-height:1.1}
+.kpi .l{color:var(--mut);font-size:12.5px;font-weight:500}
+.kpi .t{font-size:12px;font-weight:600}
+
+.live{padding:18px;margin-bottom:14px;overflow:hidden}
+.live-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:10px;flex-wrap:wrap}
+.live-head h2{font-size:16.5px;font-weight:700;display:flex;align-items:center;gap:9px}
+.now-clock{font-family:var(--mono);font-size:13px;color:var(--mut)}
+.tl{position:relative}
+.tl-hours{display:flex;justify-content:space-between;color:var(--mut);font-size:10.5px;font-family:var(--mono);padding:0 2px 6px;border-bottom:1px solid var(--line)}
+.tl-rows{position:relative}
+.tl-row{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px dashed var(--line)}
+.tl-row:last-child{border-bottom:none}
+.tl-veh{width:128px;flex:none;font-size:12.5px;font-weight:600;color:var(--ink2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tl-track{position:relative;flex:1;height:30px;background:repeating-linear-gradient(to left,transparent,transparent calc(100%/18 - 1px),var(--line) calc(100%/18 - 1px),var(--line) calc(100%/18))}
+.tl-bar{
+  position:absolute;top:3px;bottom:3px;border-radius:7px;display:flex;align-items:center;
+  padding:0 9px;font-size:11.5px;font-weight:600;overflow:hidden;white-space:nowrap;
+  background:var(--ink);color:#fff;min-width:54px;
+}
+.tl-bar.done{background:#C9CDC2;color:#3c4038}
+.tl-bar.admin{background:var(--violet)}
+.tl-bar.live-bar{background:var(--green);box-shadow:0 0 0 3px var(--green-bg)}
+.tl-now{position:absolute;top:-4px;bottom:0;width:2px;background:var(--red);z-index:3}
+.tl-now::before{content:'';position:absolute;top:-3px;inset-inline-start:-3px;width:8px;height:8px;border-radius:50%;background:var(--red)}
+
+.split{display:grid;grid-template-columns:1.4fr 1fr;gap:14px}
+.panel{padding:16px 18px}
+.panel h3{font-size:15px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between}
+.panel h3 a{font-size:12.5px;color:var(--mut);font-weight:500;text-decoration:none;cursor:pointer}
+.alert-row{display:flex;gap:11px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--line)}
+.alert-row:last-child{border:none;padding-bottom:2px}
+.alert-ic{width:32px;height:32px;border-radius:9px;display:grid;place-items:center;flex:none}
+.alert-row b{font-size:13.5px;font-weight:600;display:block}
+.alert-row span{font-size:12.5px;color:var(--mut)}
+.feed-row{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-size:13.5px}
+.feed-row:last-child{border:none}
+.feed-t{font-family:var(--mono);font-size:11.5px;color:var(--mut);flex:none;padding-top:2px}
+
+/* ---------- Tables → cards ---------- */
+.toolbar{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;align-items:center}
+.search{
+  flex:1;min-width:180px;display:flex;align-items:center;gap:8px;background:var(--card);
+  border:1px solid var(--line2);border-radius:999px;padding:8px 14px;
+}
+.search input{border:none;outline:none;background:none;width:100%;font-size:14px}
+.search svg{color:var(--mut);flex:none}
+.seg{display:inline-flex;background:var(--card);border:1px solid var(--line2);border-radius:999px;padding:3px}
+.seg button{padding:6px 14px;border-radius:999px;font-size:13px;font-weight:600;color:var(--mut)}
+.seg button.on{background:var(--ink);color:var(--lime)}
+.filt{background:var(--card);border:1px solid var(--line2);border-radius:999px;padding:8px 13px;font-size:13px;font-weight:600;color:var(--ink2)}
+
+.tbl{width:100%;border-collapse:collapse}
+.tbl th{
+  text-align:start;font-size:11.5px;font-weight:600;color:var(--mut);letter-spacing:.03em;
+  padding:11px 14px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--card);z-index:2;
+}
+.tbl td{padding:12px 14px;border-bottom:1px solid var(--line);font-size:13.5px;vertical-align:middle}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tbody tr{transition:background .1s;cursor:pointer}
+.tbl tbody tr:hover{background:#FAFAF6}
+.tname{font-weight:700;font-size:14px}
+.tsub{color:var(--mut);font-size:12px;margin-top:1px}
+.scrollx{overflow-x:auto;border-radius:var(--r)}
+
+.cards{display:none;flex-direction:column;gap:10px}
+.mcard{padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+.mcard .row1{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.mcard .meta{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;color:var(--ink2)}
+.mcard .meta b{font-weight:600;color:var(--ink)}
+.mtimes{display:flex;gap:0;background:var(--paper);border-radius:var(--r-s);overflow:hidden;border:1px solid var(--line)}
+.mtimes div{flex:1;text-align:center;padding:7px 4px;border-inline-start:1px solid var(--line)}
+.mtimes div:first-child{border-inline-start:none}
+.mtimes .l{font-size:10.5px;color:var(--mut);display:block}
+.mtimes .v{font-family:var(--mono);font-size:13.5px;font-weight:600}
+
+/* ---------- Week board ---------- */
+.board-wrap{overflow-x:auto;padding-bottom:6px;-webkit-overflow-scrolling:touch}
+.board{display:grid;grid-template-columns:repeat(7,minmax(150px,1fr));gap:8px;min-width:1080px}
+.bday{display:flex;flex-direction:column;gap:8px}
+.bday-h{
+  text-align:center;padding:9px 6px;border-radius:var(--r-s);background:var(--card);
+  border:1px solid var(--line);font-size:12.5px;color:var(--mut);font-weight:600;
+}
+.bday-h b{display:block;font-family:'Rubik';font-size:16px;color:var(--ink)}
+.bday-h.today{background:var(--ink);border-color:var(--ink)}
+.bday-h.today b{color:var(--lime)}
+.bday-h.shabat{background:#EFEFE8}
+.btask{padding:10px 12px;border-radius:var(--r-s);border:1px solid var(--line);background:var(--card);cursor:pointer;transition:transform .1s,box-shadow .12s;border-inline-start:3px solid var(--ink)}
+.btask:hover{transform:translateY(-1px);box-shadow:var(--shadow)}
+.btask b{font-size:13px;display:block;margin-bottom:2px}
+.btask span{font-size:11.5px;color:var(--mut);display:block}
+.btask.admin{border-inline-start-color:var(--violet)}
+.btask.cancelled{opacity:.55;border-inline-start-color:var(--red)}
+.badd{border:1.5px dashed var(--line2);border-radius:var(--r-s);padding:9px;color:var(--mut);font-size:13px;font-weight:600;text-align:center;transition:all .12s}
+.badd:hover{border-color:var(--ink);color:var(--ink)}
+
+/* ---------- Week grid (home): vehicles × days ---------- */
+.wk-wrap{overflow:auto;border-radius:var(--r);max-height:calc(100dvh - 175px);-webkit-overflow-scrolling:touch}
+.wk{display:grid;grid-template-columns:max-content repeat(7,minmax(132px,1fr));min-width:1040px;background:var(--card)}
+.wk-hd,.wk-corner,.wk-veh,.wk-cell{border-bottom:1px solid var(--line2);border-inline-end:1px solid var(--line2)}
+.wk-hd:last-of-type{border-inline-end:none}
+.wk-hd{
+  position:sticky;top:0;z-index:5;background:var(--card);text-align:center;padding:9px 6px 10px;
+  font-size:12px;color:var(--mut);font-weight:600;
+}
+.wk-hd b{display:block;font-family:'Rubik';font-size:16.5px;color:var(--ink);letter-spacing:-.01em}
+.wk-hd.past{background:#FBF1F0}
+.wk-hd.today{background:#D6E8F7;color:#54718C}
+.wk-hd.today b{color:#1E3A56}
+.wk-veh{
+  position:sticky;inset-inline-start:0;z-index:4;background:var(--card);
+  padding:10px 12px;display:flex;flex-direction:column;justify-content:center;gap:1px;
+}
+.wk-veh b{font-size:13px;font-weight:700;display:flex;align-items:center;gap:5px;white-space:nowrap}
+.wk-veh span{font-size:11px;color:var(--mut);display:block;width:0;min-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sh-ic{width:12px;height:12px;flex:none;color:var(--ink2)}
+.wk-veh .vshield{font-size:9.5px;padding:1px 5px}
+.wk-corner{position:sticky;top:0;inset-inline-start:0;z-index:6;background:var(--card);display:flex;align-items:center;padding:0 10px}
+.wk-corner input{border:none;outline:none;background:none;flex:1;width:0;min-width:0;font-size:13px}
+.wk-cell{padding:5px;display:flex;flex-direction:column;gap:4px;min-height:54px;position:relative;transition:background .12s}
+.wk-cell.today-col{background:#F2F8FD}
+.wk-cell:hover{background:#FAF5EC}
+.wk-task{
+  border-radius:8px;padding:6px 9px;background:#F4F5EF;border:1px solid var(--line);
+  border-inline-start:3px solid var(--ink);cursor:pointer;transition:transform .1s,box-shadow .12s;
+}
+.wk-task:hover{transform:translateY(-1px);box-shadow:var(--shadow)}
+.wk-task{user-select:none;-webkit-user-select:none;cursor:grab}
+.wk-task.dragging{opacity:.3;cursor:grabbing}
+.wk-cell.drop-on{background:#FFF3E2!important;box-shadow:inset 0 0 0 2px var(--lime);border-radius:6px}
+.drag-ghost{
+  position:fixed;z-index:95;pointer-events:none;width:152px;
+  transform:translate(-50%,-50%) rotate(2.5deg) scale(1.06);
+  box-shadow:0 18px 44px rgba(14,15,17,.32);opacity:.96;
+}
+body.dragging-now{cursor:grabbing}
+body.dragging-now .wk-wrap{overscroll-behavior:none}
+.wk-task b{display:block;font-size:12px;line-height:1.25}
+.wk-task span{display:block;font-size:10.5px;color:var(--mut)}
+.wk-task.live{background:var(--green-bg);border-color:var(--green);border-inline-start-color:var(--green)}
+.wk-task.live b{color:var(--green)}
+.wk-task.self{background:#FBF6DC;border-color:#EFE3AC;border-inline-start-color:var(--amber)}
+.wk-task.admin{border-inline-start-color:var(--violet)}
+.wk-add{
+  margin:auto;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;
+  color:var(--line2);border:1.5px dashed currentColor;font-size:0;transition:all .12s;flex:none;
+}
+.wk-cell:hover .wk-add{color:var(--green)}
+.wk-add:hover{background:var(--green);border-style:solid;color:#fff!important}
+.wk-add svg{width:12px;height:12px}
+.mobile-only{display:none}
+@media (max-width:768px){.mobile-only{display:flex}}
+.wk-legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--mut);margin-top:10px;align-items:center}
+.wk-legend i{width:10px;height:10px;border-radius:3px;display:inline-block;margin-inline-end:5px;vertical-align:-1px}
+
+/* ---------- Home layout: journal + live side dashboard ---------- */
+.home-grid{display:grid;grid-template-columns:minmax(0,1fr) clamp(300px,23vw,392px);gap:16px;align-items:start}
+.home-grid.collapsed{grid-template-columns:minmax(0,1fr) 38px}
+.home-grid.collapsed .side{display:none}
+.side-tab{
+  display:none;position:sticky;top:14px;writing-mode:vertical-rl;
+  background:var(--card);border:1px solid var(--line);border-radius:11px;box-shadow:var(--shadow);
+  padding:16px 9px;font-size:12.5px;font-weight:700;color:var(--ink2);gap:8px;align-items:center;
+  transition:border-color .12s;
+}
+.side-tab:hover{border-color:var(--lime);color:var(--ink)}
+.side-tab .dot{background:var(--green)}
+.home-grid.collapsed .side-tab{display:flex}
+.side-head{display:flex;align-items:center;justify-content:space-between;padding:0 2px}
+.side-head b{font-size:13px;font-weight:700;color:var(--ink2)}
+.side-x{
+  display:flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;color:var(--mut);
+  border:1px solid var(--line2);border-radius:999px;padding:4px 11px;background:var(--card);
+}
+.side-x:hover{color:var(--ink);border-color:var(--ink2)}
+.side{display:flex;flex-direction:column;gap:12px;position:sticky;top:14px;max-height:calc(100dvh - 28px);overflow-y:auto;padding-bottom:4px}
+.sp{padding:14px 16px}
+.sp h3{font-size:13.5px;font-weight:700;margin-bottom:11px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.sp h3 .chip{font-size:10.5px;padding:1.5px 8px}
+.sp h3 a{font-size:11.5px;color:var(--mut);font-weight:500;cursor:pointer;text-decoration:none}
+.sp .feed-row{font-size:12.5px;padding:7px 0}
+.sp .feed-t{font-size:10.5px}
+.mt-row{padding:9px 0;border-bottom:1px solid var(--line)}
+.mt-row:last-child{border:none;padding-bottom:2px}
+.mt-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:5px}
+.mt-top b{font-size:12.5px;font-weight:700}
+.mt-top .num{font-size:12.5px;font-weight:700}
+.mt-sub{font-size:10.5px;color:var(--mut)}
+.meter{height:6px;border-radius:99px;background:var(--line);overflow:hidden}
+.meter i{display:block;height:100%;border-radius:99px;transition:width .4s ease}
+.un-row{display:flex;align-items:center;gap:9px;padding:7px 0;border-bottom:1px solid var(--line)}
+.un-row:last-child{border:none;padding-bottom:2px}
+.un-row .ava{width:27px;height:27px;font-size:10.5px;background:#EDEEE6;color:var(--ink)}
+.un-row b{font-size:12.5px;flex:1}
+.un-row .chip{font-size:10px;padding:1.5px 7px}
+.un-asn{font-size:11px;font-weight:700;color:var(--ink);background:var(--lime);border-radius:99px;padding:3px 10px;transition:transform .1s}
+.un-asn:active{transform:scale(.94)}
+@media (max-width:1180px){.home-grid,.home-grid.collapsed{grid-template-columns:minmax(0,1fr)}.home-grid>div{min-width:0;max-width:100%}.home-grid.collapsed .side{display:flex}.side-tab{display:none!important}.side-head{display:none}.side{position:static;flex-direction:row;flex-wrap:wrap}.side .sp{flex:1;min-width:260px}}
+@media (max-width:768px){.side{flex-direction:column}}
+
+/* ---------- Vehicles ---------- */
+.vgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(265px,1fr));gap:12px}
+.vcard{padding:16px;display:flex;flex-direction:column;gap:11px}
+.vtop{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.vname{font-weight:700;font-size:15px;display:flex;align-items:center;gap:7px}
+.vshield{font-size:11px;background:var(--ink);color:var(--lime);border-radius:5px;padding:1px 6px;font-weight:700}
+.vplate{font-family:var(--mono);font-size:12px;color:var(--mut);margin-top:2px}
+.vstats{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.vstat{background:var(--paper);border-radius:var(--r-s);padding:8px 11px}
+.vstat .l{font-size:10.5px;color:var(--mut);display:block}
+.vstat .v{font-size:13px;font-weight:700;font-family:var(--mono)}
+.vbar{height:5px;border-radius:99px;background:var(--line);overflow:hidden}
+.vbar i{display:block;height:100%;border-radius:99px}
+.vfoot{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--mut)}
+
+/* ---------- Drivers ---------- */
+.dlist{display:flex;flex-direction:column}
+.drow{display:flex;align-items:center;gap:13px;padding:13px 18px;border-bottom:1px solid var(--line);cursor:pointer;transition:background .1s}
+.drow:hover{background:#FAFAF6}
+.drow:last-child{border:none}
+.drow .ava{flex:none;background:#EDEEE6;color:var(--ink)}
+.drow .info{flex:1;min-width:0}
+.drow .info b{font-size:14.5px}
+.drow .info span{display:block;font-size:12.5px;color:var(--mut)}
+.drow .tags{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+
+/* ---------- Availability ---------- */
+.avwrap{overflow-x:auto}
+.avgrid{display:grid;grid-template-columns:130px repeat(7,minmax(86px,1fr));min-width:760px}
+.avgrid>div{padding:9px 8px;border-bottom:1px solid var(--line);font-size:12.5px;display:flex;align-items:center;justify-content:center;text-align:center}
+.avgrid .hd{font-weight:600;color:var(--mut);font-size:11.5px;background:var(--card);position:sticky;top:0}
+.avgrid .nm{justify-content:flex-start;font-weight:600;font-size:13px;position:sticky;inset-inline-start:0;background:var(--card)}
+.av{border-radius:7px;padding:4px 8px;font-weight:600;font-size:11.5px;width:100%}
+.av-y{background:var(--green-bg);color:var(--green)}
+.av-n{background:var(--red-bg);color:var(--red)}
+.av-p{background:var(--violet-bg);color:var(--violet)}
+.av-t{background:#F2F2EC;color:var(--mut)}
+.av-task{background:var(--ink);color:var(--lime)}
+
+/* ---------- Pay ---------- */
+.payhead{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
+.paysum{margin-inline-start:auto;text-align:end}
+.paysum .v{font-family:'Rubik';font-size:30px;font-weight:800}
+.paysum .l{color:var(--mut);font-size:12.5px}
+
+/* ---------- Detail drawer ---------- */
+.scrim{position:fixed;inset:0;background:rgba(14,15,17,.45);z-index:60;opacity:0;pointer-events:none;transition:opacity .2s}
+.scrim.open{opacity:1;pointer-events:auto}
+.drawer{
+  position:fixed;z-index:61;background:var(--card);
+  inset-block:0;inset-inline-end:0;width:min(440px,100%);transform:translateX(-100%);
+  transition:transform .26s cubic-bezier(.32,.72,.32,1);display:flex;flex-direction:column;
+  box-shadow:-12px 0 40px rgba(14,15,17,.18);
+}
+html[dir="rtl"] .drawer{transform:translateX(-100%)}
+.drawer.open{transform:translateX(0)}
+.dr-head{padding:18px 20px 14px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.dr-head h3{font-size:17px;font-weight:800}
+.dr-body{padding:18px 20px;overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:16px}
+.dr-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.dr-item{background:var(--paper);border-radius:var(--r-s);padding:9px 12px}
+.dr-item .l{font-size:11px;color:var(--mut);display:block}
+.dr-item .v{font-size:13.5px;font-weight:600}
+.steps{display:flex;flex-direction:column;gap:0;position:relative}
+.step{display:flex;gap:12px;padding-bottom:18px;position:relative}
+.step::before{content:'';position:absolute;inset-inline-start:9px;top:22px;bottom:0;width:2px;background:var(--line)}
+.step:last-child::before{display:none}
+.step-dot{width:20px;height:20px;border-radius:50%;border:2px solid var(--line2);background:var(--card);flex:none;display:grid;place-items:center;z-index:1}
+.step.done .step-dot{background:var(--green);border-color:var(--green);color:#fff}
+.step.cur .step-dot{border-color:var(--green);box-shadow:0 0 0 4px var(--green-bg)}
+.step b{font-size:13.5px;display:block}
+.step span{font-size:12px;color:var(--mut)}
+.dr-foot{padding:14px 20px calc(14px + env(safe-area-inset-bottom));border-top:1px solid var(--line);display:flex;gap:8px}
+.dr-foot .btn{flex:1;justify-content:center}
+.x{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:var(--paper)}
+
+/* ---------- Toast ---------- */
+.toast{
+  position:fixed;bottom:calc(86px + env(safe-area-inset-bottom));inset-inline:0;margin:auto;width:fit-content;max-width:90%;
+  background:var(--ink);color:#fff;padding:11px 20px;border-radius:999px;font-size:13.5px;font-weight:600;
+  z-index:80;opacity:0;transform:translateY(10px);transition:all .25s;pointer-events:none;display:flex;gap:8px;align-items:center;
+}
+.toast.show{opacity:1;transform:none}
+.toast .dot{background:var(--lime)}
+
+/* ---------- Mobile nav ---------- */
+.mnav{
+  display:none;position:fixed;bottom:0;left:0;right:0;z-index:50;background:rgba(14,15,17,.97);
+  backdrop-filter:blur(14px);padding:8px 6px calc(8px + env(safe-area-inset-bottom));
+  border-top:1px solid rgba(255,255,255,.08);
+}
+.mnav .wrap{display:flex;max-width:520px;margin:auto}
+.mnav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;color:#9CA0A8;font-size:10.5px;font-weight:600;padding:5px 2px;border-radius:11px}
+.mnav button.on{color:var(--lime)}
+.fab{
+  display:none;position:fixed;bottom:calc(76px + env(safe-area-inset-bottom));inset-inline-end:18px;z-index:51;
+  width:54px;height:54px;border-radius:18px;background:var(--lime);color:var(--ink);
+  box-shadow:0 10px 28px -8px rgba(190,110,30,.55);place-items:center;
+}
+
+.view{display:none;animation:fade .18s ease}
+.view.on{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ---------- Responsive ---------- */
+@media (max-width:980px){
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  .split{grid-template-columns:1fr}
+  .tl-veh{width:92px;font-size:11.5px}
+}
+@media (max-width:768px){
+  /* הדף לא נגלל — רק אזור התוכן. כך התפריט התחתון מקובע באמת בכל דפדפן */
+  html,body{height:100%;height:100dvh;overflow:hidden;position:fixed;inset:0;width:100%}
+  .shell{height:100%;height:100dvh;display:flex}
+  .rail{display:none}
+  .main{
+    margin:0;flex:1;min-width:0;overflow-y:auto;overflow-x:hidden;
+    -webkit-overflow-scrolling:touch;overscroll-behavior:contain;
+    padding:14px 12px calc(86px + env(safe-area-inset-bottom));
+  }
+  /* היומן: גלילה פנימית בלבד — כותרות ימים ועמודת רכבים נשארות קפואות */
+  .wk-wrap{height:calc(100dvh - 300px);min-height:400px;max-height:none}
+  .side{display:flex;flex-direction:column;gap:12px;position:static;max-height:none;overflow:visible}
+  .side .sp{min-width:0}
+  .sec-hint{display:flex;align-items:center;gap:8px;color:var(--mut);font-size:12px;font-weight:600;margin:4px 2px -2px}
+  .sec-hint::after{content:'';flex:1;height:1px;background:var(--line2)}
+  .wk{grid-template-columns:max-content repeat(7,minmax(116px,1fr));min-width:920px}
+  .wk-veh{padding:8px 9px}
+  .wk-veh b{font-size:11.5px}
+  .wk-veh span{font-size:9.5px}
+  .wk-hd b{font-size:14px}
+  .wk-add{opacity:.55}
+  .home-grid{gap:12px}
+  .mnav{display:block}
+  .fab{display:grid}
+  .scrollx .tbl{display:none}
+  .cards{display:flex}
+  .topbar{align-items:center}
+  .topbar .actions .btn-pri{display:none}
+  .drawer{inset-inline:0;top:auto;bottom:0;width:100%;max-height:88dvh;border-radius:20px 20px 0 0;transform:translateY(105%)}
+  .drawer.open{transform:translateY(0)}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+
+<!-- ===== Side rail (desktop) ===== -->
+<aside class="rail">
+  <div class="brand">
+    <img src="data:image/png;base64,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" alt="911VIP Israel" class="logo-img">
+  </div>
+  <nav class="nav" id="nav">
+    <button data-v="home" class="on">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 4V2M16 4V2"/></svg>
+      <span class="lbl">יומן נסיעות</span>
+    </button>
+    <button data-v="tasks">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5h10M9 12h10M9 19h10M4 5h.01M4 12h.01M4 19h.01"/></svg>
+      <span class="lbl">טבלת משימות</span>
+    </button>
+    <button data-v="board">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8v9a2 2 0 01-2 2h-4v-7h-6v7H5a2 2 0 01-2-2z"/></svg>
+      <span class="lbl">סקירה חיה</span>
+    </button>
+    <button data-v="vehicles">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 16l1.5-5h11L19 16M5 16h14M5 16v3h2v-2h10v2h2v-3M8 8h8"/></svg>
+      <span class="lbl">רכבים</span>
+    </button>
+    <button data-v="drivers">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></svg>
+      <span class="lbl">נהגים</span>
+    </button>
+    <button data-v="avail">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3 8-8"/><path d="M21 12v6a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2h11"/></svg>
+      <span class="lbl">זמינות</span>
+    </button>
+    <button data-v="pay">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="13" rx="2"/><path d="M2 10h20M6 15h4"/></svg>
+      <span class="lbl">שכר והוצאות</span>
+    </button>
+    <div class="spacer"></div>
+    <button class="ntg" onclick="toggleRail()">
+      <svg class="tg-ic" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 17l-5-5 5-5M18 17l-5-5 5-5"/></svg>
+      <span class="lbl"><span class="t-col">כווץ תפריט</span><span class="t-exp">הרחב תפריט</span></span>
+    </button>
+  </nav>
+  <div class="me">
+    <div class="ava">רא</div>
+    <div class="me-txt"><b style="font-size:13.5px">רון אוחיון</b><small>מנהל · מעבר לממשק נהג</small></div>
+  </div>
+</aside>
+
+<!-- ===== Main ===== -->
+<main class="main" id="main"></main>
+</div>
+
+<!-- ===== Mobile bottom nav ===== -->
+<nav class="mnav"><div class="wrap" id="mnav">
+  <button data-v="home" class="on"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 4V2M16 4V2"/></svg>יומן</button>
+  <button data-v="tasks"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5h10M9 12h10M9 19h10M4 5h.01M4 12h.01M4 19h.01"/></svg>משימות</button>
+  <button data-v="board"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8v9a2 2 0 01-2 2h-4v-7h-6v7H5a2 2 0 01-2-2z"/></svg>סקירה</button>
+  <button data-v="vehicles"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 16l1.5-5h11L19 16M5 16h14M5 16v3h2v-2h10v2h2v-3"/></svg>רכבים</button>
+  <button data-v="pay"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="13" rx="2"/><path d="M2 10h20"/></svg>שכר</button>
+</div></nav>
+<button class="fab" onclick="toast('כאן ייפתח טופס משימה חדשה')"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg></button>
+
+<div class="scrim" id="scrim" onclick="closeDrawer()"></div>
+<aside class="drawer" id="drawer"></aside>
+<div class="toast" id="toast"><span class="dot"></span><span id="toastTxt"></span></div>
+
+<script>
+/* ================= DEMO DATA ================= */
+const VEHICLES=[
+ {n:'קאדילק משוריין 003',plate:'566-85-003',km:87652,svc:6348,test:'05/12/26',ins:'31/03/27',loc:'מוסך רחובות',arm:1,st:'free'},
+ {n:'קאדילק משוריין 004',plate:'128-91-004',km:55987,svc:1513,test:'16/09/26',ins:'30/09/26',loc:'הר חוצבים',arm:1,st:'free'},
+ {n:'סברבן משוריין 904',plate:'128-91-904',km:16269,svc:7731,test:'20/12/26',ins:'31/12/26',loc:'המצור ירושלים',arm:1,st:'free'},
+ {n:'סברבן משוריין 603',plate:'752-22-603',km:99218,svc:4782,test:'26/05/27',ins:'31/05/27',loc:'ראשל"צ ויקטורי',arm:1,st:'task'},
+ {n:'סברבן משוריין 203',plate:'566-85-203',km:104807,svc:8193,test:'30/08/26',ins:'31/08/26',loc:'קדר',arm:1,st:'task'},
+ {n:'טאהו משוריין 303',plate:'566-85-303',km:91888,svc:1612,test:'05/12/26',ins:'30/11/26',loc:'רון ויקטורי',arm:1,st:'free'},
+ {n:'סילברדו משוריין 801',plate:'940-96-801',km:10300,svc:1700,test:'06/11/26',ins:'01/01/27',loc:'מעלה אדומים',arm:1,st:'free'},
+ {n:'סברבן משוריין 901',plate:'470-66-901',km:239563,svc:7437,test:'05/09/26',ins:'30/04/27',loc:'גבעת זאב',arm:1,st:'free'},
+ {n:'קאדילק רך 403',plate:'752-22-403',km:53128,svc:5872,test:'03/07/26',ins:'30/06/26',loc:'מוסך רחובות',arm:0,st:'down',warn:'חידוש טסט וביטוח'},
+ {n:'מרצדס S',plate:'907-10-401',km:155550,svc:24450,test:'30/06/26',ins:'31/07/26',loc:'קידר',arm:0,st:'free',warn:'חידוש טסט'},
+ {n:'ספרינטר משוריין 290',plate:'76-290-39',km:104326,svc:3674,test:'14/12/26',ins:'30/04/27',loc:'רון',arm:1,st:'admin'},
+ {n:'טאהו רך 703',plate:'470-02-703',km:82444,svc:9556,test:'14/03/27',ins:'30/04/27',loc:'החומה מעלה אדומים',arm:0,st:'free'},
+];
+const DRIVERS=[
+ {n:'טירן שרון',ph:'0585444300',knesset:1,gov:1,rate:60},
+ {n:'בר בנימין',ph:'0537454518',knesset:1,gov:1,rate:70},
+ {n:'דוד יעקב',ph:'0505713291',knesset:1,gov:1,rate:65},
+ {n:'איתן אוחיון',ph:'0537454518',knesset:1,gov:1,rate:70},
+ {n:'עמיר אלוני',ph:'0509729991',knesset:1,gov:1,rate:65},
+ {n:'שבי מזרחי',ph:'0544572027',knesset:1,gov:0,rate:60},
+ {n:'אופיר אוחיון',ph:'0503729997',knesset:1,gov:1,rate:70},
+ {n:'שחר שמאי',ph:'0537003522',knesset:0,gov:1,rate:60},
+];
+const TASKS=[
+ {id:1,name:'צבי סוכות',client:'כנסת ישראל',drv:'טירן שרון',veh:'סברבן משוריין 603',day:'חמישי',date:'11/06',s:'08:32',rel:'11:47',e:'13:02',km:106,st:'live',h:'04:30'},
+ {id:2,name:'תפוצות',client:'מודיעין אזרחי בע"מ',drv:'דוד יעקב',veh:'',day:'חמישי',date:'11/06',s:'09:10',rel:'',e:'',km:0,st:'pend',h:''},
+ {id:3,name:'חדשות 13',client:'חדשות 10 בע"מ',drv:'בר בנימין',veh:'סברבן משוריין 901',day:'רביעי',date:'10/06',s:'06:30',rel:'10:52',e:'11:07',km:33,st:'done',h:'04:37'},
+ {id:4,name:'לפיד',client:'כנסת ישראל',drv:'אופיר אוחיון',veh:'קאדילק משוריין 003',day:'רביעי',date:'10/06',s:'13:09',rel:'23:29',e:'23:55',km:104,st:'done',h:'10:46'},
+ {id:5,name:'בית הנשיא',client:'בית הנשיא',drv:'טירן שרון',veh:'סברבן משוריין 603',day:'רביעי',date:'10/06',s:'04:43',rel:'14:22',e:'17:30',km:567,st:'done',h:'12:47'},
+ {id:6,name:'תחבורה',client:'משרד ראש הממשלה',drv:'איתן אוחיון',veh:'סברבן משוריין 203',day:'רביעי',date:'10/06',s:'14:55',rel:'20:10',e:'21:09',km:132,st:'done',h:'06:14'},
+ {id:7,name:'בית הנשיא',client:'בית הנשיא',drv:'שבי מזרחי',veh:'קאדילק משוריין 004',day:'רביעי',date:'10/06',s:'04:39',rel:'17:18',e:'17:45',km:590,st:'done',h:'13:06'},
+ {id:8,name:'מחצבות (נוף ים)',client:'מחצבות',drv:'דוד יעקב',veh:'ספרינטר משוריין 290',day:'ראשון',date:'07/06',s:'06:42',rel:'15:26',e:'17:00',km:135,st:'done',h:'10:18'},
+ {id:9,name:'עליה וקליטה',client:'משרד ראש הממשלה',drv:'עמיר אלוני',veh:'סברבן משוריין 203',day:'ראשון',date:'07/06',s:'16:48',rel:'18:14',e:'18:14',km:66,st:'done',h:'01:26'},
+];
+const FEED=[
+ {t:'13:02',x:'<b>צבי סוכות</b> — הסתיימה. הרכב במיקום: כנסת ישראל'},
+ {t:'11:47',x:'<b>צבי סוכות</b> — הסרת אחריות במיקום כנסת ישראל'},
+ {t:'09:10',x:'<b>תפוצות</b> — דוד יעקב יצא לנסיעה מנהלתית'},
+ {t:'08:32',x:'יציאה למשימה <b>צבי סוכות</b> — טירן שרון, סברבן 603'},
+ {t:'07:55',x:'תזכורת נשלחה: <b>בית הנשיא</b> מחר 04:30 — טרם אושר ע"י הנהג'},
+];
+const ALERTS=[
+ {ic:'red',t:'קאדילק רך 403 — טסט וביטוח פגי תוקף החודש',s:'טסט 03/07 · ביטוח 30/06 · הרכב מושבת'},
+ {ic:'amber',t:'מרצדס S — טסט מתקרב',s:'בתוקף עד 30/06/2026 · 19 ימים'},
+ {ic:'amber',t:'קאדילק 004 — 1,513 ק"מ לטיפול',s:'טיפול הבא ב-57,500 ק"מ'},
+ {ic:'blue',t:'שחר שמאי לא אישר שיבוץ למחר',s:'משימת בית הנשיא · נשלחה תזכורת לפני שעה'},
+];
+const HOURS=['06','08','10','12','14','16','18','20','22','24'];
+const TL=[
+ {veh:'סברבן 603',bars:[{s:8.53,e:13.03,n:'צבי סוכות · טירן',cls:'live-bar'}]},
+ {veh:'מודיעין אזרחי',bars:[{s:9.16,e:11.5,n:'מנהלתית · דוד יעקב',cls:'admin'}]},
+ {veh:'סברבן 203',bars:[{s:14.9,e:21.15,n:'תחבורה · איתן',cls:''}]},
+ {veh:'קאדילק 003',bars:[{s:13.15,e:23.9,n:'לפיד · אופיר',cls:''}]},
+ {veh:'סברבן 901',bars:[{s:6.5,e:11.1,n:'חדשות 13 · בר',cls:'done'}]},
+];
+const AV_DAYS=['א׳ 07/06','ב׳ 08/06','ג׳ 09/06','ד׳ 10/06','ה׳ 11/06','ו׳ 12/06','ש׳ 13/06'];
+const AVAIL=[
+ {n:'עמיר אלוני',d:['task:עליה וקליטה','y','y','y','y','y','y']},
+ {n:'בר בנימין',d:['task:מחצבות','y','y','task:חדשות 13','y','y','y']},
+ {n:'דוד יעקב',d:['task:מחצבות','y','y','task:תפוצות','task:תפוצות','n','n']},
+ {n:'טירן שרון',d:['n','task:בית הנשיא','y','task:בית הנשיא','task:צבי סוכות','p:עד 16:00','n']},
+ {n:'שבי מזרחי',d:['y','p:עד שש בערב','y','task:בית הנשיא','p:עד שש בערב','task:ביסמוט','y']},
+ {n:'שחר שמאי',d:['p:מ-15:30','p:מ-15:30','p:מ-18:30','n','n','n','n']},
+ {n:'דניס פרוסקוב',d:['y','y','n','n','n','n','n']},
+ {n:'דורון גולדברג',d:['t','t','t','t','t','t','t']},
+];
+const PAY=[
+ {n:'משימה מנהלתית',d:'02/06 · שלישי',h:'00:54',v:63.00,adm:1},
+ {n:'ECI',d:'03/06 · רביעי',h:'12:55',v:904.40},
+ {n:'IBC',d:'04/06 · חמישי',h:'05:55',v:414.40,warn:1},
+ {n:'משימה מנהלתית',d:'06/06 · שבת',h:'00:55',v:64.40,adm:1},
+ {n:'מחצבות',d:'07/06 · ראשון',h:'12:32',v:877.10},
+ {n:'משימה מנהלתית',d:'09/06 · שלישי',h:'00:45',v:52.50,adm:1},
+ {n:'חדשות 13',d:'10/06 · רביעי',h:'04:37',v:323.40,warn:1},
+ {n:'משימה מנהלתית',d:'10/06 · רביעי',h:'05:56',v:415.10,adm:1},
+ {n:'הוצאות · נוזל שמשות',d:'30/06',h:'',v:25.00,exp:1},
+];
+
+const WK_DAYS=[
+ {d:'ראשון',dt:'07/06',cls:'past'},{d:'שני',dt:'08/06',cls:'past'},{d:'שלישי',dt:'09/06',cls:'past'},
+ {d:'רביעי',dt:'10/06',cls:'past'},{d:'חמישי',dt:'11/06',cls:'today'},{d:'שישי',dt:'12/06',cls:''},{d:'שבת',dt:'13/06',cls:''},
+];
+/* cells: dayIndex -> [{n,drv,cls}]  cls: ''|live|self|admin */
+const WEEK=[
+ {v:'קאדילק משוריין 003',loc:'מוסך רחובות',arm:1,c:{3:[{n:'לפיד',drv:'אופיר אוחיון'}],6:[{n:'איגור',drv:'שאול בנימין'}]}},
+ {v:'קאדילק משוריין 004',loc:'הר חוצבים',arm:1,c:{3:[{n:'בית הנשיא',drv:'שבי מזרחי'}],5:[{n:'ביסמוט',drv:'שבי מזרחי'}]}},
+ {v:'סברבן משוריין 904',loc:'המצור ירושלים',arm:1,c:{}},
+ {v:'סברבן משוריין 603',loc:'ראשל"צ ויקטורי',arm:1,c:{1:[{n:'בית הנשיא',drv:'טירן שרון'}],3:[{n:'בית הנשיא',drv:'טירן שרון'}],4:[{n:'צבי סוכות',drv:'טירן שרון',cls:'live'}],6:[{n:'איגור',drv:'אופיר אוחיון'}]}},
+ {v:'סברבן משוריין 203',loc:'קדר',arm:1,c:{0:[{n:'עליה וקליטה',drv:'עמיר אלוני'},{n:'חדשות 13',drv:'עמיר אלוני'}],1:[{n:'בית הנשיא',drv:'איתן אוחיון'}],3:[{n:'תחבורה',drv:'איתן אוחיון'}]}},
+ {v:'טאהו משוריין 303',loc:'רון ויקטורי',arm:1,c:{}},
+ {v:'סילברדו משוריין 503',loc:'פיק"א 44',arm:1,c:{}},
+ {v:'סילברדו משוריין 801',loc:'הכרכום 11, מעלה אדומים',arm:1,c:{0:[{n:'מחצבות',drv:'בר בנימין'}]}},
+ {v:'סברבן משוריין 901',loc:'גבעת זאב, רח׳ הזית',arm:1,c:{3:[{n:'חדשות 13',drv:'בר בנימין'}]}},
+ {v:'ספרינטר משוריין 911',loc:'ראשל"צ ויקטורי',arm:1,c:{}},
+ {v:'ספרינטר משוריין 290',loc:'רון',arm:1,c:{0:[{n:'מחצבות',drv:'דוד יעקב'}]}},
+ {v:'טאהו רך 703',loc:'החומה מעלה אדומים',arm:0,c:{1:[{n:'כ.ד נהיגה עצמית',cls:'self'}],2:[{n:'כ.ד נהיגה עצמית',cls:'self'}],3:[{n:'כ.ד נהיגה עצמית',cls:'self'}]}},
+ {v:'סברבן רך 803',loc:'מבשרת - אליאב',arm:0,c:{}},
+ {v:'קאדילק רך 403',loc:'מוסך רחובות',arm:0,c:{0:[{n:'טום ניידס',drv:'אופיר אוחיון'}],1:[{n:'טום ניידס',drv:'אופיר אוחיון'}]}},
+ {v:'קאדילק אסקלייד V',loc:'קידר',arm:0,c:{}},
+ {v:'סברבן משוריין 803',loc:'',arm:1,c:{0:[{n:'81',cls:'self'}],1:[{n:'81',cls:'self'}],2:[{n:'81',cls:'self'}],3:[{n:'81',cls:'self'}],4:[{n:'81',cls:'self'}],5:[{n:'81',cls:'self'}],6:[{n:'81',cls:'self'}]}},
+ {v:'משימת נהיגה',loc:'',arm:0,c:{3:[{n:'תפוצות',drv:'דוד יעקב',cls:'admin'}],4:[{n:'תפוצות',drv:'דוד יעקב',cls:'admin'}]}},
+];
+
+/* תחזוקה: ק"מ נותר לטיפול — נכנס לרשימה מתחת ל-3,000. טסט/ביטוח — ספירה לאחור מ-30 יום */
+const MAINT=[
+ {n:'סברבן 904',svc:-265,next:'24,000'},
+ {n:'ספרינטר 911',svc:820,next:'40,000'},
+ {n:'קאדילק 004',svc:1513,next:'57,500'},
+ {n:'טאהו 303',svc:1612,next:'93,500'},
+ {n:'סילברדו 801',svc:1700,next:'12,000'},
+];
+const DOCS=[
+ {n:'מרצדס S',what:'טסט',days:19,exp:'30/06'},
+ {n:'קאדילק רך 403',what:'ביטוח',days:19,exp:'30/06'},
+ {n:'קאדילק רך 403',what:'טסט',days:22,exp:'03/07'},
+];
+const UNASSIGNED=[
+ {n:'עמיר אלוני',av:'y'},
+ {n:'בר בנימין',av:'y'},
+ {n:'אריק חכים',av:'y'},
+ {n:'שחר אסרף',av:'y'},
+ {n:'שבי מזרחי',av:'p',note:'עד שש בערב'},
+ {n:'מיכאל רקיצנוב',av:'y'},
+];
+
+/* ================= HELPERS ================= */
+const $=s=>document.querySelector(s);
+const stChip=s=>({live:'<span class="chip c-green"><span class="dot pulse"></span>בנסיעה</span>',
+  done:'<span class="chip c-mut">בוצע</span>',
+  pend:'<span class="chip c-amber"><span class="dot"></span>ממתינה</span>',
+  cancel:'<span class="chip c-red">בוטלה</span>'}[s]||'');
+function toast(t){$('#toastTxt').textContent=t;$('#toast').classList.add('show');clearTimeout(window._tt);window._tt=setTimeout(()=>$('#toast').classList.remove('show'),2400)}
+
+/* ================= VIEWS ================= */
+const views={};
+
+let SIDE_OPEN=window.innerWidth>=1500;
+function toggleRail(){document.body.classList.toggle('railc')}
+if(window.innerWidth>768)document.body.classList.add('railc');
+function toggleSide(open){
+  SIDE_OPEN=open;
+  const g=document.getElementById('homeGrid');
+  if(g)g.classList.toggle('collapsed',!SIDE_OPEN);
+}
+const svcCol=r=>r<0?'var(--red)':r<1000?'#C2590B':'var(--amber)';
+const svcPct=r=>r<=0?100:Math.max(6,Math.min(100,(3000-r)/3000*100));
+const docCol=d=>d<=0?'var(--red)':d<=10?'#C2590B':'var(--amber)';
+const docPct=d=>Math.max(6,Math.min(100,(30-d)/30*100));
+
+views.home=()=>`
+<div class="topbar">
+  <div><h1>יומן נסיעות</h1><div class="sub">יוני 07 – יוני 13, 2026 · 4 משימות היום · 1 פעילה כרגע</div></div>
+  <div class="actions">
+    <button class="btn btn-gho" onclick="toast('מעבר שבוע (דמו)')">‹ &nbsp;שבוע&nbsp; ›</button>
+    <button class="btn btn-gho" onclick="toast('קפיצה להיום')">היום</button>
+    <button class="btn btn-pri" onclick="toast('כאן ייפתח טופס משימה חדשה')">+ משימה חדשה</button>
+  </div>
+</div>
+<div class="home-grid ${SIDE_OPEN?"":"collapsed"}" id="homeGrid">
+<div>
+  <div class="card wk-wrap"><div class="wk" id="wk">
+    <div class="wk-corner">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--mut)" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+      <input placeholder="חפש רכב…" oninput="renderWeek(this.value)" style="padding-inline-start:7px">
+    </div>
+    ${WK_DAYS.map(d=>`<div class="wk-hd ${d.cls}">${d.d}<b>${d.dt}</b></div>`).join('')}
+    <div id="wkrows" style="display:contents"></div>
+  </div></div>
+  <div class="wk-legend">
+    <span><i style="background:var(--green)"></i>בנסיעה עכשיו</span>
+    <span><i style="background:var(--ink)"></i>משימה משובצת</span>
+    <span><i style="background:var(--amber)"></i>נהיגה עצמית / כ.ד</span>
+    <span><i style="background:var(--violet)"></i>מנהלתית</span>
+  </div>
+</div>
+
+<button class="side-tab" onclick="toggleSide(true)" title="פתח סקירה חיה">
+  <span class="dot pulse"></span>סקירה חיה
+</button>
+<aside class="side">
+  <div class="sec-hint mobile-only">סקירה חיה</div>
+  <div class="side-head"><b>סקירה חיה</b>
+    <button class="side-x" onclick="toggleSide(false)">הסתר ‹</button>
+  </div>
+  <div class="card sp">
+    <h3><span><span class="chip c-green" style="margin-inline-end:6px"><span class="dot pulse"></span>חי</span>עדכונים מהשטח</span></h3>
+    ${FEED.slice(0,4).map(f=>`<div class="feed-row"><span class="feed-t num">${f.t}</span><span>${f.x}</span></div>`).join('')}
+  </div>
+
+  <div class="card sp">
+    <h3>זמינים היום · טרם שובצו <a onclick="go('avail')">לזמינות ←</a></h3>
+    ${UNASSIGNED.map(d=>`<div class="un-row">
+      <div class="ava">${d.n.split(' ').map(w=>w[0]).join('')}</div>
+      <b>${d.n}</b>
+      ${d.av==='p'?`<span class="chip c-violet">${d.note}</span>`:'<span class="chip c-green">זמין</span>'}
+      <button class="un-asn" onclick="toast('שיבוץ ${d.n} — בחר משימה (דמו)')">שבץ</button>
+    </div>`).join('')}
+  </div>
+
+  <div class="card sp">
+    <h3>מתקרבים לטיפול <a onclick="go('vehicles')">לרכבים ←</a></h3>
+    ${MAINT.map(m=>`<div class="mt-row">
+      <div class="mt-top"><b>${m.n}</b>
+        <span class="num" style="color:${svcCol(m.svc)}">${m.svc<0?`חריגה ${Math.abs(m.svc).toLocaleString()}`:m.svc.toLocaleString()} ק"מ</span></div>
+      <div class="meter"><i style="width:${svcPct(m.svc)}%;background:${svcCol(m.svc)}"></i></div>
+      <div class="mt-sub" style="margin-top:4px">${m.svc<0?'⚠ עבר את מועד הטיפול — לתאם מוסך':'טיפול הבא ב-'+m.next+' ק"מ'}</div>
+    </div>`).join('')}
+  </div>
+
+  <div class="card sp">
+    <h3>טסט וביטוח — עד 30 יום</h3>
+    ${DOCS.map(d=>`<div class="mt-row">
+      <div class="mt-top"><b>${d.n} · ${d.what}</b>
+        <span class="num" style="color:${docCol(d.days)}">${d.days<=0?'פג תוקף':d.days+' ימים'}</span></div>
+      <div class="meter"><i style="width:${docPct(d.days)}%;background:${docCol(d.days)}"></i></div>
+      <div class="mt-sub" style="margin-top:4px">בתוקף עד ${d.exp}/2026</div>
+    </div>`).join('')}
+  </div>
+</aside>
+</div>`;
+
+views.overview=()=>`
+<div class="topbar">
+  <div><h1>ערב טוב, רון 👋</h1><div class="sub">חמישי, 11 ביוני 2026 · תמונת מצב חיה</div></div>
+  <div class="actions">
+    <button class="btn btn-gho" onclick="toast('בקשת זמינות נשלחה ל-27 נהגים')">בקשת זמינות</button>
+    <button class="btn btn-pri" onclick="toast('כאן ייפתח טופס משימה חדשה')">+ משימה חדשה</button>
+  </div>
+</div>
+<div class="kpis">
+  <div class="card kpi"><span class="v">4</span><span class="l">משימות היום</span><span class="t" style="color:var(--green)">1 פעילה עכשיו</span></div>
+  <div class="card kpi"><span class="v">14<span style="font-size:15px;color:var(--mut)">/18</span></span><span class="l">רכבים פנויים</span><span class="t" style="color:var(--red)">1 מושבת</span></div>
+  <div class="card kpi"><span class="v">21</span><span class="l">נהגים זמינים היום</span><span class="t" style="color:var(--amber)">3 זמינות חלקית</span></div>
+  <div class="card kpi"><span class="v">2</span><span class="l">שיבוצים ללא אישור</span><span class="t" style="color:var(--blue)">תזכורות נשלחו</span></div>
+</div>
+
+<div class="card live">
+  <div class="live-head">
+    <h2><span class="chip c-green"><span class="dot pulse"></span>חי</span> ציר היום — רכבים בתנועה</h2>
+    <span class="now-clock">עכשיו · 13:05</span>
+  </div>
+  <div class="tl">
+    <div class="tl-hours">${HOURS.map(h=>`<span>${h}:00</span>`).join('')}</div>
+    <div class="tl-rows" id="tlrows">
+      ${TL.map(r=>`<div class="tl-row"><div class="tl-veh">${r.veh}</div><div class="tl-track">
+        ${r.bars.map(b=>{const a=(b.s-6)/18*100,w=(b.e-b.s)/18*100;return`<div class="tl-bar ${b.cls}" style="inset-inline-start:${a}%;width:${w}%" title="${b.n}">${b.n}</div>`}).join('')}
+      </div></div>`).join('')}
+      <div class="tl-now" style="inset-inline-start:calc(128px + (100% - 138px) * ${(13.08-6)/18})"></div>
+    </div>
+  </div>
+</div>
+
+<div class="split">
+  <div class="card panel">
+    <h3>עדכונים מהשטח <a onclick="go('tasks')">כל המשימות ←</a></h3>
+    ${FEED.map(f=>`<div class="feed-row"><span class="feed-t num">${f.t}</span><span>${f.x}</span></div>`).join('')}
+  </div>
+  <div class="card panel">
+    <h3>דורש טיפול <a onclick="go('vehicles')">לרכבים ←</a></h3>
+    ${ALERTS.map(a=>`<div class="alert-row">
+      <div class="alert-ic" style="background:var(--${a.ic}-bg);color:var(--${a.ic})">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 9v4M12 17h.01M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/></svg>
+      </div>
+      <div><b>${a.t}</b><span>${a.s}</span></div>
+    </div>`).join('')}
+  </div>
+</div>`;
+
+views.tasks=()=>`
+<div class="topbar">
+  <div><h1>משימות</h1><div class="sub">01–30 ביוני · ${TASKS.length} משימות מוצגות</div></div>
+  <div class="actions">
+    <button class="btn btn-gho" onclick="toast('הקובץ יורד… (דמו)')">ייצוא לאקסל</button>
+    <button class="btn btn-pri" onclick="toast('כאן ייפתח טופס משימה חדשה')">+ משימה חדשה</button>
+  </div>
+</div>
+<div class="toolbar">
+  <div class="search"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+    <input id="q" placeholder="חיפוש משימה, לקוח, נהג או רכב…" oninput="renderTasks(this.value)"></div>
+  <div class="seg"><button class="on">הכל</button><button onclick="toast('סינון (דמו)')">פעילות</button><button onclick="toast('סינון (דמו)')">ממתינות</button></div>
+  <button class="filt" onclick="toast('בחירת טווח תאריכים (דמו)')">📅 יוני 2026</button>
+</div>
+<div class="card scrollx">
+  <table class="tbl"><thead><tr>
+    <th>משימה</th><th>תאריך</th><th>נהג + רכב</th><th>התחלה</th><th>הסרת אחריות</th><th>סיום</th><th>שעות</th><th>ק"מ</th><th>סטטוס</th>
+  </tr></thead><tbody id="tbody"></tbody></table>
+</div>
+<div class="cards" id="tcards"></div>`;
+
+views.board=()=>views.overview();
+
+views.vehicles=()=>`
+<div class="topbar">
+  <div><h1>רכבים</h1><div class="sub">18 סה"כ · 14 פנויים · 1 מושבת</div></div>
+  <div class="actions"><button class="btn btn-pri" onclick="toast('טופס רכב חדש (דמו)')">+ רכב חדש</button></div>
+</div>
+<div class="toolbar"><div class="search"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg><input placeholder="חיפוש רכב…" oninput="renderVeh(this.value)"></div></div>
+<div class="vgrid" id="vgrid"></div>`;
+
+views.drivers=()=>`
+<div class="topbar">
+  <div><h1>נהגים</h1><div class="sub">27 נהגים · 8 עם אישור כניסה לכנסת</div></div>
+  <div class="actions"><button class="btn btn-gho" onclick="toast('בקשת זמינות נשלחה (דמו)')">בקשת זמינות</button>
+  <button class="btn btn-pri" onclick="toast('טופס נהג חדש (דמו)')">+ נהג</button></div>
+</div>
+<div class="card dlist">
+${DRIVERS.map(d=>`<div class="drow" onclick="toast('כרטיס נהג: ${d.n} (דמו)')">
+  <div class="ava">${d.n.split(' ').map(w=>w[0]).join('')}</div>
+  <div class="info"><b>${d.n}</b><span class="num">${d.ph} · ₪${d.rate}/שעה</span></div>
+  <div class="tags">
+    ${d.knesset?'<span class="chip c-blue">כנסת</span>':''}
+    ${d.gov?'<span class="chip c-violet">רישיון ממשלתי</span>':''}
+    <span class="chip c-green"><span class="dot"></span>פעיל</span>
+  </div>
+</div>`).join('')}
+</div>`;
+
+views.avail=()=>`
+<div class="topbar">
+  <div><h1>זמינות נהגים</h1><div class="sub">יוני 07–13 · 19 השיבו · 8 ללא תגובה</div></div>
+  <div class="actions"><button class="btn btn-pri" onclick="toast('בקשת זמינות נשלחה לכולם')">+ בקשת זמינות</button></div>
+</div>
+<div class="card avwrap"><div class="avgrid">
+  <div class="hd nm">נהג</div>${AV_DAYS.map(d=>`<div class="hd">${d}</div>`).join('')}
+  ${AVAIL.map(r=>`<div class="nm">${r.n}</div>${r.d.map(c=>{
+    if(c==='y')return'<div><span class="av av-y">זמין</span></div>';
+    if(c==='n')return'<div><span class="av av-n">לא זמין</span></div>';
+    if(c==='t')return'<div><span class="av av-t">ללא תגובה</span></div>';
+    if(c.startsWith('p:'))return`<div><span class="av av-p">${c.slice(2)}</span></div>`;
+    if(c.startsWith('task:'))return`<div><span class="av av-task">${c.slice(5)}</span></div>`;
+    return'<div></div>';
+  }).join('')}`).join('')}
+</div></div>`;
+
+views.pay=()=>{
+ const tot=PAY.reduce((a,b)=>a+b.v,0);
+ return`
+<div class="topbar"><div><h1>שכר והוצאות</h1><div class="sub">חישוב אוטומטי לפי שעות × תעריף (חול/שבת) + הוצאות</div></div></div>
+<div class="payhead">
+  <button class="filt">📅 יוני 2026</button>
+  <button class="filt">👤 בר בנימין</button>
+  <div class="paysum"><div class="v num">₪${tot.toLocaleString('he-IL',{minimumFractionDigits:2})}</div><div class="l">סה"כ לתשלום · 8 משימות · 44:29 שעות</div></div>
+</div>
+<div class="card scrollx">
+  <table class="tbl"><thead><tr><th>משימה</th><th>תאריך</th><th>שעות</th><th>סה"כ</th></tr></thead><tbody>
+  ${PAY.map(p=>`<tr>
+    <td><span class="tname">${p.n}</span> ${p.adm?'<span class="chip c-violet">מנהלתית</span>':''}${p.exp?'<span class="chip c-mut">הוצאה</span>':''}${p.warn?'<span class="chip c-amber">⚠ לבדיקה</span>':''}</td>
+    <td class="num">${p.d}</td><td class="num">${p.h||'—'}</td>
+    <td class="num" style="font-weight:700">₪${p.v.toFixed(2)}</td></tr>`).join('')}
+  </tbody></table>
+</div>
+<div class="cards">
+  ${PAY.map(p=>`<div class="card mcard"><div class="row1"><div><span class="tname">${p.n}</span><div class="tsub num">${p.d}${p.h?' · '+p.h+' שעות':''}</div></div>
+  <b class="num" style="font-size:16px">₪${p.v.toFixed(2)}</b></div>
+  ${p.adm?'<div><span class="chip c-violet">מנהלתית</span></div>':''}${p.warn?'<div><span class="chip c-amber">⚠ לבדיקה — ק"מ חריג</span></div>':''}</div>`).join('')}
+</div>`};
+
+/* ================= RENDER ================= */
+function go(v){
+  document.querySelectorAll('#nav button[data-v],#mnav button[data-v]').forEach(b=>b.classList.toggle('on',b.dataset.v===v));
+  $('#main').innerHTML=`<div class="view on">${views[v]()}</div>`;
+  if(v==='home')renderWeek('');
+  if(v==='tasks')renderTasks('');
+  if(v==='vehicles')renderVeh('');
+  window.scrollTo({top:0});$('#main').scrollTo({top:0});
+}
+let WKQ='';
+function renderWeek(q){
+  WKQ=q=(q||'').trim();
+  const todayIdx=WK_DAYS.findIndex(d=>d.cls==='today');
+  $('#wkrows').innerHTML=WEEK.map((r,ri)=>({r,ri})).filter(o=>!q||o.r.v.includes(q)).map(({r,ri})=>{
+    const SH='<svg class="sh-ic" viewBox="0 0 24 24" fill="currentColor" aria-label="משוריין"><path d="M12 2l8 3v6c0 5-3.4 9.4-8 11-4.6-1.6-8-6-8-11V5z"/></svg>';
+    const veh=`<div class="wk-veh"><b>${r.arm?SH:''}${r.v.replace(' משוריין','')}</b>${r.loc?`<span>${r.loc}</span>`:''}</div>`;
+    const cells=WK_DAYS.map((d,i)=>{
+      const items=(r.c[i]||[]).map((t,si)=>`<div class="wk-task ${t.cls||''}" data-ri="${ri}" data-di="${i}" data-si="${si}" onclick="event.stopPropagation();if(!DND.moved)openTask(${t.cls==='live'?1:3})">
+        <b>${t.n}</b>${t.drv?`<span>${t.drv}</span>`:''}</div>`).join('');
+      return`<div class="wk-cell ${i===todayIdx?'today-col':''}" data-ri="${ri}" data-di="${i}" onclick="toast('משימה חדשה: ${r.v} · ${d.d} ${d.dt}')">
+        ${items}
+        <button class="wk-add" title="שיבוץ ${r.v} ל${d.d}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 5v14M5 12h14"/></svg></button>
+      </div>`;
+    }).join('');
+    return veh+cells;
+  }).join('')||`<div style="grid-column:1/-1;text-align:center;color:var(--mut);padding:34px">לא נמצא רכב בשם הזה</div>`;
+}
+
+/* ============ Drag & Drop ביומן ============ */
+const DND={el:null,ghost:null,src:null,over:null,moved:false,timer:null,sx:0,sy:0,active:false};
+document.addEventListener('pointerdown',e=>{
+  const t=e.target.closest('.wk-task');
+  if(!t||e.button>0)return;
+  DND.el=t;DND.moved=false;DND.active=false;DND.sx=e.clientX;DND.sy=e.clientY;
+  DND.src={ri:+t.dataset.ri,di:+t.dataset.di,si:+t.dataset.si};
+  if(e.pointerType==='touch'){
+    // לחיצה ארוכה מתחילה גרירה; תזוזה לפני כן = גלילה רגילה
+    DND.timer=setTimeout(()=>startDrag(e.clientX,e.clientY),330);
+  }
+});
+document.addEventListener('pointermove',e=>{
+  if(!DND.el)return;
+  const dx=Math.abs(e.clientX-DND.sx),dy=Math.abs(e.clientY-DND.sy);
+  if(!DND.active){
+    if(DND.timer&&(dx>9||dy>9)){clearTimeout(DND.timer);DND.timer=null;DND.el=null;return}
+    if(!DND.timer&&(dx>6||dy>6))startDrag(e.clientX,e.clientY); // עכבר
+    if(!DND.active)return;
+  }
+  moveDrag(e.clientX,e.clientY);
+},{passive:true});
+document.addEventListener('touchmove',e=>{if(DND.active)e.preventDefault()},{passive:false});
+document.addEventListener('pointerup',()=>{
+  if(DND.timer){clearTimeout(DND.timer);DND.timer=null}
+  if(DND.active)endDrag();
+  DND.el=null;setTimeout(()=>DND.moved=false,50);
+});
+function startDrag(x,y){
+  if(!DND.el)return;
+  DND.active=true;DND.moved=true;
+  document.body.classList.add('dragging-now');
+  const g=DND.el.cloneNode(true);
+  g.classList.add('drag-ghost');g.classList.remove('dragging');
+  document.body.appendChild(g);DND.ghost=g;
+  DND.el.classList.add('dragging');
+  moveDrag(x,y);
+  if(navigator.vibrate)navigator.vibrate(12);
+}
+function moveDrag(x,y){
+  DND.ghost.style.left=x+'px';DND.ghost.style.top=y+'px';
+  DND.ghost.style.display='none';
+  const cell=document.elementFromPoint(x,y)?.closest('.wk-cell');
+  DND.ghost.style.display='';
+  if(DND.over&&DND.over!==cell)DND.over.classList.remove('drop-on');
+  DND.over=cell||null;
+  if(cell)cell.classList.add('drop-on');
+}
+function endDrag(){
+  document.body.classList.remove('dragging-now');
+  DND.ghost?.remove();DND.ghost=null;
+  DND.el?.classList.remove('dragging');
+  const tgt=DND.over;DND.over?.classList.remove('drop-on');DND.over=null;DND.active=false;
+  if(!tgt)return;
+  const s=DND.src,tri=+tgt.dataset.ri,tdi=+tgt.dataset.di;
+  if(tri===s.ri&&tdi===s.di)return;
+  const task=WEEK[s.ri].c[s.di].splice(s.si,1)[0];
+  if(!WEEK[s.ri].c[s.di].length)delete WEEK[s.ri].c[s.di];
+  (WEEK[tri].c[tdi]=WEEK[tri].c[tdi]||[]).push(task);
+  renderWeek(WKQ);
+  const vehChanged=tri!==s.ri,dayChanged=tdi!==s.di;
+  const parts=[];
+  if(vehChanged)parts.push('רכב: '+WEEK[tri].v);
+  if(dayChanged)parts.push('יום: '+WK_DAYS[tdi].d+' '+WK_DAYS[tdi].dt);
+  toast('«'+task.n+'» — שיבוץ עודכן · '+parts.join(' · ')+' · הנהג יקבל התראת שינוי');
+}
+function renderTasks(q){
+  q=(q||'').trim();
+  const rows=TASKS.filter(t=>!q||[t.name,t.client,t.drv,t.veh].join(' ').includes(q));
+  $('#tbody').innerHTML=rows.map(t=>`<tr onclick="openTask(${t.id})">
+    <td><span class="tname">${t.name}</span><div class="tsub">${t.client}</div></td>
+    <td class="num">${t.day} ${t.date}</td>
+    <td>${t.drv}<div class="tsub">${t.veh||'נסיעה מנהלתית'}</div></td>
+    <td class="num">${t.s||'—'}</td><td class="num">${t.rel||'—'}</td><td class="num">${t.e||'—'}</td>
+    <td class="num">${t.h||'—'}</td>
+    <td class="num" style="${t.km>200?'color:var(--red);font-weight:700':''}">${t.km||'—'}</td>
+    <td>${stChip(t.st)}</td></tr>`).join('')||'<tr><td colspan="9" style="text-align:center;color:var(--mut);padding:30px">לא נמצאו משימות. נסה חיפוש אחר.</td></tr>';
+  $('#tcards').innerHTML=rows.map(t=>`<div class="card mcard" onclick="openTask(${t.id})">
+    <div class="row1"><div><span class="tname">${t.name}</span><div class="tsub">${t.client} · ${t.day} ${t.date}</div></div>${stChip(t.st)}</div>
+    <div class="meta"><span>🧑 <b>${t.drv}</b></span><span>🚙 <b>${t.veh||'מנהלתית'}</b></span>${t.km?`<span style="${t.km>200?'color:var(--red)':''}">📍 <b>${t.km} ק"מ</b></span>`:''}</div>
+    <div class="mtimes">
+      <div><span class="l">התחלה</span><span class="v">${t.s||'—'}</span></div>
+      <div><span class="l">הסרת אחריות</span><span class="v">${t.rel||'—'}</span></div>
+      <div><span class="l">סיום</span><span class="v">${t.e||'—'}</span></div>
+      <div><span class="l">שעות</span><span class="v">${t.h||'—'}</span></div>
+    </div></div>`).join('');
+}
+function renderVeh(q){
+  q=(q||'').trim();
+  $('#vgrid').innerHTML=VEHICLES.filter(v=>!q||(v.n+v.plate).includes(q)).map(v=>{
+    const pct=Math.max(4,Math.min(100,v.svc/12000*100));
+    const col=v.svc<2000?'var(--red)':v.svc<4000?'var(--amber)':'var(--green)';
+    const st=v.st==='task'?'<span class="chip c-blue"><span class="dot"></span>במשימה</span>'
+      :v.st==='admin'?'<span class="chip c-violet"><span class="dot"></span>מנהלתית</span>'
+      :v.st==='down'?'<span class="chip c-red">מושבת</span>'
+      :'<span class="chip c-green"><span class="dot"></span>פנוי</span>';
+    return`<div class="card vcard" onclick="toast('כרטיס רכב: ${v.n} (דמו)')">
+    <div class="vtop"><div><div class="vname">${v.n} ${v.arm?'<span class="vshield">משוריין</span>':''}</div><div class="vplate">${v.plate}</div></div>${st}</div>
+    <div class="vstats">
+      <div class="vstat"><span class="l">ק"מ נוכחי</span><span class="v">${v.km.toLocaleString()}</span></div>
+      <div class="vstat"><span class="l">תוקף טסט</span><span class="v">${v.test}</span></div>
+    </div>
+    <div>
+      <div style="display:flex;justify-content:space-between;font-size:11.5px;color:var(--mut);margin-bottom:4px">
+        <span>ק"מ נותר לטיפול</span><b class="num" style="color:${col}">${v.svc.toLocaleString()}</b></div>
+      <div class="vbar"><i style="width:${pct}%;background:${col}"></i></div>
+    </div>
+    <div class="vfoot"><span>${v.loc}</span>${v.warn?`<span class="chip c-red">🔔 ${v.warn}</span>`:''}</div>
+    </div>`}).join('');
+}
+function openTask(id){
+  const t=TASKS.find(x=>x.id===id)||TASKS[0];
+  const steps=[
+    {n:'שיבוץ אושר ע"י הנהג',s:'אתמול · 21:14',done:1},
+    {n:'התחלת משימה',s:`${t.s||'—'} · ק"מ 99,218 · מיקום: ראשל"צ`,done:!!t.s},
+    {n:'הסרת אחריות',s:t.rel?`${t.rel} · מיקום: כנסת ישראל`:'טרם דווח',done:!!t.rel},
+    {n:'סיום משימה',s:t.e?`${t.e} · ק"מ ${(99218+t.km).toLocaleString()}`:'טרם דווח',done:!!t.e},
+  ];
+  const curIdx=steps.findIndex(s=>!s.done);
+  $('#drawer').innerHTML=`
+  <div class="dr-head"><div><h3>${t.name}</h3><div class="tsub">${t.client} · ${t.day} ${t.date}</div></div>
+  <button class="x" onclick="closeDrawer()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div>
+  <div class="dr-body">
+    <div>${stChip(t.st)}</div>
+    <div class="dr-grid">
+      <div class="dr-item"><span class="l">נהג</span><span class="v">${t.drv}</span></div>
+      <div class="dr-item"><span class="l">רכב</span><span class="v">${t.veh||'מנהלתית'}</span></div>
+      <div class="dr-item"><span class="l">סה"כ שעות</span><span class="v num">${t.h||'—'}</span></div>
+      <div class="dr-item"><span class="l">סה"כ ק"מ</span><span class="v num" style="${t.km>200?'color:var(--red)':''}">${t.km||'—'}</span></div>
+    </div>
+    <div><h3 style="font-size:14px;margin-bottom:12px">מהלך המשימה</h3>
+    <div class="steps">${steps.map((s,i)=>`<div class="step ${s.done?'done':''} ${i===curIdx?'cur':''}">
+      <div class="step-dot">${s.done?'<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><path d="M5 13l4 4L19 7"/></svg>':''}</div>
+      <div><b>${s.n}</b><span class="num">${s.s}</span></div></div>`).join('')}</div></div>
+  </div>
+  <div class="dr-foot">
+    <button class="btn btn-gho" onclick="toast('עריכת משימה (דמו)')">עריכה</button>
+    <button class="btn btn-gho" onclick="toast('הודעה נשלחה לנהג (דמו)')">הודעה לנהג</button>
+    <button class="btn btn-pri" onclick="toast('שכפול משימה (דמו)')">שכפול</button>
+  </div>`;
+  $('#drawer').classList.add('open');$('#scrim').classList.add('open');
+}
+function closeDrawer(){$('#drawer').classList.remove('open');$('#scrim').classList.remove('open')}
+document.querySelectorAll('#nav button[data-v],#mnav button[data-v]').forEach(b=>b.onclick=()=>go(b.dataset.v));
+go('home');
+</script>
+</body>
+</html>
