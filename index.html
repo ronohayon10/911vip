@@ -108,6 +108,7 @@ body.railc .nav button.on:hover .lbl::after{background:var(--lime);border-color:
 .btn-pri:hover{box-shadow:0 6px 18px -6px rgba(14,15,17,.4)}
 .btn-gho{background:var(--card);border:1px solid var(--line2)}
 .btn-gho:hover{border-color:var(--ink2)}
+.btn-ico{width:38px;height:38px;padding:0;justify-content:center;font-size:17px;font-weight:700;border-radius:50%}
 
 /* ---------- Cards / chips ---------- */
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
@@ -240,20 +241,212 @@ body.railc .nav button.on:hover .lbl::after{background:var(--lime);border-color:
   padding:10px 12px;display:flex;flex-direction:column;justify-content:center;gap:1px;
 }
 .wk-veh b{font-size:13px;font-weight:700;display:flex;align-items:center;gap:5px;white-space:nowrap}
-.wk-veh span{font-size:11px;color:var(--mut);display:block;width:0;min-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wk-veh span{font-size:11px;color:var(--mut);width:0;min-width:100%;white-space:normal;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .sh-ic{width:12px;height:12px;flex:none;color:var(--ink2)}
 .wk-veh .vshield{font-size:9.5px;padding:1px 5px}
 .wk-corner{position:sticky;top:0;inset-inline-start:0;z-index:6;background:var(--card);display:flex;align-items:center;padding:0 10px}
 .wk-corner input{border:none;outline:none;background:none;flex:1;width:0;min-width:0;font-size:13px}
-.wk-cell{padding:5px;display:flex;flex-direction:column;gap:4px;min-height:54px;position:relative;transition:background .12s}
+.wk-cell{padding:5px;display:flex;flex-direction:column;gap:4px;min-height:62px;position:relative;transition:background .12s}
 .wk-cell.today-col{background:#F2F8FD}
+.wk-cell.past{
+  background-image:repeating-linear-gradient(45deg,transparent 0 7px,rgba(14,15,17,.028) 7px 8px);
+}
+.wk-cell.past:hover{background-color:inherit}
 .wk-cell:hover{background:#FAF5EC}
 .wk-task{
   border-radius:8px;padding:6px 9px;background:#F4F5EF;border:1px solid var(--line);
   border-inline-start:3px solid var(--ink);cursor:pointer;transition:transform .1s,box-shadow .12s;
 }
 .wk-task:hover{transform:translateY(-1px);box-shadow:var(--shadow)}
-.wk-task{user-select:none;-webkit-user-select:none;cursor:grab}
+.wk-task{user-select:none;-webkit-user-select:none;cursor:grab;position:relative}
+/* --- מצב בחירה מרובה --- */
+.wk-task .ck{
+  display:none;position:absolute;top:5px;inset-inline-end:5px;width:16px;height:16px;
+  border:1.5px solid var(--line2);border-radius:5px;background:#fff;place-items:center;color:#fff;z-index:2;
+}
+body.selmode .wk-task .ck{display:grid}
+body.selmode .wk-task{cursor:pointer;padding-inline-end:24px}
+body.selmode .wk-add{display:none}
+.done-b{
+  position:absolute;top:4px;inset-inline-end:5px;color:var(--green);
+  display:grid;place-items:center;z-index:2;line-height:0;
+}
+.wk-task.mini .done-b{top:3px;inset-inline-end:4px}
+.wk-task.is-done{cursor:default}
+.wk-task.is-done:hover{transform:none;box-shadow:none}
+body.selmode .done-b{display:none}
+.wk-task.sel{box-shadow:0 0 0 2px var(--lime);background:#FFF3E2}
+.wk-task.sel .ck{background:var(--lime);border-color:var(--lime)}
+.btn-gho.on-sel{background:var(--ink);color:var(--lime);border-color:var(--ink)}
+.drag-ghost span.gbadge{
+  position:absolute;top:-9px;inset-inline-start:-9px;width:23px;height:23px;border-radius:50%;
+  background:var(--lime);color:var(--lime-ink);display:grid;place-items:center;
+  font-size:11.5px;font-weight:800;line-height:1;text-align:center;
+  box-shadow:0 3px 10px rgba(0,0,0,.3);
+}
+.dp{
+  position:fixed;z-index:82;display:none;width:272px;
+  background:var(--card);border:1px solid var(--line);border-radius:15px;
+  box-shadow:0 22px 60px rgba(14,15,17,.28);padding:13px;
+}
+.dp.open{display:block;animation:fade .15s ease}
+.dp-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px}
+.dp-head b{font-size:14px;font-weight:700}
+.dp-nav{width:29px;height:29px;border-radius:9px;background:var(--paper);font-size:16px;font-weight:700;color:var(--ink2);display:grid;place-items:center}
+.dp-nav:hover{background:var(--line)}
+.dp-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.dp-dow{text-align:center;font-size:10.5px;color:var(--mut);font-weight:700;padding:4px 0}
+.dp-day{
+  height:32px;border-radius:9px;display:grid;place-items:center;
+  font-size:12.5px;font-weight:600;font-variant-numeric:tabular-nums;transition:background .1s;
+}
+.dp-day:hover{background:var(--paper)}
+.dp-day.other{color:var(--line2)}
+.dp-day.today{box-shadow:inset 0 0 0 1.5px var(--lime);color:var(--ink)}
+.dp-day.selected{background:var(--ink);color:var(--lime)}
+.dp-day.shabat{color:var(--mut)}
+.dp-day.selected.shabat{color:var(--lime)}
+.dp-today{
+  margin-top:9px;width:100%;background:var(--paper);border:1px solid var(--line2);
+  border-radius:999px;padding:7px;font-size:12.5px;font-weight:700;color:var(--ink2);
+}
+.dp-today:hover{border-color:var(--ink2);color:var(--ink)}
+.confirm{
+  position:fixed;bottom:152px;left:50%;transform:translateX(-50%) translateY(12px);
+  opacity:0;pointer-events:none;transition:opacity .2s,transform .24s;z-index:74;
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:center;
+  background:var(--card);border:1px solid var(--line);border-radius:15px;
+  box-shadow:0 20px 54px rgba(14,15,17,.3);padding:13px 17px;max-width:min(560px,94vw);
+}
+.confirm.show{opacity:1;transform:translateX(-50%);pointer-events:auto}
+.cf-ic{width:34px;height:34px;border-radius:10px;background:var(--violet-bg);color:var(--violet);display:grid;place-items:center;font-size:17px;font-weight:800;flex:none}
+.cf-body{flex:1;min-width:200px}
+.cf-body b{display:block;font-size:13.5px}
+.cf-body span{font-size:12.5px;color:var(--mut)}
+.cf-btns{display:flex;gap:7px}
+.cf-yes{background:var(--ink);color:var(--lime);border-radius:999px;padding:8px 16px;font-size:13px;font-weight:700}
+.cf-no{background:var(--paper);border:1px solid var(--line2);border-radius:999px;padding:8px 14px;font-size:13px;font-weight:600;color:var(--ink2)}
+@media (max-width:768px){.dp{
+  position:fixed;z-index:82;display:none;width:272px;
+  background:var(--card);border:1px solid var(--line);border-radius:15px;
+  box-shadow:0 22px 60px rgba(14,15,17,.28);padding:13px;
+}
+.dp.open{display:block;animation:fade .15s ease}
+.dp-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px}
+.dp-head b{font-size:14px;font-weight:700}
+.dp-nav{width:29px;height:29px;border-radius:9px;background:var(--paper);font-size:16px;font-weight:700;color:var(--ink2);display:grid;place-items:center}
+.dp-nav:hover{background:var(--line)}
+.dp-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.dp-dow{text-align:center;font-size:10.5px;color:var(--mut);font-weight:700;padding:4px 0}
+.dp-day{
+  height:32px;border-radius:9px;display:grid;place-items:center;
+  font-size:12.5px;font-weight:600;font-variant-numeric:tabular-nums;transition:background .1s;
+}
+.dp-day:hover{background:var(--paper)}
+.dp-day.other{color:var(--line2)}
+.dp-day.today{box-shadow:inset 0 0 0 1.5px var(--lime);color:var(--ink)}
+.dp-day.selected{background:var(--ink);color:var(--lime)}
+.dp-day.shabat{color:var(--mut)}
+.dp-day.selected.shabat{color:var(--lime)}
+.dp-today{
+  margin-top:9px;width:100%;background:var(--paper);border:1px solid var(--line2);
+  border-radius:999px;padding:7px;font-size:12.5px;font-weight:700;color:var(--ink2);
+}
+.dp-today:hover{border-color:var(--ink2);color:var(--ink)}
+.confirm{bottom:calc(218px + env(safe-area-inset-bottom))}.toast{bottom:calc(152px + env(safe-area-inset-bottom))}}
+.selbar{
+  position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(14px);
+  opacity:0;pointer-events:none;transition:opacity .18s,transform .22s;
+  display:flex;align-items:center;gap:5px;flex-wrap:wrap;justify-content:center;
+  background:var(--ink);color:#F2F2EE;padding:8px 10px;border-radius:17px;z-index:72;
+  box-shadow:0 18px 50px rgba(14,15,17,.4);max-width:94vw;
+}
+.selbar.show{opacity:1;transform:translateX(-50%);pointer-events:auto}
+.selbar>b{font-size:13px;padding:0 9px;white-space:nowrap}
+.selbar button{background:rgba(255,255,255,.11);border-radius:999px;padding:7px 14px;font-size:13px;font-weight:600;color:#fff;white-space:nowrap}
+.selbar button:hover{background:rgba(255,255,255,.2)}
+.selbar .danger{background:rgba(214,69,69,.28);color:#FFB6B6}
+.selbar .ghost{background:transparent;color:#B9BCB4}
+.sb-wrap{position:relative}
+.sb-menu{
+  position:absolute;bottom:calc(100% + 12px);inset-inline-start:50%;transform:translateX(50%);
+  background:var(--card);color:var(--ink);border-radius:13px;border:1px solid var(--line);
+  box-shadow:0 16px 44px rgba(14,15,17,.3);min-width:178px;max-height:250px;overflow:auto;display:none;padding:5px;
+}
+.sb-menu.open{display:block}
+.sb-menu button{display:block;width:100%;text-align:start;background:none;color:var(--ink);padding:8px 12px;border-radius:8px;font-size:13px;font-weight:500}
+.sb-menu button:hover{background:var(--paper)}
+@media (max-width:768px){.dp{
+  position:fixed;z-index:82;display:none;width:272px;
+  background:var(--card);border:1px solid var(--line);border-radius:15px;
+  box-shadow:0 22px 60px rgba(14,15,17,.28);padding:13px;
+}
+.dp.open{display:block;animation:fade .15s ease}
+.dp-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px}
+.dp-head b{font-size:14px;font-weight:700}
+.dp-nav{width:29px;height:29px;border-radius:9px;background:var(--paper);font-size:16px;font-weight:700;color:var(--ink2);display:grid;place-items:center}
+.dp-nav:hover{background:var(--line)}
+.dp-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.dp-dow{text-align:center;font-size:10.5px;color:var(--mut);font-weight:700;padding:4px 0}
+.dp-day{
+  height:32px;border-radius:9px;display:grid;place-items:center;
+  font-size:12.5px;font-weight:600;font-variant-numeric:tabular-nums;transition:background .1s;
+}
+.dp-day:hover{background:var(--paper)}
+.dp-day.other{color:var(--line2)}
+.dp-day.today{box-shadow:inset 0 0 0 1.5px var(--lime);color:var(--ink)}
+.dp-day.selected{background:var(--ink);color:var(--lime)}
+.dp-day.shabat{color:var(--mut)}
+.dp-day.selected.shabat{color:var(--lime)}
+.dp-today{
+  margin-top:9px;width:100%;background:var(--paper);border:1px solid var(--line2);
+  border-radius:999px;padding:7px;font-size:12.5px;font-weight:700;color:var(--ink2);
+}
+.dp-today:hover{border-color:var(--ink2);color:var(--ink)}
+.confirm{
+  position:fixed;bottom:152px;left:50%;transform:translateX(-50%) translateY(12px);
+  opacity:0;pointer-events:none;transition:opacity .2s,transform .24s;z-index:74;
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:center;
+  background:var(--card);border:1px solid var(--line);border-radius:15px;
+  box-shadow:0 20px 54px rgba(14,15,17,.3);padding:13px 17px;max-width:min(560px,94vw);
+}
+.confirm.show{opacity:1;transform:translateX(-50%);pointer-events:auto}
+.cf-ic{width:34px;height:34px;border-radius:10px;background:var(--violet-bg);color:var(--violet);display:grid;place-items:center;font-size:17px;font-weight:800;flex:none}
+.cf-body{flex:1;min-width:200px}
+.cf-body b{display:block;font-size:13.5px}
+.cf-body span{font-size:12.5px;color:var(--mut)}
+.cf-btns{display:flex;gap:7px}
+.cf-yes{background:var(--ink);color:var(--lime);border-radius:999px;padding:8px 16px;font-size:13px;font-weight:700}
+.cf-no{background:var(--paper);border:1px solid var(--line2);border-radius:999px;padding:8px 14px;font-size:13px;font-weight:600;color:var(--ink2)}
+@media (max-width:768px){.dp{
+  position:fixed;z-index:82;display:none;width:272px;
+  background:var(--card);border:1px solid var(--line);border-radius:15px;
+  box-shadow:0 22px 60px rgba(14,15,17,.28);padding:13px;
+}
+.dp.open{display:block;animation:fade .15s ease}
+.dp-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px}
+.dp-head b{font-size:14px;font-weight:700}
+.dp-nav{width:29px;height:29px;border-radius:9px;background:var(--paper);font-size:16px;font-weight:700;color:var(--ink2);display:grid;place-items:center}
+.dp-nav:hover{background:var(--line)}
+.dp-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.dp-dow{text-align:center;font-size:10.5px;color:var(--mut);font-weight:700;padding:4px 0}
+.dp-day{
+  height:32px;border-radius:9px;display:grid;place-items:center;
+  font-size:12.5px;font-weight:600;font-variant-numeric:tabular-nums;transition:background .1s;
+}
+.dp-day:hover{background:var(--paper)}
+.dp-day.other{color:var(--line2)}
+.dp-day.today{box-shadow:inset 0 0 0 1.5px var(--lime);color:var(--ink)}
+.dp-day.selected{background:var(--ink);color:var(--lime)}
+.dp-day.shabat{color:var(--mut)}
+.dp-day.selected.shabat{color:var(--lime)}
+.dp-today{
+  margin-top:9px;width:100%;background:var(--paper);border:1px solid var(--line2);
+  border-radius:999px;padding:7px;font-size:12.5px;font-weight:700;color:var(--ink2);
+}
+.dp-today:hover{border-color:var(--ink2);color:var(--ink)}
+.confirm{bottom:calc(218px + env(safe-area-inset-bottom))}.toast{bottom:calc(152px + env(safe-area-inset-bottom))}}
+.selbar{bottom:calc(80px + env(safe-area-inset-bottom))}}
 .wk-task.dragging{opacity:.3;cursor:grabbing}
 .wk-cell.drop-on{background:#FFF3E2!important;box-shadow:inset 0 0 0 2px var(--lime);border-radius:6px}
 .drag-ghost{
@@ -267,12 +460,25 @@ body.dragging-now .wk-wrap{overscroll-behavior:none}
 .wk-task span{display:block;font-size:10.5px;color:var(--mut)}
 .wk-task.live{background:var(--green-bg);border-color:var(--green);border-inline-start-color:var(--green)}
 .wk-task.live b{color:var(--green)}
+.wk-task.mini{padding:3px 8px}
+.wk-task.mini b{font-size:10.5px;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+.wk-task.mini span:not(.ck){display:none}
+.wk-more{
+  align-self:center;font-size:10px;font-weight:700;color:var(--mut);
+  border:1px dashed var(--line2);border-radius:99px;padding:1px 9px;background:var(--card);
+}
+.wk-more:hover{color:var(--ink);border-color:var(--ink)}
 .wk-task.self{background:#FBF6DC;border-color:#EFE3AC;border-inline-start-color:var(--amber)}
 .wk-task.admin{border-inline-start-color:var(--violet)}
 .wk-add{
   margin:auto;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;
   color:var(--line2);border:1.5px dashed currentColor;font-size:0;transition:all .12s;flex:none;
 }
+/* כשיש כבר משימה בתא — ה-+ הופך לשכבת ריחוף קטנה בפינה ולא מוסיף גובה */
+.wk-task~.wk-add{
+  position:absolute;bottom:4px;inset-inline-start:4px;margin:0;width:19px;height:19px;opacity:0;
+}
+.wk-cell:hover .wk-task~.wk-add{opacity:1}
 .wk-cell:hover .wk-add{color:var(--green)}
 .wk-add:hover{background:var(--green);border-style:solid;color:#fff!important}
 .wk-add svg{width:12px;height:12px}
@@ -301,7 +507,13 @@ body.dragging-now .wk-wrap{overscroll-behavior:none}
   border:1px solid var(--line2);border-radius:999px;padding:4px 11px;background:var(--card);
 }
 .side-x:hover{color:var(--ink);border-color:var(--ink2)}
-.side{display:flex;flex-direction:column;gap:12px;position:sticky;top:14px;max-height:calc(100dvh - 28px);overflow-y:auto;padding-bottom:4px}
+.side{
+  display:flex;flex-direction:column;gap:12px;position:relative;
+  overflow-y:auto;overscroll-behavior:contain;padding-bottom:4px;
+  scrollbar-width:thin;scrollbar-color:var(--line2) transparent;
+}
+.side::-webkit-scrollbar{width:5px}
+.side::-webkit-scrollbar-thumb{background:var(--line2);border-radius:99px}
 .sp{padding:14px 16px}
 .sp h3{font-size:13.5px;font-weight:700;margin-bottom:11px;display:flex;align-items:center;justify-content:space-between;gap:8px}
 .sp h3 .chip{font-size:10.5px;padding:1.5px 8px}
@@ -404,11 +616,14 @@ html[dir="rtl"] .drawer{transform:translateX(-100%)}
 
 /* ---------- Toast ---------- */
 .toast{
-  position:fixed;bottom:calc(86px + env(safe-area-inset-bottom));inset-inline:0;margin:auto;width:fit-content;max-width:90%;
+  position:fixed;bottom:88px;inset-inline:0;margin:auto;width:fit-content;max-width:90%;
   background:var(--ink);color:#fff;padding:11px 20px;border-radius:999px;font-size:13.5px;font-weight:600;
   z-index:80;opacity:0;transform:translateY(10px);transition:all .25s;pointer-events:none;display:flex;gap:8px;align-items:center;
 }
-.toast.show{opacity:1;transform:none}
+.toast.show{opacity:1;transform:none;pointer-events:auto}
+.toast-btn{display:none;background:var(--lime);color:var(--lime-ink);border-radius:999px;padding:4px 14px;font-size:12.5px;font-weight:700;margin-inline-start:4px}
+.toast-btn.show{display:inline-block}
+.pn-ic{display:inline-flex;margin-inline-start:4px;color:var(--amber);vertical-align:-2px;animation:pulse 1.8s infinite}
 .toast .dot{background:var(--lime)}
 
 /* ---------- Mobile nav ---------- */
@@ -510,7 +725,7 @@ html[dir="rtl"] .drawer{transform:translateX(-100%)}
     </button>
     <div class="spacer"></div>
     <button class="ntg" onclick="toggleRail()">
-      <svg class="tg-ic" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 17l-5-5 5-5M18 17l-5-5 5-5"/></svg>
+      <svg class="tg-ic" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 17l5-5-5-5M6 17l5-5-5-5"/></svg>
       <span class="lbl"><span class="t-col">כווץ תפריט</span><span class="t-exp">הרחב תפריט</span></span>
     </button>
   </nav>
@@ -536,7 +751,37 @@ html[dir="rtl"] .drawer{transform:translateX(-100%)}
 
 <div class="scrim" id="scrim" onclick="closeDrawer()"></div>
 <aside class="drawer" id="drawer"></aside>
-<div class="toast" id="toast"><span class="dot"></span><span id="toastTxt"></span></div>
+<div class="dp" id="dp">
+  <div class="dp-head">
+    <button class="dp-nav" onclick="dpNav(-1)">‹</button>
+    <b id="dpTitle"></b>
+    <button class="dp-nav" onclick="dpNav(1)">›</button>
+  </div>
+  <div class="dp-grid" id="dpGrid"></div>
+  <button class="dp-today" onclick="dpPick('2026-06-11')">היום</button>
+</div>
+<div class="confirm" id="confirm">
+  <div class="cf-ic">⟳</div>
+  <div class="cf-body"><b id="cfTitle"></b><span id="cfQ"></span></div>
+  <div class="cf-btns">
+    <button class="cf-yes" id="cfYes">החל גם</button>
+    <button class="cf-no" onclick="hideConfirm()">לא, רק מה שסומן</button>
+  </div>
+</div>
+<div class="selbar" id="selbar">
+  <b><span id="selN">0</span> משימות נבחרו</b>
+  <div class="sb-wrap">
+    <button onclick="openSelMenu('drv',event)">👤 שיבוץ נהג</button>
+    <div class="sb-menu" id="menu-drv"></div>
+  </div>
+  <div class="sb-wrap">
+    <button onclick="openSelMenu('veh',event)">🚙 שיבוץ רכב</button>
+    <div class="sb-menu" id="menu-veh"></div>
+  </div>
+  <button class="danger" onclick="bulkDelete()">🗑 מחיקה</button>
+  <button class="ghost" onclick="toggleSelMode()">סיום</button>
+</div>
+<div class="toast" id="toast"><span class="dot"></span><span id="toastTxt"></span><button class="toast-btn" id="toastBtn"></button></div>
 
 <script>
 /* ================= DEMO DATA ================= */
@@ -629,7 +874,7 @@ const WEEK=[
  {v:'קאדילק משוריין 004',loc:'הר חוצבים',arm:1,c:{3:[{n:'בית הנשיא',drv:'שבי מזרחי'}],5:[{n:'ביסמוט',drv:'שבי מזרחי'}]}},
  {v:'סברבן משוריין 904',loc:'המצור ירושלים',arm:1,c:{}},
  {v:'סברבן משוריין 603',loc:'ראשל"צ ויקטורי',arm:1,c:{1:[{n:'בית הנשיא',drv:'טירן שרון'}],3:[{n:'בית הנשיא',drv:'טירן שרון'}],4:[{n:'צבי סוכות',drv:'טירן שרון',cls:'live'}],6:[{n:'איגור',drv:'אופיר אוחיון'}]}},
- {v:'סברבן משוריין 203',loc:'קדר',arm:1,c:{0:[{n:'עליה וקליטה',drv:'עמיר אלוני'},{n:'חדשות 13',drv:'עמיר אלוני'}],1:[{n:'בית הנשיא',drv:'איתן אוחיון'}],3:[{n:'תחבורה',drv:'איתן אוחיון'}]}},
+ {v:'סברבן משוריין 203',loc:'קדר',arm:1,c:{0:[{n:'עליה וקליטה',drv:'עמיר אלוני'},{n:'חדשות 13',drv:'עמיר אלוני'},{n:'איסוף שגריר',drv:'עמיר אלוני'}],1:[{n:'בית הנשיא',drv:'איתן אוחיון'}],3:[{n:'תחבורה',drv:'איתן אוחיון'}]}},
  {v:'טאהו משוריין 303',loc:'רון ויקטורי',arm:1,c:{}},
  {v:'סילברדו משוריין 503',loc:'פיק"א 44',arm:1,c:{}},
  {v:'סילברדו משוריין 801',loc:'הכרכום 11, מעלה אדומים',arm:1,c:{0:[{n:'מחצבות',drv:'בר בנימין'}]}},
@@ -639,7 +884,7 @@ const WEEK=[
  {v:'טאהו רך 703',loc:'החומה מעלה אדומים',arm:0,c:{1:[{n:'כ.ד נהיגה עצמית',cls:'self'}],2:[{n:'כ.ד נהיגה עצמית',cls:'self'}],3:[{n:'כ.ד נהיגה עצמית',cls:'self'}]}},
  {v:'סברבן רך 803',loc:'מבשרת - אליאב',arm:0,c:{}},
  {v:'קאדילק רך 403',loc:'מוסך רחובות',arm:0,c:{0:[{n:'טום ניידס',drv:'אופיר אוחיון'}],1:[{n:'טום ניידס',drv:'אופיר אוחיון'}]}},
- {v:'קאדילק אסקלייד V',loc:'קידר',arm:0,c:{}},
+ {v:'קאדילק אסקלייד V',loc:'קידר',arm:0,c:{4:[{n:'איגור',drv:'שאול בנימין',sid:'igor'}],5:[{n:'איגור',drv:'שאול בנימין',sid:'igor'}],6:[{n:'איגור',drv:'שאול בנימין',sid:'igor'}]}},
  {v:'סברבן משוריין 803',loc:'',arm:1,c:{0:[{n:'81',cls:'self'}],1:[{n:'81',cls:'self'}],2:[{n:'81',cls:'self'}],3:[{n:'81',cls:'self'}],4:[{n:'81',cls:'self'}],5:[{n:'81',cls:'self'}],6:[{n:'81',cls:'self'}]}},
  {v:'משימת נהיגה',loc:'',arm:0,c:{3:[{n:'תפוצות',drv:'דוד יעקב',cls:'admin'}],4:[{n:'תפוצות',drv:'דוד יעקב',cls:'admin'}]}},
 ];
@@ -672,18 +917,81 @@ const stChip=s=>({live:'<span class="chip c-green"><span class="dot pulse"></spa
   done:'<span class="chip c-mut">בוצע</span>',
   pend:'<span class="chip c-amber"><span class="dot"></span>ממתינה</span>',
   cancel:'<span class="chip c-red">בוטלה</span>'}[s]||'');
-function toast(t){$('#toastTxt').textContent=t;$('#toast').classList.add('show');clearTimeout(window._tt);window._tt=setTimeout(()=>$('#toast').classList.remove('show'),2400)}
+function toast(t,ms=2400){$('#toastBtn').classList.remove('show');$('#toastTxt').textContent=t;$('#toast').classList.add('show');clearTimeout(window._tt);window._tt=setTimeout(()=>$('#toast').classList.remove('show'),ms)}
+function toastA(t,btn,fn,ms=7000){
+  toast(t,ms);
+  const b=$('#toastBtn');b.textContent=btn;b.classList.add('show');
+  b.onclick=()=>{fn();};
+}
 
 /* ================= VIEWS ================= */
 const views={};
 
 let SIDE_OPEN=window.innerWidth>=1500;
 function toggleRail(){document.body.classList.toggle('railc')}
+/* הווידג'טים בצד לא חורגים מגובה היומן; אם התוכן ארוך — "הצג עוד" */
+function syncSideHeight(){
+  const grid=document.getElementById('homeGrid');if(!grid)return;
+  const wrap=grid.querySelector('.wk-wrap'),side=grid.querySelector('.side');
+  if(!wrap||!side)return;
+  if(window.innerWidth<=1180){side.style.maxHeight='';return}
+  /* תחתית הווידג'טים = בדיוק תחתית טבלת היומן */
+  const h=wrap.getBoundingClientRect().bottom-side.getBoundingClientRect().top;
+  side.style.maxHeight=Math.max(220,h)+'px';
+}
+window.addEventListener('resize',()=>syncSideHeight());
+/* ---- לוח שנה מותאם למעבר לתאריך ---- */
+const DPS={y:2026,m:5,sel:'2026-06-11'}; // m: 0-based
+function toggleDP(e){
+  e.stopPropagation();
+  const dp=$('#dp');
+  if(dp.classList.contains('open')){dp.classList.remove('open');return}
+  dpRender();
+  const r=e.currentTarget.getBoundingClientRect();
+  if(window.innerWidth<480){
+    dp.style.left='50%';dp.style.transform='translateX(-50%)';
+  }else{
+    dp.style.transform='';
+    dp.style.left=Math.max(8,Math.min(r.left,window.innerWidth-286))+'px';
+  }
+  dp.style.top=Math.min(r.bottom+8,window.innerHeight-380)+'px';
+  dp.classList.add('open');
+}
+document.addEventListener('click',e=>{if(!e.target.closest('#dp')&&!e.target.closest('#dpBtn'))$('#dp')?.classList.remove('open')});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')$('#dp')?.classList.remove('open')});
+function dpNav(d){DPS.m+=d;if(DPS.m<0){DPS.m=11;DPS.y--}if(DPS.m>11){DPS.m=0;DPS.y++}dpRender()}
+function dpRender(){
+  $('#dpTitle').textContent=new Date(DPS.y,DPS.m,1).toLocaleDateString('he-IL',{month:'long',year:'numeric'});
+  const dows=['א','ב','ג','ד','ה','ו','ש'];
+  const first=new Date(DPS.y,DPS.m,1).getDay();           // 0=ראשון
+  const days=new Date(DPS.y,DPS.m+1,0).getDate();
+  const prevDays=new Date(DPS.y,DPS.m,0).getDate();
+  let cells=dows.map(d=>`<div class="dp-dow">${d}</div>`).join('');
+  const iso=(y,m,d)=>`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+  for(let i=first-1;i>=0;i--)cells+=`<div class="dp-day other">${prevDays-i}</div>`;
+  for(let d=1;d<=days;d++){
+    const v=iso(DPS.y,DPS.m,d);
+    const dow=new Date(DPS.y,DPS.m,d).getDay();
+    const cls=['dp-day',v==='2026-06-11'?'today':'',v===DPS.sel?'selected':'',dow===6?'shabat':''].join(' ');
+    cells+=`<div class="${cls}" onclick="dpPick('${v}')">${d}</div>`;
+  }
+  const used=first+days;
+  for(let d=1;d<=(7-used%7)%7;d++)cells+=`<div class="dp-day other">${d}</div>`;
+  $('#dpGrid').innerHTML=cells;
+}
+function dpPick(v){
+  DPS.sel=v;
+  const d=new Date(v+'T00:00:00');
+  DPS.y=d.getFullYear();DPS.m=d.getMonth();
+  $('#dp').classList.remove('open');
+  toast('מעבר לשבוע של '+d.toLocaleDateString('he-IL',{weekday:'long',day:'numeric',month:'long',year:'numeric'})+' (דמו)');
+}
 if(window.innerWidth>768)document.body.classList.add('railc');
 function toggleSide(open){
   SIDE_OPEN=open;
   const g=document.getElementById('homeGrid');
   if(g)g.classList.toggle('collapsed',!SIDE_OPEN);
+  requestAnimationFrame(syncSideHeight);
 }
 const svcCol=r=>r<0?'var(--red)':r<1000?'#C2590B':'var(--amber)';
 const svcPct=r=>r<=0?100:Math.max(6,Math.min(100,(3000-r)/3000*100));
@@ -691,16 +999,19 @@ const docCol=d=>d<=0?'var(--red)':d<=10?'#C2590B':'var(--amber)';
 const docPct=d=>Math.max(6,Math.min(100,(30-d)/30*100));
 
 views.home=()=>`
-<div class="topbar">
-  <div><h1>יומן נסיעות</h1><div class="sub">יוני 07 – יוני 13, 2026 · 4 משימות היום · 1 פעילה כרגע</div></div>
-  <div class="actions">
-    <button class="btn btn-gho" onclick="toast('מעבר שבוע (דמו)')">‹ &nbsp;שבוע&nbsp; ›</button>
-    <button class="btn btn-gho" onclick="toast('קפיצה להיום')">היום</button>
-    <button class="btn btn-pri" onclick="toast('כאן ייפתח טופס משימה חדשה')">+ משימה חדשה</button>
-  </div>
-</div>
 <div class="home-grid ${SIDE_OPEN?"":"collapsed"}" id="homeGrid">
 <div>
+  <div class="topbar">
+    <div><h1>יומן נסיעות</h1><div class="sub">יוני 07 – יוני 13, 2026 · 4 משימות היום · 1 פעילה כרגע</div></div>
+    <div class="actions">
+      <button class="btn btn-gho btn-ico" title="שבוע אחורה" onclick="toast('שבוע קודם: 31/05 – 06/06 (דמו)')">‹</button>
+      <button class="btn btn-gho btn-ico" title="שבוע קדימה" onclick="toast('השבוע הבא: 14/06 – 20/06 (דמו)')">›</button>
+      <button class="btn btn-gho" onclick="toast('קפיצה להיום')">היום</button>
+      <button class="btn btn-gho" id="dpBtn" onclick="toggleDP(event)">📅 מעבר לתאריך</button>
+      <button class="btn btn-gho ${SEL_MODE?'on-sel':''}" id="selModeBtn" onclick="toggleSelMode()">☑ בחירה</button>
+      <button class="btn btn-pri" onclick="toast('כאן ייפתח טופס משימה חדשה')">+ משימה חדשה</button>
+    </div>
+  </div>
   <div class="card wk-wrap"><div class="wk" id="wk">
     <div class="wk-corner">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--mut)" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
@@ -710,10 +1021,9 @@ views.home=()=>`
     <div id="wkrows" style="display:contents"></div>
   </div></div>
   <div class="wk-legend">
-    <span><i style="background:var(--green)"></i>בנסיעה עכשיו</span>
-    <span><i style="background:var(--ink)"></i>משימה משובצת</span>
-    <span><i style="background:var(--amber)"></i>נהיגה עצמית / כ.ד</span>
-    <span><i style="background:var(--violet)"></i>מנהלתית</span>
+    <span><i style="background:var(--green)"></i>נסיעה פעילה</span>
+    <span><i style="background:var(--amber)"></i>נהיגה עצמית</span>
+    <span><i style="background:var(--violet)"></i>נסיעה מנהלתית</span>
   </div>
 </div>
 
@@ -736,7 +1046,6 @@ views.home=()=>`
       <div class="ava">${d.n.split(' ').map(w=>w[0]).join('')}</div>
       <b>${d.n}</b>
       ${d.av==='p'?`<span class="chip c-violet">${d.note}</span>`:'<span class="chip c-green">זמין</span>'}
-      <button class="un-asn" onclick="toast('שיבוץ ${d.n} — בחר משימה (דמו)')">שבץ</button>
     </div>`).join('')}
   </div>
 
@@ -902,12 +1211,13 @@ views.pay=()=>{
 function go(v){
   document.querySelectorAll('#nav button[data-v],#mnav button[data-v]').forEach(b=>b.classList.toggle('on',b.dataset.v===v));
   $('#main').innerHTML=`<div class="view on">${views[v]()}</div>`;
-  if(v==='home')renderWeek('');
+  if(v==='home'){renderWeek('');requestAnimationFrame(syncSideHeight);}
   if(v==='tasks')renderTasks('');
   if(v==='vehicles')renderVeh('');
   window.scrollTo({top:0});$('#main').scrollTo({top:0});
 }
 let WKQ='';
+const WK_EXP=new Set();
 function renderWeek(q){
   WKQ=q=(q||'').trim();
   const todayIdx=WK_DAYS.findIndex(d=>d.cls==='today');
@@ -915,22 +1225,151 @@ function renderWeek(q){
     const SH='<svg class="sh-ic" viewBox="0 0 24 24" fill="currentColor" aria-label="משוריין"><path d="M12 2l8 3v6c0 5-3.4 9.4-8 11-4.6-1.6-8-6-8-11V5z"/></svg>';
     const veh=`<div class="wk-veh"><b>${r.arm?SH:''}${r.v.replace(' משוריין','')}</b>${r.loc?`<span>${r.loc}</span>`:''}</div>`;
     const cells=WK_DAYS.map((d,i)=>{
-      const items=(r.c[i]||[]).map((t,si)=>`<div class="wk-task ${t.cls||''}" data-ri="${ri}" data-di="${i}" data-si="${si}" onclick="event.stopPropagation();if(!DND.moved)openTask(${t.cls==='live'?1:3})">
-        <b>${t.n}</b>${t.drv?`<span>${t.drv}</span>`:''}</div>`).join('');
-      return`<div class="wk-cell ${i===todayIdx?'today-col':''}" data-ri="${ri}" data-di="${i}" onclick="toast('משימה חדשה: ${r.v} · ${d.d} ${d.dt}')">
-        ${items}
-        <button class="wk-add" title="שיבוץ ${r.v} ל${d.d}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 5v14M5 12h14"/></svg></button>
+      const arr=r.c[i]||[];
+      const past=todayIdx>-1&&i<todayIdx;
+      const key=ri+'-'+i;
+      const CK='<span class="ck"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.6"><path d="M5 13l4 4L19 7"/></svg></span>';
+      const DONE='<span class="done-b" title="בוצעה"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>';
+      const chip=(t,si,mini)=>{const isDone=t.done||(past&&!t.cls);
+      return`<div class="wk-task ${mini?'mini':''} ${t.cls||''} ${t.sel?'sel':''} ${isDone?'is-done':''}" data-ri="${ri}" data-di="${i}" data-si="${si}" ${mini?`title="${t.n}${t.drv?' · '+t.drv:''}"`:''} onclick="event.stopPropagation();chipClick(this)">
+        ${isDone?DONE:''}${CK}<b>${t.n}</b>${!mini&&t.drv?`<span>${t.drv}</span>`:''}</div>`};
+      let items;
+      if(past&&arr.length>=2){
+        /* יום שעבר: 2 משימות בחצי-חצי בגובה סטנדרטי; מעבר לכך — כפתור +N */
+        const open=WK_EXP.has(key);
+        const shown=open?arr:arr.slice(0,2);
+        items=shown.map((t,si)=>chip(t,si,true)).join('');
+        if(arr.length>2&&!open)items+=`<button class="wk-more" onclick="event.stopPropagation();WK_EXP.add('${key}');renderWeek(WKQ)">+${arr.length-2} עוד</button>`;
+        if(open)items+=`<button class="wk-more" onclick="event.stopPropagation();WK_EXP.delete('${key}');renderWeek(WKQ)">סגור</button>`;
+      }else{
+        items=arr.map((t,si)=>chip(t,si,false)).join('');
+      }
+      /* בימים שעברו אין הוספת נסיעה — אין +, וכפתור +N בא במקומו בלי תוספת גובה */
+      const addBtn=past?'':`<button class="wk-add" title="שיבוץ ${r.v} ל${d.d}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 5v14M5 12h14"/></svg></button>`;
+      const cellClick=past?'':`onclick="toast('משימה חדשה: ${r.v} · ${d.d} ${d.dt}')"`;
+      return`<div class="wk-cell ${i===todayIdx?'today-col':''} ${past?'past':''}" data-ri="${ri}" data-di="${i}" ${cellClick}>
+        ${items}${addBtn}
       </div>`;
     }).join('');
     return veh+cells;
   }).join('')||`<div style="grid-column:1/-1;text-align:center;color:var(--mut);padding:34px">לא נמצא רכב בשם הזה</div>`;
 }
 
+/* סדרות רב-יומיות: משימה אחת שמתפרסת על כמה ימים (תאריך התחלה–סיום).
+   ההמשך מעבר לשבוע המוצג נשמר במטא — והמערכת מציעה להחיל שינויים גם עליו, ברצף בלבד */
+const SERIES={
+  igor:{name:'איגור',cont:2,contLabel:'ראשון 14/06 – שני 15/06',lastVisibleDay:6}
+};
+function seriesPrompt(affected){
+  const bySid={};
+  affected.forEach(({t,di})=>{if(t&&t.sid)(bySid[t.sid]=bySid[t.sid]||[]).push(+di)});
+  Object.keys(bySid).forEach(sid=>{
+    const m=SERIES[sid];if(!m)return;
+    /* רק אם השינוי נוגע ביום האחרון הנראה — כלומר הרצף אל השבוע הבא לא נשבר */
+    if(bySid[sid].includes(m.lastVisibleDay)){
+      showConfirm(
+        '«'+m.name+'» ממשיכה ברצף גם בשבוע הבא ('+m.contLabel+')',
+        'להחיל את השינוי גם על '+m.cont+' הימים הבאים באותו רצף?',
+        ()=>toast('השינוי הוחל גם על '+m.contLabel+' · התראות בעוד 15 דק׳',3200)
+      );
+    }
+  });
+}
+function showConfirm(title,q,onYes){
+  $('#cfTitle').textContent=title;$('#cfQ').textContent=q;
+  $('#cfYes').onclick=()=>{hideConfirm();onYes()};
+  $('#confirm').classList.add('show');
+  clearTimeout(window._cf);window._cf=setTimeout(hideConfirm,14000);
+}
+function hideConfirm(){$('#confirm').classList.remove('show')}
+
+/* ============ בחירה מרובה ופעולות bulk ============ */
+let SEL_MODE=false;
+function toggleSelMode(){
+  SEL_MODE=!SEL_MODE;
+  document.body.classList.toggle('selmode',SEL_MODE);
+  if(!SEL_MODE)clearSel();
+  document.getElementById('selModeBtn')?.classList.toggle('on-sel',SEL_MODE);
+  renderWeek(WKQ);updateSelBar();
+}
+function clearSel(){WEEK.forEach(r=>Object.values(r.c).forEach(a=>a.forEach(t=>t.sel=false)))}
+function endSelMode(){if(SEL_MODE)toggleSelMode()}
+function selTasks(){
+  const out=[];
+  WEEK.forEach((r,ri)=>Object.keys(r.c).forEach(di=>r.c[di].forEach(t=>{if(t.sel)out.push({t,ri,di:+di})})));
+  return out;
+}
+function chipClick(el){
+  if(DND.moved)return;
+  const t=WEEK[+el.dataset.ri].c[+el.dataset.di][+el.dataset.si];
+  if(SEL_MODE){t.sel=!t.sel;el.classList.toggle('sel',t.sel);updateSelBar();}
+  else openTask(t.cls==='live'?1:3);
+}
+function updateSelBar(){
+  const n=selTasks().length;
+  $('#selN').textContent=n;
+  $('#selbar').classList.toggle('show',SEL_MODE&&n>0);
+  closeSelMenus();
+}
+function closeSelMenus(){document.querySelectorAll('.sb-menu').forEach(m=>m.classList.remove('open'))}
+document.addEventListener('click',e=>{if(!e.target.closest('.sb-wrap'))closeSelMenus()});
+function openSelMenu(kind,e){
+  e.stopPropagation();
+  const m=$('#menu-'+kind),was=m.classList.contains('open');
+  closeSelMenus();
+  if(was)return;
+  if(kind==='drv')m.innerHTML=DRIVERS.map(d=>`<button onclick="bulkDriver('${d.n}')">${d.n}</button>`).join('');
+  else m.innerHTML=WEEK.filter(r=>r.v!=='משימת נהיגה').map((r,)=>`<button onclick="bulkVehicle(${WEEK.indexOf(r)})">${r.v.replace(' משוריין','')}${r.arm?' 🛡':''}</button>`).join('');
+  m.classList.add('open');
+}
+function removeByRef(t){
+  for(const r of WEEK)for(const k of Object.keys(r.c)){
+    const a=r.c[k],i=a.indexOf(t);
+    if(i>-1){a.splice(i,1);if(!a.length)delete r.c[k];return}
+  }
+}
+function restoreSnap(snap){
+  snap.forEach(({t})=>removeByRef(t));
+  snap.forEach(({t,ri,di})=>{(WEEK[ri].c[di]=WEEK[ri].c[di]||[]).push(t)});
+  renderWeek(WKQ);updateSelBar();
+}
+function bulkDriver(name){
+  const list=selTasks();if(!list.length)return;
+  const snap=list.map(({t,ri,di})=>({t,ri,di,drv:t.drv}));
+  list.forEach(({t})=>t.drv=name);
+  endSelMode();
+  toastA(list.length+' משימות שובצו לנהג '+name+' · התראות בעוד 15 דק׳','בטל',()=>{
+    snap.forEach(s=>s.t.drv=s.drv);renderWeek(WKQ);toast('השיבוץ בוטל — לא נשלחו התראות');
+  },8000);
+  seriesPrompt(list);
+}
+function bulkVehicle(tri){
+  const list=selTasks();if(!list.length)return;
+  const snap=list.map(({t,ri,di})=>({t,ri,di}));
+  list.forEach(({t})=>removeByRef(t));
+  list.forEach(({t,di})=>{(WEEK[tri].c[di]=WEEK[tri].c[di]||[]).push(t)});
+  endSelMode();
+  toastA(list.length+' משימות הועברו ל'+WEEK[tri].v+' · התראות בעוד 15 דק׳','בטל',()=>{
+    restoreSnap(snap);toast('ההעברה בוטלה — לא נשלחו התראות');
+  },8000);
+  seriesPrompt(list);
+}
+function bulkDelete(){
+  const list=selTasks();if(!list.length)return;
+  const snap=list.map(({t,ri,di})=>({t,ri,di}));
+  list.forEach(({t})=>removeByRef(t));
+  endSelMode();
+  toastA(list.length+' משימות נמחקו','בטל מחיקה',()=>{
+    restoreSnap(snap);toast('המחיקה בוטלה');
+  },8000);
+}
+
 /* ============ Drag & Drop ביומן ============ */
-const DND={el:null,ghost:null,src:null,over:null,moved:false,timer:null,sx:0,sy:0,active:false};
+const DND={el:null,ghost:null,src:null,over:null,moved:false,timer:null,sx:0,sy:0,active:false,group:null};
 document.addEventListener('pointerdown',e=>{
   const t=e.target.closest('.wk-task');
   if(!t||e.button>0)return;
+  if(t.classList.contains('is-done'))return; // משימה שהושלמה — לא ניתנת לגרירה
   DND.el=t;DND.moved=false;DND.active=false;DND.sx=e.clientX;DND.sy=e.clientY;
   DND.src={ri:+t.dataset.ri,di:+t.dataset.di,si:+t.dataset.si};
   if(e.pointerType==='touch'){
@@ -958,8 +1397,11 @@ function startDrag(x,y){
   if(!DND.el)return;
   DND.active=true;DND.moved=true;
   document.body.classList.add('dragging-now');
+  const srcTask=WEEK[DND.src.ri].c[DND.src.di][DND.src.si];
+  DND.group=(SEL_MODE&&srcTask&&srcTask.sel)?selTasks():null;
   const g=DND.el.cloneNode(true);
   g.classList.add('drag-ghost');g.classList.remove('dragging');
+  if(DND.group&&DND.group.length>1)g.insertAdjacentHTML('beforeend','<span class="gbadge">'+DND.group.length+'</span>');
   document.body.appendChild(g);DND.ghost=g;
   DND.el.classList.add('dragging');
   moveDrag(x,y);
@@ -970,27 +1412,87 @@ function moveDrag(x,y){
   DND.ghost.style.display='none';
   const cell=document.elementFromPoint(x,y)?.closest('.wk-cell');
   DND.ghost.style.display='';
-  if(DND.over&&DND.over!==cell)DND.over.classList.remove('drop-on');
+  if(cell===DND.over)return;
+  document.querySelectorAll('.wk-cell.drop-on').forEach(c=>c.classList.remove('drop-on'));
   DND.over=cell||null;
-  if(cell)cell.classList.add('drop-on');
+  if(!cell)return;
+  if(DND.group&&DND.group.length>1){
+    /* תצוגה מקדימה: מדגישים את כל תאי היעד של הקבוצה לפי הדלתא */
+    const s=DND.src,tri=+cell.dataset.ri,tdi=+cell.dataset.di;
+    const vehChanged=tri!==s.ri,dd=tdi-s.di;
+    DND.group.forEach(({ri,di})=>{
+      const nri=vehChanged?tri:ri;
+      const ndi=Math.min(6,Math.max(0,di+dd));
+      document.querySelector(`.wk-cell[data-ri="${nri}"][data-di="${ndi}"]`)?.classList.add('drop-on');
+    });
+  }else{
+    cell.classList.add('drop-on');
+  }
 }
 function endDrag(){
   document.body.classList.remove('dragging-now');
   DND.ghost?.remove();DND.ghost=null;
   DND.el?.classList.remove('dragging');
-  const tgt=DND.over;DND.over?.classList.remove('drop-on');DND.over=null;DND.active=false;
+  const tgt=DND.over;
+  document.querySelectorAll('.wk-cell.drop-on').forEach(c=>c.classList.remove('drop-on'));
+  DND.over=null;DND.active=false;
   if(!tgt)return;
   const s=DND.src,tri=+tgt.dataset.ri,tdi=+tgt.dataset.di;
   if(tri===s.ri&&tdi===s.di)return;
+  /* גרירה קבוצתית: רכב — מוחלף לכולן; יום — הזזה יחסית לפי הדלתא */
+  if(DND.group&&DND.group.length>0){
+    const list=DND.group,vehChanged=tri!==s.ri,dd=tdi-s.di;
+    const snap=list.map(({t,ri,di})=>({t,ri,di}));
+    list.forEach(({t})=>removeByRef(t));
+    list.forEach(({t,ri,di})=>{
+      const nri=vehChanged?tri:ri;
+      const ndi=Math.min(6,Math.max(0,di+dd));
+      (WEEK[nri].c[ndi]=WEEK[nri].c[ndi]||[]).push(t);
+    });
+    DND.group=null;
+    endSelMode();
+    const parts=[];
+    if(vehChanged)parts.push('רכב: '+WEEK[tri].v);
+    if(dd)parts.push('הזזה של '+Math.abs(dd)+' '+(Math.abs(dd)===1?'יום':'ימים'));
+    toastA(list.length+' משימות עודכנו · '+parts.join(' · ')+' · התראות בעוד 15 דק׳','בטל',()=>{
+      restoreSnap(snap);toast('השינוי בוטל — לא נשלחו התראות');
+    },8000);
+    if(vehChanged&&!dd)seriesPrompt(list);
+    return;
+  }
   const task=WEEK[s.ri].c[s.di].splice(s.si,1)[0];
   if(!WEEK[s.ri].c[s.di].length)delete WEEK[s.ri].c[s.di];
   (WEEK[tri].c[tdi]=WEEK[tri].c[tdi]||[]).push(task);
-  renderWeek(WKQ);
-  const vehChanged=tri!==s.ri,dayChanged=tdi!==s.di;
   const parts=[];
-  if(vehChanged)parts.push('רכב: '+WEEK[tri].v);
-  if(dayChanged)parts.push('יום: '+WK_DAYS[tdi].d+' '+WK_DAYS[tdi].dt);
-  toast('«'+task.n+'» — שיבוץ עודכן · '+parts.join(' · ')+' · הנהג יקבל התראת שינוי');
+  if(tri!==s.ri)parts.push('רכב: '+WEEK[tri].v);
+  if(tdi!==s.di)parts.push('יום: '+WK_DAYS[tdi].d+' '+WK_DAYS[tdi].dt);
+  queueDriverNotice(task,s,{ri:tri,di:tdi},parts);
+  renderWeek(WKQ);
+  if(task.sid&&tri!==s.ri&&tdi===s.di)seriesPrompt([{t:task,di:tdi}]);
+}
+
+/* התראת שינוי לנהג נשלחת בדיליי של 15 דק' — חלון ביטול לטעויות גרירה.
+   (בדמו: 15 שניות. במערכת אמיתית: שינוי נוסף באותה משימה מאפס את הטיימר) */
+function queueDriverNotice(task,from,to,parts){
+  if(task._t)clearTimeout(task._t); // שינוי נוסף לפני שנשלחה — הטיימר מתאפס
+  task.pn=true;
+  task._t=setTimeout(()=>{
+    task.pn=false;task._t=null;renderWeek(WKQ);
+    toast('התראת שינוי על «'+task.n+'» נשלחה לנהג'+(task.drv?' '+task.drv:''));
+  },15000);
+  toastA(
+    '«'+task.n+'» עודכנה · '+parts.join(' · ')+' · התראה לנהג בעוד 15 דק׳',
+    'בטל שינוי',
+    ()=>{
+      clearTimeout(task._t);task._t=null;task.pn=false;
+      const arr=WEEK[to.ri].c[to.di];
+      arr.splice(arr.indexOf(task),1);
+      if(!arr.length)delete WEEK[to.ri].c[to.di];
+      (WEEK[from.ri].c[from.di]=WEEK[from.ri].c[from.di]||[]).splice(from.si,0,task);
+      renderWeek(WKQ);
+      toast('השינוי בוטל — לא נשלחה התראה לנהג');
+    },
+    8000);
 }
 function renderTasks(q){
   q=(q||'').trim();
