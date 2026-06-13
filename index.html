@@ -2224,6 +2224,8 @@ function saveTasks(){
 VEHICLES.forEach(v=>{const s=Store.get('veh:'+v.n,null);if(s){if(s.km!=null)v.km=s.km;if(s.kmAt)v.kmAt=s.kmAt;if(s.loc)v.loc=s.loc;if(s.svcKm)v.svcKm=s.svcKm;}});
 /* זריעת ק"מ נוכחי לכל רכב במאגר המשותף (אם חסר) — כך ממשק הנהג קורא ק"מ עדכני */
 try{VEHICLES.forEach(v=>{if(Store.get('veh:'+v.n,null)==null)Store.set('veh:'+v.n,{km:v.km,loc:v.loc,svcKm:v.svcKm,kmAt:v.kmAt||Date.now()});});}catch(e){}
+/* רשימת רכבים קנונית (שמות מלאים) לממשק הנהג — לבחירת רכב בנסיעה מנהלתית וכד' */
+try{Store.set('vehlist',VEHICLES.map(v=>({n:v.n,km:v.km,svcKm:v.svcKm,arm:v.arm,loc:v.loc})));}catch(e){}
 refreshRows();
 /* מזהי רכבים: VEH-n לפי סדר ההגדרה (יציב) */
 VEHICLES.forEach((v,i)=>{if(v.id===undefined)v.id=i+1});
@@ -3852,18 +3854,19 @@ function openNewTask(ri,dateIso){
         <button type="button" class="f-datebtn dp-anchor" id="ntEndBtn" onclick="openDPAt(event,v=>setNTDate('end',v),NT.end)"></button></div>
     </div>
 
-    <div class="f-row" id="f-time-row">
-      <div class="fld" id="f-time"><label>שעת התייצבות</label><input type="time" id="ntTime"></div>
-      <div class="fld" id="f-veh"><label>שיבוץ רכב</label>
+    <div class="f-row" id="f-vehdrv-row">
+      <div class="fld" id="f-drv"><label><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-inline-end:6px;color:var(--mut)"><circle cx="12" cy="7" r="4"/><path d="M5.5 21a6.5 6.5 0 0 1 13 0"/></svg>שיבוץ נהג</label>
+        ${comboHTML('cb-drv','בחר נהג','ללא','')}
+      </div>
+      <div class="fld" id="f-veh"><label><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-inline-end:6px;color:var(--mut)"><path d="M5 11l1.5-4.5A2 2 0 0 1 8.4 5h7.2a2 2 0 0 1 1.9 1.5L19 11"/><rect x="3" y="11" width="18" height="7" rx="2"/><circle cx="7.5" cy="17.5" r="1.2" fill="currentColor"/><circle cx="16.5" cy="17.5" r="1.2" fill="currentColor"/></svg>שיבוץ רכב</label>
         ${comboHTML('cb-veh','בחר רכב',hasVeh?ROWS[ri].v:'',hasVeh?ri:'')}
       </div>
     </div>
 
-    <div class="fld" id="f-loc"><label>מיקום התייצבות</label>
-      <input type="text" id="ntLoc"></div>
-
-    <div class="fld" id="f-drv"><label>שיבוץ נהג</label>
-      ${comboHTML('cb-drv','בחר נהג','ללא','')}
+    <div class="f-row" id="f-loctime-row">
+      <div class="fld" id="f-loc"><label><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-inline-end:6px;color:var(--mut)"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>מיקום התייצבות</label>
+        <input type="text" id="ntLoc"></div>
+      <div class="fld" id="f-time"><label>שעת התייצבות</label><input type="time" id="ntTime"></div>
     </div>
 
     <div class="fld" id="f-notes"><label>הערות לנהג</label><textarea id="ntNotes"></textarea></div>
@@ -3898,6 +3901,8 @@ function ntType(t){
   $('#f-time').style.display=ext?'none':'';
   $('#f-loc').style.display=ext?'none':'';
   $('#f-notes').style.display=ext?'none':'';
+  if($('#f-vehdrv-row'))$('#f-vehdrv-row').style.display=ext?'none':'';
+  if($('#f-loctime-row'))$('#f-loctime-row').style.display=ext?'none':'';
   $('#ntSend').style.display=(t==='self'||ext)?'none':'';
 }
 function ntContacts(){

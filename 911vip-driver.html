@@ -394,7 +394,7 @@ const ddmm=s=>s.slice(8,10)+'/'+s.slice(5,7);
 const dayLabel=s=>DAY_NAMES[fromIso(s).getDay()]+' '+ddmm(s);
 const nowHM=()=>{const d=new Date();return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')};
 
-const VEHICLES=[
+let VEHICLES=[
  {n:'קאדילק 003',loc:'מוסך רחובות',km:87652,arm:1},
  {n:'קאדילק 004',loc:'הר חוצבים',km:55987,arm:1},
  {n:'סברבן 904',loc:'המצור ירושלים',km:16269,arm:1},
@@ -411,6 +411,9 @@ const VEHICLES=[
  {n:'קאדילק רך 403',loc:'מוסך רחובות',km:50000,arm:0},
  {n:'קאדילק אסקלייד V',loc:'קידר',km:50000,arm:0},
 ];
+/* אם המנהל פרסם את רשימת הרכבים הקנונית (שמות מלאים) — נשתמש בה, כדי שדיווחי ק"מ
+   (כולל נסיעה מנהלתית) יגיעו לרכב הנכון אצל המנהל */
+try{const _vl=Store.get('vehlist',null);if(_vl&&Array.isArray(_vl)&&_vl.length)VEHICLES=_vl;}catch(e){}
 
 /* stage: -1 ממתין לאישור · 0 מאושרת · 1 בנסיעה · 2 אחרי הסרת אחריות · 3 הסתיימה */
 const DEMO_TASKS=[
@@ -708,6 +711,11 @@ function doReport(id,next,key,hasLoc){
   const time=$('#rT').value,km=($('#rK').value||'').replace(/[^\d]/g,'');
   if(!km){toast('חסר דיווח ק"מ');$('#rK').focus();
     if(b){b.disabled=false;b.style.opacity=1;b.textContent='שמור ‹‹'}return}
+  /* ולידציה: ק"מ לא יכול להיות נמוך מהאחרון שתועד לרכב (טעות הקלדה ברוב המקרים) */
+  const _ref=+(vehKmOf(t.veh)||0);
+  if(_ref&&+km<_ref){
+    toast('ק"מ שהזנת ('+(+km).toLocaleString()+') נמוך מהאחרון במערכת ('+_ref.toLocaleString()+' ק"מ) — בדוק שוב',4600);
+    if(b){b.disabled=false;b.style.opacity=1;b.textContent='שמור ‹‹'}$('#rK').focus();return}
   if(t.stage===-1&&!t.rts.ap)t.rts.ap=nowHM(); /* התחלה לפני אישור = אישור מובלע */
   t.ts[key]=time;t.km[key]=km;t.rts[key]=nowHM();
   if(hasLoc){const l=$('#rL').value.trim();if(l)t.locs[key]=l}
@@ -749,9 +757,10 @@ function openAdm(){
   `);
 }
 function admKmHint(){
-  const v=vehRec($('#aV').value);
+  const name=$('#aV').value;
+  const km=vehKmOf(name);
   const h=$('#aKmHint');
-  if(v&&v.km){h.style.display='';$('#aKmVal').textContent=(+v.km).toLocaleString();$('#aKmVal').dataset.v=v.km}
+  if(km!=null){h.style.display='';$('#aKmVal').textContent=(+km).toLocaleString();$('#aKmVal').dataset.v=km}
   else h.style.display='none';
 }
 function startAdm(){
@@ -762,6 +771,8 @@ function startAdm(){
   if(!veh){toast('בחר רכב');return}
   const km=($('#aK').value||'').replace(/[^\d]/g,'');
   if(!km){toast('חסר דיווח ק"מ');$('#aK').focus();return}
+  const _ref=+(vehKmOf(veh)||0);
+  if(_ref&&+km<_ref){toast('ק"מ שהזנת ('+(+km).toLocaleString()+') נמוך מהאחרון במערכת ('+_ref.toLocaleString()+' ק"מ) — בדוק שוב',4600);$('#aK').focus();return}
   if(b){b.disabled=true;b.style.opacity=.6;b.textContent='מתחיל…'}
   const t={id:Date.now(),drv:ME.n,n:name,client:'',date:DEMO_TODAY,time:'',loc:'',veh,
     stage:1,adm:true,cls:'admin',ts:{start:$('#aT').value},km:{start:km},rts:{ap:nowHM(),start:nowHM()},locs:{}};
