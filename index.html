@@ -683,6 +683,7 @@ body.dragging-now .wk-wrap{overscroll-behavior:none}
 .dr-body{padding:18px 20px;overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:16px}
 .dr-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
 /* ===== כרטיס רכב — טיפולים ===== */
+.svc-search{margin:12px 0 4px}
 .svc-list{display:flex;flex-direction:column;gap:10px;margin-top:14px}
 .svc-card{border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:var(--card)}
 .svc-card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:8px}
@@ -785,6 +786,63 @@ body.dragging-now .wk-wrap{overscroll-behavior:none}
 /* כפתור רישיון בטבלה */
 .lic-btn{width:30px;height:30px;border-radius:8px;border:none;background:var(--paper);color:var(--ink2);display:inline-grid;place-items:center;cursor:pointer}
 .lic-btn:hover{background:#ECECE6;color:var(--ink)}
+/* ===== טבלת חיוב ===== */
+.bill-bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:10px}
+.bill-month{display:flex;align-items:center;gap:4px;background:var(--card);border:1.5px solid var(--line);border-radius:12px;padding:4px}
+.bill-month b{min-width:120px;text-align:center;font-size:13.5px;font-weight:800}
+.bill-month button{width:32px;height:32px;border:none;background:none;border-radius:8px;color:var(--ink2);cursor:pointer;display:grid;place-items:center}
+.bill-month button:hover{background:var(--paper)}
+.bill-select{border:1.5px solid var(--line);border-radius:12px;padding:9px 14px;font-family:inherit;font-size:13px;font-weight:600;background:var(--card);color:var(--ink);cursor:pointer;min-width:150px}
+.bill-toggles{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.btoggle{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border:1.5px solid var(--line2);border-radius:999px;background:var(--card);font-family:inherit;font-size:12.5px;font-weight:700;color:var(--ink2);cursor:pointer}
+.btoggle:hover{background:var(--paper)}
+.btoggle.on{border-color:var(--ink);background:var(--ink);color:#fff}
+.btoggle .eye{display:inline-flex;vertical-align:-2px}
+.bill-show{position:relative;display:inline-block}
+.bill-show-pop{position:absolute;top:42px;inset-inline-start:0;background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 12px 32px rgba(14,15,17,.16);padding:6px;min-width:170px;z-index:40;display:none}
+.bill-show-pop.show{display:block}
+.bill-show-pop label{display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:8px;font-size:13px;font-weight:600;color:var(--ink);cursor:pointer}
+.bill-show-pop label:hover{background:var(--paper)}
+.bill-show-pop input{width:16px;height:16px;accent-color:var(--ink);cursor:pointer}
+.bill-billstatus{display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:700;color:var(--ink2)}
+.bill-billstatus .bill-select{min-width:90px}
+.bill-reset{margin-inline-start:auto}
+.th-srch{display:flex;align-items:center;gap:5px;white-space:nowrap}
+.th-srch.open{gap:3px}
+.th-srch-ic{flex:none;width:22px;height:22px;border:none;background:none;color:#B7B9B1;border-radius:6px;cursor:pointer;display:grid;place-items:center;padding:0}
+.th-srch-ic:hover{background:var(--paper);color:var(--ink2)}
+.th-srch-ic.active{color:var(--ink);background:var(--lime-soft)}
+.th-srch .col-q{width:108px;box-sizing:border-box;border:1px solid var(--ink);border-radius:8px;padding:5px 9px;font-family:inherit;font-size:11.5px;font-weight:500;background:var(--card);color:var(--ink);outline:none}
+.th-srch .col-q::placeholder{color:#B7B9B1;font-weight:500}
+.th-srch-x{flex:none;width:20px;height:20px;border:none;background:none;color:var(--mut);border-radius:6px;cursor:pointer;display:grid;place-items:center;padding:0}
+.th-srch-x:hover{color:var(--red)}
+.bill-bulkbar{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--ink);color:#fff;border-radius:14px;padding:11px 18px;margin-bottom:12px}
+.bill-bulkbar #bill-selcount{font-weight:800;font-size:14px}
+.bill-bulk-acts{display:flex;gap:8px}
+.btn-bulk{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:10px;border:none;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer}
+.btn-bulk svg{flex:none}
+.bulk-bill{background:var(--lime);color:var(--ink)}
+.bulk-bill:hover{filter:brightness(1.05)}
+.bulk-del{background:rgba(255,255,255,.12);color:#fff}
+.bulk-del:hover{background:var(--red);color:#fff}
+.bulk-unbill{background:rgba(255,255,255,.12);color:#fff}
+.bulk-unbill:hover{background:var(--amber);color:var(--ink)}
+.bulk-clear{background:none;color:rgba(255,255,255,.7)}
+.bulk-clear:hover{color:#fff}
+.btbl{width:100%;border-collapse:collapse;font-size:13px}
+.btbl thead th{background:var(--card);text-align:right;font-size:11.5px;font-weight:800;color:var(--ink2);padding:10px 9px;border-bottom:1.5px solid var(--line);white-space:nowrap}
+.btbl thead th.c{text-align:center}
+.btbl tbody td{padding:9px;border-bottom:1px solid var(--line);text-align:right;vertical-align:middle}
+.btbl tbody td.c{text-align:center}
+.btbl tbody tr:hover{background:var(--paper)}
+.btbl tbody tr.sel{background:var(--lime-soft)}
+.btbl tbody tr.is-billed{opacity:.62}
+.btbl input[type=checkbox]{width:16px;height:16px;accent-color:var(--ink);cursor:pointer}
+.btbl .bill-foot td{border-top:2px solid var(--line);border-bottom:none;background:var(--paper);padding:11px 9px}
+.chip.c-blue{background:#DCEBFF;color:#2563EB}
+.chip.c-gray{background:#EDEDE7;color:#8A8D85}
+.bill-ok{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--green-bg);color:var(--green);margin:0 auto}
+.bill-open{display:inline-block;color:#C9CBC4;font-weight:800;font-size:16px}
 /* הגדרות רכב */
 .veh-hidden-tag{font-size:9.5px;font-weight:800;color:var(--mut);background:var(--paper);border-radius:6px;padding:1px 6px;margin-inline-start:5px;vertical-align:1px}
 .vtoggle{flex:none;width:44px;height:26px;border-radius:99px;border:none;background:#D8D8D2;cursor:pointer;position:relative;transition:background .15s}
@@ -1114,8 +1172,8 @@ body.dragging-now .wk-wrap{overscroll-behavior:none}
   <div class="cf-ic">⟳</div>
   <div class="cf-body"><b id="cfTitle"></b><span id="cfQ"></span></div>
   <div class="cf-btns">
-    <button class="cf-yes" id="cfYes">החל גם</button>
-    <button class="cf-no" onclick="hideConfirm()">לא, רק מה שסומן</button>
+    <button class="cf-yes" id="cfYes">אישור</button>
+    <button class="cf-no" id="cfNo" onclick="hideConfirm()">ביטול</button>
   </div>
 </div>
 <div class="selbar" id="selbar">
@@ -1159,7 +1217,8 @@ const Store=(()=>{
     return (fallback!==undefined?fallback:null);
   }
   function remove(key){delete mem[key];try{localStorage.removeItem(PREFIX+key)}catch(e){}}
-  return {set,get,remove};
+  function reload(key){delete mem[key];return get(key);}
+  return {set,get,remove,reload};
 })();
 
 /* ============================================================
@@ -1329,6 +1388,8 @@ function buildRows(){
 }
 /* ROWS חי — נבנה אחרי שאתחול הסדר זמין (ראה בהמשך) */
 let ROWS=[];
+let VEH_ORDER=null; /* סדר הרכבים ביומן — מאותחל ב-vehOrder(), מוצהר כאן למניעת ReferenceError בטעינה */
+let VQ='';  /* חיפוש רכבים — מוצהר כאן למניעת ReferenceError */
 function refreshRows(){ROWS=buildRows();}
 /* מ"שם רכב" לאינדקס שורה ביומן (תומך גם בשם מקוצר) */
 function riByName(name){
@@ -1780,28 +1841,205 @@ views.overview=()=>`
   </div>
 </div>`;
 
-views.tasks=()=>`
+/* ============================================================
+   טבלת משימות / חיוב לקוחות — נגזרת מ-TASKS_DB (אותן משימות כמו היומן)
+   ============================================================ */
+/* סטטוס חיוב נשמר ב-Store: { 'TSK-<id>': {invoice, at, by} } */
+let BILLING=Store.get('billing',{})||{};
+function billSave(){Store.set('billing',BILLING)}
+function isBilled(t){return !!BILLING['TSK-'+t.id]}
+function billInfo(t){return BILLING['TSK-'+t.id]||null}
+
+/* מצב משימה מחושב: live / done / future / cancelled / pending */
+function taskComputedStatus(t){
+  if(t.done||t.stage===3)return 'done';
+  if(t.cls==='live'||t.stage>=1)return 'live';
+  const start=fromIso(t.date).getTime();
+  const cancelAt=start+24*3600*1000+5*3600*1000; /* 5 שעות אחרי חצות יום המשימה */
+  const notStarted=!t.ts||!t.ts.start;
+  if(notStarted&&Date.now()>cancelAt)return 'cancelled';
+  if(start>fromIso(DEMO_TODAY).getTime())return 'future';
+  return 'pending';
+}
+function isAdminTask(t){return t.cls==='admin'}
+
+/* חישוב סה"כ שעות (מיציאת נהג עד סיום) וק"מ (סיום פחות התחלה) */
+function taskHours(t){
+  if(!t.ts||!t.ts.start||!t.ts.end)return null;
+  const [h1,m1]=t.ts.start.split(':').map(Number),[h2,m2]=t.ts.end.split(':').map(Number);
+  let mins=(h2*60+m2)-(h1*60+m1);if(mins<0)mins+=1440;
+  return String(Math.floor(mins/60)).padStart(2,'0')+':'+String(mins%60).padStart(2,'0');
+}
+function taskKm(t){
+  if(!t.km||!t.km.start||!t.km.end)return null;
+  return Math.max(0,+t.km.end-+t.km.start);
+}
+const DOW=['ראשון','שני','שלישי','רביעי','חמישי','שישי','שבת'];
+function fullDate(iso){return iso.slice(8,10)+'/'+iso.slice(5,7)+'/'+iso.slice(0,4)}
+
+/* פילטרים — נשמרים בזיכרון העמוד */
+function billDefaults(){return {month:DEMO_TODAY.slice(0,7),qName:'',qClient:'',qDrv:'',qVeh:'',billStatus:'open',showAdmin:false,showFuture:false,showCancelled:false,showPending:false};}
+let TF=billDefaults();
+function billReset(){TF=billDefaults();window.BILL_SEL=new Set();window.BILL_SEARCH_OPEN={};rerenderTasks();}
+
+function billMonthList(){
+  /* כל המשימות (לא מנהלתיות אלא אם בוקש) בחודש שנבחר */
+  return TASKS_DB.filter(t=>t.date.slice(0,7)===TF.month);
+}
+function billFiltered(){
+  let list=billMonthList().map(t=>({t,st:taskComputedStatus(t)}));
+  /* ברירת מחדל: רק משימות שבוצעו או פעילות. כפתור העין חושף מנהלתיות/עתידיות/מבוטלות */
+  list=list.filter(x=>{
+    if(isAdminTask(x.t))return TF.showAdmin;
+    if(x.st==='future')return TF.showFuture;
+    if(x.st==='cancelled')return TF.showCancelled;
+    if(x.st==='pending')return TF.showPending;
+    return x.st==='done'||x.st==='live'; /* ברירת מחדל */
+  });
+  /* סטטוס חיוב: open=לא חויב · billed=חויב · all=הכל */
+  if(TF.billStatus==='open')list=list.filter(x=>!isBilled(x.t));
+  else if(TF.billStatus==='billed')list=list.filter(x=>isBilled(x.t));
+  /* חיפוש לפי שדה (כל אחד עצמאי) */
+  const inc=(v,q)=>q&&!String(v||'').includes(q.trim());
+  list=list.filter(x=>{
+    const t=x.t;const veh=ROWS[t.ri]?ROWS[t.ri].v:'';
+    if(inc(t.n,TF.qName))return false;
+    if(inc(t.client,TF.qClient))return false;
+    if(inc(t.drv,TF.qDrv))return false;
+    if(inc(veh,TF.qVeh))return false;
+    return true;
+  });
+  /* מיון לפי תאריך */
+  return list.sort((a,b)=>a.t.date<b.t.date?-1:1);
+}
+
+/* לקוחות שיש להם משימות בחודש (לתפריט הסינון) */
+function billClientsInMonth(){
+  const s=new Set();billMonthList().forEach(t=>{if(t.client&&!isAdminTask(t))s.add(t.client)});
+  return [...s].sort();
+}
+
+function monthLabel(m){
+  const [y,mo]=m.split('-');
+  return new Date(+y,+mo-1,1).toLocaleDateString('he-IL',{month:'long',year:'numeric'});
+}
+
+views.tasks=()=>{
+  const list=billFiltered();
+  const sel=window.BILL_SEL||(window.BILL_SEL=new Set());
+  const clients=billClientsInMonth();
+  const monthFull=monthLabel(TF.month);
+  const title=TF.qClient?`ריכוז משימות ${TF.qClient}, ${monthFull}`:`ריכוז משימות · ${monthFull}`;
+  const totH=list.reduce((s,x)=>{const h=taskHours(x.t);if(h){const[a,b]=h.split(':').map(Number);return s+a*60+b}return s},0);
+  const totKm=list.reduce((s,x)=>s+(taskKm(x.t)||0),0);
+  const unbilled=billMonthList().filter(t=>!isAdminTask(t)&&!isBilled(t)&&['done','live'].includes(taskComputedStatus(t))).length;
+
+  const STBILL=t=>isBilled(t)
+    ?`<span class="bill-ok" title="חויב · חשבונית ${billInfo(t).invoice}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></span>`
+    :`<span class="bill-open" title="לא חויב">–</span>`;
+  const STDO={done:'<span class="chip c-green">בוצע</span>',live:'<span class="chip c-amber"><span class="dot pulse"></span>בנסיעה</span>',pending:'<span class="chip c-amber"><span class="dot"></span>ממתינה</span>',future:'<span class="chip c-gray">עתידית</span>',cancelled:'<span class="chip c-red">בוטלה</span>'};
+  const OPEN=window.BILL_SEARCH_OPEN||(window.BILL_SEARCH_OPEN={});
+  const thSearch=(label,field)=>{
+    const active=!!(TF[field]&&TF[field].length);
+    if(OPEN[field]){
+      return `<div class="th-srch open"><input class="col-q" data-f="${field}" type="text" placeholder="${label}…" value="${(TF[field]||'').replace(/"/g,'&quot;')}" onclick="event.stopPropagation()" oninput="TF.${field}=this.value;const p=this.selectionStart;rerenderTasks();const i=document.querySelector('.col-q[data-f=&quot;${field}&quot;]');if(i){i.focus();i.setSelectionRange(p,p)}">
+        <button class="th-srch-x" title="סגירה" onclick="event.stopPropagation();TF.${field}='';window.BILL_SEARCH_OPEN['${field}']=false;rerenderTasks()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div>`;
+    }
+    return `<div class="th-srch"><span>${label}</span><button class="th-srch-ic ${active?'active':''}" title="חיפוש ${label}" onclick="event.stopPropagation();window.BILL_SEARCH_OPEN['${field}']=true;rerenderTasks();setTimeout(()=>{const i=document.querySelector('.col-q[data-f=&quot;${field}&quot;]');if(i)i.focus()},0)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg></button></div>`;
+  };
+
+  return `
 <div class="topbar">
-  <div><h1>משימות</h1><div class="sub">01–30 ביוני · ${TASKS.length} משימות מוצגות</div></div>
+  <div><h1>${title}</h1><div class="sub">${list.length} משימות מוצגות · ${unbilled} ממתינות לחיוב החודש</div></div>
   <div class="actions">
+    <button class="btn btn-gho" onclick="exportBilling()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-inline-end:5px"><path d="M12 3v12M8 11l4 4 4-4M4 21h16"/></svg>ייצוא לאקסל</button>
     <button class="btn btn-gho" onclick="openTrash()">סל מחיקה${TRASH.length?' ('+TRASH.length+')':''}</button>
-    <button class="btn btn-gho" onclick="toast('הקובץ יורד… (דמו)')">ייצוא לאקסל</button>
     <button class="btn btn-pri" onclick="openNewTask()">+ משימה חדשה</button>
   </div>
 </div>
-<div class="toolbar">
-  <div class="search"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
-    <input id="q" placeholder="חיפוש משימה, לקוח, נהג או רכב…" oninput="renderTasks(this.value)"></div>
-  <div class="seg"><button class="on">הכל</button><button onclick="toast('סינון (דמו)')">פעילות</button><button onclick="toast('סינון (דמו)')">ממתינות</button></div>
-  <button class="filt" onclick="toast('בחירת טווח תאריכים (דמו)')">📅 יוני 2026</button>
-</div>
-<div class="card scrollx has-cards">
-  <table class="tbl"><thead><tr>
-    <th>משימה</th><th>תאריך</th><th>נהג + רכב</th><th>התחלה</th><th>הסרת אחריות</th><th>סיום</th><th>שעות</th><th>ק"מ</th><th>סטטוס</th>
-  </tr></thead><tbody id="tbody"></tbody></table>
-</div>
-<div class="cards" id="tcards"></div>`;
 
+<div class="bill-bar">
+  <div class="bill-month">
+    <button onclick="billMonthShift(-1)" title="חודש קודם"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 18l6-6-6-6"/></svg></button>
+    <b>${monthFull}</b>
+    <button onclick="billMonthShift(1)" title="חודש הבא"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button>
+  </div>
+  <select class="bill-select" onchange="TF.qClient=this.value;rerenderTasks()">
+    <option value="">כל הלקוחות</option>
+    ${clients.map(c=>`<option value="${c}" ${TF.qClient===c?'selected':''}>${c}</option>`).join('')}
+  </select>
+  <div class="bill-billstatus">
+    <span>סטטוס חיוב:</span>
+    <select class="bill-select" onchange="TF.billStatus=this.value;rerenderTasks()">
+      <option value="open" ${TF.billStatus==='open'?'selected':''}>פתוח</option>
+      <option value="billed" ${TF.billStatus==='billed'?'selected':''}>סגור</option>
+      <option value="all" ${TF.billStatus==='all'?'selected':''}>הכל</option>
+    </select>
+  </div>
+  <div class="bill-show">
+    <button class="btoggle ${(TF.showAdmin||TF.showFuture||TF.showCancelled||TF.showPending)?'on':''}" onclick="billShowMenu(event)"><span class="eye">${EYE_ON}</span> הצג מוסתרים <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" style="vertical-align:-1px"><path d="M6 9l6 6 6-6"/></svg></button>
+    <div class="bill-show-pop" id="bill-show-pop">
+      <label><input type="checkbox" ${TF.showPending?'checked':''} onchange="TF.showPending=this.checked;rerenderTasks()"> ממתינות</label>
+      <label><input type="checkbox" ${TF.showFuture?'checked':''} onchange="TF.showFuture=this.checked;rerenderTasks()"> עתידיות</label>
+      <label><input type="checkbox" ${TF.showCancelled?'checked':''} onchange="TF.showCancelled=this.checked;rerenderTasks()"> מבוטלות</label>
+      <label><input type="checkbox" ${TF.showAdmin?'checked':''} onchange="TF.showAdmin=this.checked;rerenderTasks()"> מנהלתיות</label>
+    </div>
+  </div>
+  <button class="btn btn-gho bill-reset" onclick="billReset()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="vertical-align:-2px;margin-inline-end:4px"><path d="M21 12a9 9 0 1 1-2.6-6.4M21 4v5h-5"/></svg>איפוס</button>
+</div>
+
+<div id="bill-bulkbar" class="bill-bulkbar" style="display:none">
+  <span id="bill-selcount">0 נבחרו</span>
+  <div class="bill-bulk-acts">
+    <button class="btn-bulk bulk-bill" onclick="bulkBill()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> חיוב</button>
+    <button class="btn-bulk bulk-unbill" onclick="bulkUnbill()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3l18 18M9 5h6M5 7h14M18 7l-.8 11M6 7l.5 7"/></svg> ביטול חיוב</button>
+    <button class="btn-bulk bulk-del" onclick="bulkDeleteBilling()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6l-1 14H6L5 6M10 11v6M14 11v6M9 6V4h6v2"/></svg> מחיקה</button>
+    <button class="btn-bulk bulk-clear" onclick="billClearSel()">ביטול בחירה</button>
+  </div>
+</div>
+
+<div class="card scrollx">
+  <table class="tbl btbl" dir="rtl">
+    <thead>
+    <tr>
+      <th style="width:34px"><input type="checkbox" onchange="billSelectAll(this.checked)" ${list.length&&list.every(x=>sel.has(x.t.id))?'checked':''}></th>
+      <th class="th-search">${thSearch('שם משימה','qName')}</th>
+      <th>תאריך</th><th>יום</th><th class="c">סטטוס</th>
+      <th class="th-search">${thSearch('לקוח','qClient')}</th>
+      <th class="th-search">${thSearch('נהג','qDrv')}</th>
+      <th class="th-search">${thSearch('רכב','qVeh')}</th>
+      <th class="c">יציאת נהג</th><th class="c">הסרת אחריות</th><th class="c">סיום</th>
+      <th class="c">סה"כ שעות</th><th class="c">סה"כ ק"מ</th><th class="c">חיוב</th>
+    </tr>
+    </thead>
+    <tbody>
+    ${list.map(x=>{const t=x.t;const veh=ROWS[t.ri]?ROWS[t.ri].v:(isAdminTask(t)?'מנהלתית':'—');
+      const h=taskHours(t),km=taskKm(t);const bi=billInfo(t);
+      return `<tr class="${sel.has(t.id)?'sel':''} ${isBilled(t)?'is-billed':''}">
+        <td><input type="checkbox" ${sel.has(t.id)?'checked':''} onchange="billToggleSel(${t.id},this.checked)"></td>
+        <td onclick="openJournalTask(${t.id})" style="cursor:pointer"><b>${t.n}</b></td>
+        <td class="num" style="white-space:nowrap">${fullDate(t.date)}</td>
+        <td>${DOW[fromIso(t.date).getDay()]}</td>
+        <td class="c">${STDO[x.st]||''}</td>
+        <td>${t.client||(isAdminTask(t)?'—':'מזדמן')}</td>
+        <td>${t.drv||'—'}</td>
+        <td style="white-space:nowrap">${veh}</td>
+        <td class="c num">${t.ts&&t.ts.start?t.ts.start:'—'}</td>
+        <td class="c num">${t.ts&&t.ts.rel?t.ts.rel:'—'}</td>
+        <td class="c num">${t.ts&&t.ts.end?t.ts.end:'—'}</td>
+        <td class="c num">${h||'—'}</td>
+        <td class="c num">${km!=null?km.toLocaleString():'—'}</td>
+        <td class="c">${STBILL(t)}</td>
+      </tr>`;}).join('')||`<tr><td colspan="14" style="text-align:center;color:var(--mut);padding:34px">אין משימות התואמות לסינון</td></tr>`}
+    </tbody>
+  </table>
+</div>`;
+};
+
+const EYE_ON='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>';
+const EYE_OFF='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.5-7 10-7c2 0 3.8.6 5.3 1.5M22 12s-3.5 7-10 7c-2 0-3.8-.6-5.3-1.5M3 3l18 18"/></svg>';
+
+/* ===== לוח (board) = סקירה ===== */
 views.board=()=>views.overview();
 
 /* ===== לקוחות ===== */
@@ -1864,8 +2102,85 @@ views.expenses=()=>{
   <div class="sub" style="margin-top:12px;color:var(--mut);font-size:12px">הוצאות שמדווחים הנהגים מהממשק שלהם מגיעות לכאן לאישור · מתקזזות בשכר החודשי</div>`;
 };
 
-/* סדר תצוגה: נשמר במכשיר · ברירת המחדל לפי המספור באקסל */
-let VEH_ORDER=null,VQ='';
+function billShowMenu(ev){
+  ev.stopPropagation();
+  const pop=document.getElementById('bill-show-pop');if(!pop)return;
+  const open=pop.classList.contains('show');
+  if(!open){pop.classList.add('show');
+    setTimeout(()=>document.addEventListener('click',function h(e){if(!pop.contains(e.target)){pop.classList.remove('show');document.removeEventListener('click',h)}}),0);
+  }else pop.classList.remove('show');
+}
+function rerenderTasks(){
+  const wasOpen=document.getElementById('bill-show-pop')&&document.getElementById('bill-show-pop').classList.contains('show');
+  if(window.CURV==='tasks')$('#main').innerHTML=`<div class="view on">${views.tasks()}</div>`;
+  if(wasOpen){const p=document.getElementById('bill-show-pop');if(p){p.classList.add('show');setTimeout(()=>document.addEventListener('click',function h(e){if(!p.contains(e.target)){p.classList.remove('show');document.removeEventListener('click',h)}}),0);}}
+  billUpdateBulkbar();
+  saveTasks();
+}
+function billMonthShift(d){const[y,m]=TF.month.split('-').map(Number);const nd=new Date(y,m-1+d,1);TF.month=nd.getFullYear()+'-'+String(nd.getMonth()+1).padStart(2,'0');window.BILL_SEL=new Set();rerenderTasks()}
+function billToggleSel(id,on){const s=window.BILL_SEL||(window.BILL_SEL=new Set());on?s.add(id):s.delete(id);billUpdateBulkbar();document.querySelectorAll('.btbl tbody tr').forEach(()=>{});const tr=[...document.querySelectorAll('.btbl tbody tr')].find(r=>r.querySelector(`input[onchange*="billToggleSel(${id},"]`));if(tr)tr.classList.toggle('sel',on)}
+function billSelectAll(on){const s=window.BILL_SEL=new Set();if(on)billFiltered().forEach(x=>s.add(x.t.id));rerenderTasks()}
+function billClearSel(){window.BILL_SEL=new Set();rerenderTasks()}
+function billUpdateBulkbar(){const s=window.BILL_SEL||new Set();const bar=document.getElementById('bill-bulkbar');if(!bar)return;bar.style.display=s.size?'flex':'none';const c=document.getElementById('bill-selcount');if(c)c.textContent=s.size+' נבחרו'}
+
+/* חיוב קבוצתי — דורש מספר חשבונית */
+function bulkBill(){
+  const s=window.BILL_SEL||new Set();if(!s.size)return;
+  promptBox('חיוב '+s.size+' משימות','מספר חשבונית','text','',inv=>{
+    inv=(inv||'').trim();if(!inv){toast('יש להזין מספר חשבונית');return}
+    s.forEach(id=>{BILLING['TSK-'+id]={invoice:inv,at:new Date().toISOString(),by:(typeof SESSION!=='undefined'&&SESSION&&SESSION.name)||'מנהל'}});
+    billSave();window.BILL_SEL=new Set();rerenderTasks();
+    toast(s.size+' משימות חויבו · חשבונית '+inv);
+  });
+}
+function bulkUnbill(){
+  const s=window.BILL_SEL||new Set();
+  const billed=[...s].filter(id=>BILLING['TSK-'+id]);
+  if(!billed.length){toast('לא נבחרו משימות מחויבות');return}
+  showConfirm('ביטול חיוב','לבטל את החיוב של '+billed.length+' משימות? הן יחזרו למצב «פתוח».',()=>{
+    billed.forEach(id=>delete BILLING['TSK-'+id]);billSave();window.BILL_SEL=new Set();rerenderTasks();
+    toast(billed.length+' חיובים בוטלו');
+  },'כן, בטל חיוב','חזרה');
+}
+function bulkDeleteBilling(){
+  const s=window.BILL_SEL||new Set();if(!s.size)return;
+  showConfirm('מחיקת משימות','למחוק '+s.size+' משימות? הן יעברו לסל המחיקה.',()=>{
+    const ids=[...s];const snap=[];
+    ids.forEach(id=>{const t=byId(id);if(!t)return;snap.push({t,ri:t.ri,date:t.date});
+      TRASH.unshift({sig:tSig(t),t:JSON.parse(JSON.stringify(t)),at:Date.now(),by:(typeof SESSION!=='undefined'&&SESSION&&SESSION.name)||'מנהל'});
+      const i=TASKS_DB.indexOf(t);if(i>-1)TASKS_DB.splice(i,1);});
+    trashSave();window.BILL_SEL=new Set();rerenderTasks();
+    toastA(ids.length+' משימות נמחקו','בטל מחיקה',()=>{TRASH=TRASH.filter(e=>!snap.some(sn=>tSig(sn.t)===e.sig));trashSave();restorePos(snap);rerenderTasks();toast('המחיקה בוטלה')},8000);
+  });
+}
+
+/* ===== ייצוא לאקסל — ריכוז מעוצב עם לוגו, כותרת RTL וסיכום ===== */
+function exportBilling(){
+  const list=billFiltered();
+  if(!list.length){toast('אין משימות לייצוא');return}
+  const clientName=TF.qClient||'כללי';
+  const title=`ריכוז משימות ${clientName}, חודש ${monthLabel(TF.month)}`;
+  const head=['שם משימה','תאריך','יום','סטטוס','לקוח','נהג','רכב','יציאת נהג','הסרת אחריות','סיום','סה"כ שעות','סה"כ ק"מ','סטטוס חיוב','מספר חשבונית'];
+  const STtxt={done:'בוצע',live:'בנסיעה',pending:'ממתינה',future:'עתידית',cancelled:'בוטלה'};
+  const rows=list.map(x=>{
+    const t=x.t;const veh=ROWS[t.ri]?ROWS[t.ri].v:(isAdminTask(t)?'מנהלתית':'');
+    const h=taskHours(t),km=taskKm(t);const bi=billInfo(t);
+    return [t.n,fullDate(t.date),DOW[fromIso(t.date).getDay()],STtxt[x.st]||'',t.client||(isAdminTask(t)?'':'מזדמן'),t.drv||'',veh,
+      (t.ts&&t.ts.start)||'',(t.ts&&t.ts.rel)||'',(t.ts&&t.ts.end)||'',h||'',km!=null?String(km):'',isBilled(t)?'חויב':'פתוח',bi?bi.invoice:''];
+  });
+  /* CSV אמיתי — נפתח באקסל ישירות, ללא אזהרת תאימות וללא עיצוב */
+  const cell=v=>{v=String(v==null?'':v);return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v;};
+  const lines=[];
+  lines.push(cell(title));            /* שורת כותרת */
+  lines.push(head.map(cell).join(',')); /* כותרות עמודות */
+  rows.forEach(r=>lines.push(r.map(cell).join(',')));
+  const csv='\ufeff'+lines.join('\r\n'); /* BOM לתמיכה בעברית באקסל */
+  const blob=new Blob([csv],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  const fn=clientName.replace(/[\\/:*?"<>|]/g,'')+' '+TF.month+'.csv';
+  a.download=fn;document.body.appendChild(a);a.click();a.remove();
+  toast('הקובץ יוצא · '+list.length+' משימות');
+}
 function vehOrder(){
   if(!VEH_ORDER){
     VEH_ORDER=Store.get('vehorder',null);
@@ -1881,8 +2196,34 @@ function vehOrderSave(){Store.set('vehorder',VEH_ORDER);refreshRows()}
 refreshRows(); /* בנייה ראשונית של שורות היומן לאחר שהסדר זמין */
 /* פתרון אינדקס השורה לכל משימה לפי שם הרכב — אחרי ש-ROWS קיים */
 TASKS_DB.forEach(t=>{if(t.vn!==undefined){t.ri=riByName(t.vn);delete t.vn;}});
+/* ===== שמירה/טעינה של משימות ב-localStorage =====
+   נתוני הדמו נטענים מחדש בכל הפעלה (יחסית להיום) — אך ברגע שהמשתמש מבצע
+   שינוי כלשהו, כל מאגר המשימות נשמר ונטען מחדש בכל רענון. */
+(function loadSavedTasks(){
+  try{
+    const saved=Store.get('tasks',null);
+    if(saved&&Array.isArray(saved)&&saved.length){
+      TASKS_DB.length=0;
+      saved.forEach(t=>{if(t.veh){const ri=riByName(t.veh);if(ri>=0)t.ri=ri;}TASKS_DB.push(t);});
+      let mx=0;TASKS_DB.forEach(t=>{if(typeof t.id==='number'&&t.id>mx)mx=t.id});
+      IDS.ensure('TSK',mx);
+    }
+  }catch(e){}
+})();
+let _saveTasksT=null;
+function saveTasks(){
+  clearTimeout(_saveTasksT);
+  _saveTasksT=setTimeout(()=>{try{
+    if(!TASKS_DB||!TASKS_DB.length)return;
+    /* נשמר עם שם הרכב (veh) כדי שממשק הנהג — קובץ נפרד — יוכל להציג בלי טבלת הרכבים */
+    const payload=TASKS_DB.map(t=>Object.assign({},t,{veh:(ROWS[t.ri]?ROWS[t.ri].v:(t.veh||''))}));
+    Store.set('tasks',payload);
+  }catch(e){}},200);
+}
 /* החלת עדכוני רכב שמורים (ק"מ/מיקום מדיווחי נהגים) */
 VEHICLES.forEach(v=>{const s=Store.get('veh:'+v.n,null);if(s){if(s.km!=null)v.km=s.km;if(s.kmAt)v.kmAt=s.kmAt;if(s.loc)v.loc=s.loc;if(s.svcKm)v.svcKm=s.svcKm;}});
+/* זריעת ק"מ נוכחי לכל רכב במאגר המשותף (אם חסר) — כך ממשק הנהג קורא ק"מ עדכני */
+try{VEHICLES.forEach(v=>{if(Store.get('veh:'+v.n,null)==null)Store.set('veh:'+v.n,{km:v.km,loc:v.loc,svcKm:v.svcKm,kmAt:v.kmAt||Date.now()});});}catch(e){}
 refreshRows();
 /* מזהי רכבים: VEH-n לפי סדר ההגדרה (יציב) */
 VEHICLES.forEach((v,i)=>{if(v.id===undefined)v.id=i+1});
@@ -1997,6 +2338,7 @@ function openClientDeep(id){
 /* ===== כרטיס רכב מלא — סקירה · טיפולים · תקלות · משימות ===== */
 let VC_NAME=null,VC_TAB='overview';
 function openVehCard(name,tab){
+  if(name!==VC_NAME)SVC_Q='';
   VC_NAME=name;VC_TAB=tab||'overview';
   const v=VEHICLES.find(x=>x.n===name);if(!v)return;
   deepHash('vehicle-'+v.id);
@@ -2235,8 +2577,24 @@ function restoreVeh(name){
 }
 
 /* ---------- טיפולים (כולל הוספה) ---------- */
+let SVC_Q='';
+function svcMatch(r,q){
+  if(!q)return true;
+  q=q.trim();
+  /* חיפוש בכל הטקסט: תאריך, ק"מ, סוג, פירוט חופשי, פינות, רפידות/צלחות */
+  const SH={fl:'קדמי שמאל',fr:'קדמי ימין',rl:'אחורי שמאל',rr:'אחורי ימין'};
+  let hay=[r.date,String(r.km),r.next?String(r.next):''];
+  r.items.forEach(it=>{
+    hay.push((SVC_TYPES[it.type]||SVC_TYPES.general).label);
+    if(it.note)hay.push(it.note);
+    if(Array.isArray(it.corners))it.corners.forEach(c=>hay.push(SH[c]||''));
+    if(it.detail)Object.values(it.detail).forEach(d=>hay.push(d==='pads_discs'?'רפידות צלחות':'רפידות'));
+  });
+  return hay.join(' ').includes(q);
+}
 function vcSvc(v){
-  const log=svcOf(v.n).slice().sort((a,b)=>a.date<b.date?1:-1);
+  const all=svcOf(v.n).slice().sort((a,b)=>a.date<b.date?1:-1);
+  const log=all.filter(r=>svcMatch(r,SVC_Q));
   const rows=log.map(r=>{
     const head=`<div class="svc-when"><b class="num">${r.date.slice(8,10)}/${r.date.slice(5,7)}/${r.date.slice(0,4)}</b><span class="num">${(+r.km).toLocaleString()} ק"מ</span>${r.next?`<span class="svc-next">טיפול הבא: ${(+r.next).toLocaleString()}</span>`:''}</div>`;
     const items=r.items.map(it=>{
@@ -2253,8 +2611,13 @@ function vcSvc(v){
       return `<div class="svc-item"><span class="svc-tag" style="color:${T.col};background:${T.bg}">${T.label}</span><span class="svc-note">${it.note||(cn?'':'<span class=mut>ללא פירוט</span>')}${cn?`<span class="mut">${cn}</span>`:''}</span></div>`;
     }).join('');
     return `<div class="svc-card"><div class="svc-card-top">${head}<div class="svc-card-acts"><button class="svc-edit" title="עריכה" onclick="editSvc(${r.id})"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 3a2.8 2.8 0 014 4L7.5 20.5 2 22l1.5-5.5z"/></svg></button><button class="svc-del" title="מחיקה" onclick="delSvc(${r.id})"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg></button></div></div>${items}</div>`;
-  }).join('')||'<div style="color:var(--mut);text-align:center;padding:30px 10px">אין טיפולים מתועדים</div>';
-  return `<button class="btn btn-pri" style="width:100%" onclick="openSvcForm()">+ הוסף טיפול</button><div class="svc-list">${rows}</div>`;
+  }).join('')||`<div style="color:var(--mut);text-align:center;padding:30px 10px">${SVC_Q?'לא נמצאו טיפולים התואמים לחיפוש':'אין טיפולים מתועדים'}</div>`;
+  const search=`<div class="dsearch svc-search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+      <input type="text" placeholder="חיפוש בטיפולים…" value="${SVC_Q.replace(/"/g,'&quot;')}"
+        oninput="SVC_Q=this.value;const p=this.selectionStart;document.getElementById('vc-body').innerHTML=vcSvc(VEHICLES.find(x=>x.n===VC_NAME));const i=document.querySelector('.svc-search input');if(i){i.focus();i.setSelectionRange(p,p)}">
+    </div>`;
+  return `<button class="btn btn-pri" style="width:100%" onclick="openSvcForm()">+ הוסף טיפול</button>${search}<div class="svc-list">${rows}</div>`;
 }
 
 /* ---------- תקלות (דמו · יחובר למערכת התקלות) ---------- */
@@ -2659,26 +3022,38 @@ views.avail=()=>`
 </div></div>`;
 
 views.pay=()=>{
- const tot=PAY.reduce((a,b)=>a+b.v,0);
+ /* שכר מחושב מהמשימות שהנהגים סיימו: שעות (סיום − התחלה) × תעריף (חול ₪70 · שבת ₪90) */
+ const RATE=70,RATE_S=90;
+ const p2=s=>{const a=(s||'').split(':');return (+a[0])*60+(+a[1]||0)};
+ const fmtMin=m=>Math.floor(m/60)+':'+String(Math.round(m%60)).padStart(2,'0');
+ const dd=d=>d.slice(8,10)+'/'+d.slice(5,7);
+ const isShab=d=>fromIso(d).getDay()===6;
+ const rows=TASKS_DB
+   .filter(t=>(t.done||t.stage===3)&&t.ts&&t.ts.start&&t.ts.end&&t.cls!=='self'&&t.cls!=='ext')
+   .map(t=>{let m=p2(t.ts.end)-p2(t.ts.start);if(m<=0)m+=1440;const v=+(m/60*(isShab(t.date)?RATE_S:RATE)).toFixed(2);
+     return{n:t.n,drv:t.drv||'—',d:dd(t.date),date:t.date,min:m,v,adm:t.cls==='admin'};})
+   .sort((a,b)=>a.date<b.date?1:-1);
+ const tot=rows.reduce((a,b)=>a+b.v,0),totMin=rows.reduce((a,b)=>a+b.min,0);
+ if(!rows.length)return`
+ <div class="topbar"><div><h1>שכר והוצאות</h1><div class="sub">חישוב אוטומטי לפי שעות × תעריף (חול ₪70 · שבת ₪90)</div></div></div>
+ <div class="card" style="text-align:center;color:var(--mut);padding:40px">אין עדיין משימות שהושלמו עם שעות עבודה לחישוב שכר.<br>שעות נצברות אוטומטית מדיווחי הסיום של הנהגים.</div>`;
  return`
-<div class="topbar"><div><h1>שכר והוצאות</h1><div class="sub">חישוב אוטומטי לפי שעות × תעריף (חול/שבת) + הוצאות</div></div></div>
+<div class="topbar"><div><h1>שכר והוצאות</h1><div class="sub">חישוב אוטומטי לפי שעות × תעריף (חול ₪70 · שבת ₪90)</div></div></div>
 <div class="payhead">
-  <button class="filt">📅 יוני 2026</button>
-  <button class="filt">👤 בר בנימין</button>
-  <div class="paysum"><div class="v num">₪${tot.toLocaleString('he-IL',{minimumFractionDigits:2})}</div><div class="l">סה"כ לתשלום · 8 משימות · 44:29 שעות</div></div>
+  <div class="paysum"><div class="v num">₪${tot.toLocaleString('he-IL',{minimumFractionDigits:2})}</div><div class="l">סה"כ לתשלום · ${rows.length} משימות · ${fmtMin(totMin)} שעות</div></div>
 </div>
 <div class="card scrollx has-cards">
-  <table class="tbl"><thead><tr><th>משימה</th><th>תאריך</th><th>שעות</th><th>סה"כ</th></tr></thead><tbody>
-  ${PAY.map(p=>`<tr>
-    <td><span class="tname">${p.n}</span> ${p.adm?'<span class="chip c-violet">מנהלתית</span>':''}${p.exp?'<span class="chip c-mut">הוצאה</span>':''}${p.warn?'<span class="chip c-amber">⚠ לבדיקה</span>':''}</td>
-    <td class="num">${p.d}</td><td class="num">${p.h||'—'}</td>
+  <table class="tbl"><thead><tr><th>משימה</th><th>נהג</th><th>תאריך</th><th>שעות</th><th>סה"כ</th></tr></thead><tbody>
+  ${rows.map(p=>`<tr>
+    <td><span class="tname">${p.n}</span> ${p.adm?'<span class="chip c-violet">מנהלתית</span>':''}</td>
+    <td>${p.drv}</td><td class="num">${p.d}</td><td class="num">${fmtMin(p.min)}</td>
     <td class="num" style="font-weight:700">₪${p.v.toFixed(2)}</td></tr>`).join('')}
   </tbody></table>
 </div>
 <div class="cards">
-  ${PAY.map(p=>`<div class="card mcard"><div class="row1"><div><span class="tname">${p.n}</span><div class="tsub num">${p.d}${p.h?' · '+p.h+' שעות':''}</div></div>
+  ${rows.map(p=>`<div class="card mcard"><div class="row1"><div><span class="tname">${p.n}</span><div class="tsub num">${p.drv} · ${p.d} · ${fmtMin(p.min)} שעות</div></div>
   <b class="num" style="font-size:16px">₪${p.v.toFixed(2)}</b></div>
-  ${p.adm?'<div><span class="chip c-violet">מנהלתית</span></div>':''}${p.warn?'<div><span class="chip c-amber">⚠ לבדיקה — ק"מ חריג</span></div>':''}</div>`).join('')}
+  ${p.adm?'<div><span class="chip c-violet">מנהלתית</span></div>':''}</div>`).join('')}
 </div>`};
 
 /* ================= RENDER ================= */
@@ -2695,7 +3070,7 @@ function go(v){
   document.body.classList.toggle('show-fab', v==='home'||v==='tasks');
   $('#main').innerHTML=`<div class="view on">${views[v]()}</div>`;
   if(v==='home'){renderWeek('');requestAnimationFrame(syncSideHeight);}
-  if(v==='tasks')renderTasks('');
+  if(v==='tasks'){TF=billDefaults();window.BILL_SEL=new Set();window.BILL_SEARCH_OPEN={};}
   window.scrollTo({top:0});$('#main').scrollTo({top:0});
 }
 let WKQ='';
@@ -2753,6 +3128,7 @@ function renderWeek(q){
     }).join('');
     return veh+cells;
   }).join('')||`<div style="grid-column:1/-1;text-align:center;color:var(--mut);padding:34px">לא נמצא רכב בשם הזה</div>`;
+  saveTasks();
 }
 
 /* סדרות רב-יומיות: שינוי שנוגע ביום האחרון של קטע — מציע להמשיך אל הימים העוקבים ברצף */
@@ -2773,12 +3149,15 @@ function seriesPrompt(affected,applyFn){
     showConfirm(
       '«'+chain[0].n+'» ממשיכה ברצף ('+label+')',
       'להחיל את השינוי גם על '+chain.length+' הימים הבאים באותו רצף?',
-      ()=>{applyFn(chain);renderWeek(WKQ);toast('השינוי הוחל גם על '+label,3200)}
+      ()=>{applyFn(chain);renderWeek(WKQ);toast('השינוי הוחל גם על '+label,3200)},
+      'החל גם','לא, רק מה שסומן'
     );
   });
 }
-function showConfirm(title,q,onYes){
+function showConfirm(title,q,onYes,yesLabel,noLabel){
   $('#cfTitle').textContent=title;$('#cfQ').textContent=q;
+  $('#cfYes').textContent=yesLabel||'אישור';
+  if($('#cfNo'))$('#cfNo').textContent=noLabel||'ביטול';
   $('#cfYes').onclick=()=>{hideConfirm();onYes()};
   $('#confirm').classList.add('show');
   clearTimeout(window._cf);window._cf=setTimeout(hideConfirm,14000);
@@ -2858,6 +3237,13 @@ function openJournalTask(id){
     ?(isDone?2:t.stage===1?1:0)
     :(t.stage!==undefined?[1,2,3,4][t.stage]:(isDone?4:t.cls==='live'?2:0));
   const showSteps=!t.cls||t.cls==='live'||isAdmin;
+  /* סיכום למשימה שהושלמה — זמן עבודה וק"מ נסיעה */
+  const _pm=x=>{const m=String(x||'').match(/(\d{1,2}):(\d{2})/);return m?+m[1]*60+ +m[2]:null};
+  let workMin=null;
+  if(ts.start&&ts.end){const a=_pm(ts.start),b=_pm(ts.end);if(a!=null&&b!=null){workMin=b-a;if(workMin<=0)workMin+=1440;}}
+  const fmtHM=m=>Math.floor(m/60)+':'+String(m%60).padStart(2,'0');
+  let totKm=null;
+  if(km.start!=null&&km.start!==''&&km.end!=null&&km.end!==''){const d=+km.end-+km.start;if(d>=0&&isFinite(d))totKm=d;}
   $('#drawer').innerHTML=`
   <div class="dr-head"><div><h3>${t.n}</h3><div class="tsub">${t.client?t.client+' · ':''}${dayLabel(t.date)}/${t.date.slice(0,4)}</div></div>
   <button class="x" onclick="closeDrawer()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div>
@@ -2868,8 +3254,8 @@ function openJournalTask(id){
       <div class="dr-item"><span class="l">רכב</span><span class="v">${vehName}</span></div>
       <div class="dr-item"><span class="l">תאריך</span><span class="v num">${ddmm(t.date)}/${t.date.slice(0,4)}</span></div>
       <div class="dr-item"><span class="l">סדרה</span><span class="v">${t.sid?'רב-יומית':'יום בודד'}</span></div>
-      ${t.pay?`<div class="dr-item"><span class="l">סה"כ שעות${t.pay.shabbat?' · שבת':''}</span><span class="v num">${t.pay.h}</span></div>
-      <div class="dr-item"><span class="l">שכר משימה${t.pay.km!==undefined?' · '+t.pay.km+' ק"מ':''}</span><span class="v num">₪${t.pay.amt.toLocaleString()}</span></div>`:''}
+      ${isDone&&workMin!=null?`<div class="dr-item"><span class="l">זמן עבודה</span><span class="v num" style="display:inline-flex;align-items:center;gap:6px"><i style="display:inline-flex;color:var(--mut)">${IC.clock}</i>${fmtHM(workMin)}</span></div>`:''}
+      ${isDone&&totKm!=null?`<div class="dr-item"><span class="l">ק"מ נסיעה</span><span class="v num" style="display:inline-flex;align-items:center;gap:6px"><i style="display:inline-flex;color:var(--mut)">${IC.odo}</i>${totKm.toLocaleString()}</span></div>`:''}
     </div>
     ${showSteps?`<div><h3 style="font-size:14px;margin-bottom:12px">מהלך המשימה</h3>
     <div class="steps">${steps.map((s,i)=>`<div class="step ${i<doneCount?'done':''} ${i===doneCount&&t.cls==='live'?'cur':''}">
@@ -2940,7 +3326,7 @@ function openEditTask(id,tab){
   if(tab!=='status'){
     cbSet('cb-client',CLIENTS.map((c,i)=>({v:i,label:c.n})));
     cbSet('cb-veh',ROWS.map((r,i)=>({v:i,label:r.v+(r.arm?' 🛡':'')})).filter((_,i)=>!['משימת נהיגה','משימה חיצונית'].includes(ROWS[i].v)));
-    cbSet('cb-drv',[{v:'',label:'ללא שיבוץ כרגע'},...DRIVERS.map(d=>({v:d.n,label:d.n}))]);
+    cbSet('cb-drv',[{v:'',label:'ללא'},...DRIVERS.map(d=>({v:d.n,label:d.n}))]);
   }
   $('#drawer').classList.add('open');$('#scrim').classList.add('open');
 }
@@ -2956,7 +3342,7 @@ function edDetailsTab(t,isPseudo){
       ${!isPseudo?`<div class="fld"><label>שיבוץ רכב</label>${comboHTML('cb-veh','בחר רכב',ROWS[t.ri].v,t.ri)}</div>`:'<div></div>'}
     </div>
     <div class="fld"><label>מיקום התייצבות</label><input type="text" id="edLoc" value="${t.loc||''}"></div>
-    ${t.cls!=='self'&&t.cls!=='ext'?`<div class="fld"><label>שיבוץ נהג</label>${comboHTML('cb-drv','בחר נהג',t.drv||'ללא שיבוץ כרגע',t.drv||'')}</div>`:''}
+    ${t.cls!=='self'&&t.cls!=='ext'?`<div class="fld"><label>שיבוץ נהג</label>${comboHTML('cb-drv','בחר נהג',t.drv||'ללא',t.drv||'')}</div>`:''}
     <div class="fld"><label>הערות לנהג</label><textarea id="edNotes">${t.notes||''}</textarea></div>`;
 }
 function edStatusTab(t){
@@ -3380,12 +3766,18 @@ const NT={type:'regular',start:null,end:null};
 function comboHTML(id,placeholder,initLabel,initV){
   return `<div class="combo" id="${id}">
     <input type="text" placeholder="${placeholder}" value="${initLabel||''}" data-v="${initV??''}"
-      oninput="cbRender('${id}',this.value)" onfocus="cbRender('${id}','')" autocomplete="off">
+      oninput="cbRender('${id}',this.value)" onfocus="cbFocus(this,'${id}')" autocomplete="off">
     <div class="cb-list"></div>
   </div>`;
 }
 const CB_ITEMS={};
 function cbSet(id,items){CB_ITEMS[id]=items}
+/* בלחיצה: פתיחת הרשימה ובחירת כל הטקסט — כך אפשר מיד להקליד ולחפש (אמין גם במובייל) */
+function cbFocus(inp,id){
+  cbRender(id,'');
+  const sel=()=>{try{inp.select()}catch(e){}};
+  sel();setTimeout(sel,0);
+}
 function cbRender(id,q){
   const el=document.getElementById(id),list=el.querySelector('.cb-list');
   const items=(CB_ITEMS[id]||[]).filter(it=>!q||it.label.includes(q));
@@ -3453,7 +3845,7 @@ function openNewTask(ri,dateIso){
 
     <div class="f-row" id="f-time-row">
       <div class="fld" id="f-time"><label>שעת התייצבות</label><input type="time" id="ntTime"></div>
-      <div class="fld" id="f-veh"><label>שיבוץ רכב <span class="hint">(טנטטיבי)</span></label>
+      <div class="fld" id="f-veh"><label>שיבוץ רכב</label>
         ${comboHTML('cb-veh','בחר רכב',hasVeh?ROWS[ri].v:'',hasVeh?ri:'')}
       </div>
     </div>
@@ -3462,7 +3854,7 @@ function openNewTask(ri,dateIso){
       <input type="text" id="ntLoc"></div>
 
     <div class="fld" id="f-drv"><label>שיבוץ נהג</label>
-      ${comboHTML('cb-drv','בחר נהג','ללא שיבוץ כרגע','')}
+      ${comboHTML('cb-drv','בחר נהג','ללא','')}
     </div>
 
     <div class="fld" id="f-notes"><label>הערות לנהג</label><textarea id="ntNotes"></textarea></div>
@@ -3473,7 +3865,7 @@ function openNewTask(ri,dateIso){
   </div>`;
   cbSet('cb-client',CLIENTS.map((c,i)=>({v:i,label:c.n})));
   cbSet('cb-veh',ROWS.map((r,i)=>({v:i,label:r.v+(r.arm?' 🛡':'')})).filter((_,i)=>!['משימת נהיגה','משימה חיצונית'].includes(ROWS[i].v)));
-  cbSet('cb-drv',[{v:'',label:'ללא שיבוץ כרגע'},...DRIVERS.map(d=>({v:d.n,label:d.n}))]);
+  cbSet('cb-drv',[{v:'',label:'ללא'},...DRIVERS.map(d=>({v:d.n,label:d.n}))]);
   ntContacts();ntDates();
   $('#drawer').classList.add('open');$('#scrim').classList.add('open');
 }
@@ -3517,6 +3909,8 @@ function saveTask(send){
   const t=NT.type;
   const vehV=cbVal('cb-veh');
   if((t==='regular'||t==='self')&&vehV===''){toast('בחר רכב');return}
+  const casual=$('#ntCasual')&&$('#ntCasual').checked;
+  if(!casual&&cbVal('cb-client')===''){toast('בחר לקוח או סמן «לקוח מזדמן»');return}
   const s=NT.start,e=NT.end;
   const n=dayDiff(e,s)+1;
   const drv=(t==='self'||t==='ext')?'':cbVal('cb-drv');
@@ -3525,7 +3919,7 @@ function saveTask(send){
           :+vehV;
   const sid=n>1?'s'+NEXT_ID:undefined;
   const cls=t==='self'?'self':t==='ext'?'ext':undefined;
-  const client=$('#ntCasual')?.checked?($('#ntCasualName').value.trim()||undefined):(cbVal('cb-client')!==''?cbLabel('cb-client'):undefined);
+  const client=casual?($('#ntCasualName').value.trim()||'לקוח מזדמן'):cbLabel('cb-client');
   const time=$('#ntTime')?.value||undefined,loc=$('#ntLoc')?.value.trim()||undefined,notes=$('#ntNotes')?.value.trim()||undefined;
   for(let i=0;i<n;i++){
     TASKS_DB.push({id:IDS.next('TSK'),ri,date:addD(s,i),n:name,drv:drv||undefined,cls,sid,client,time,loc,notes});
@@ -3550,27 +3944,6 @@ function queueDriverNotice(task,from,parts){
       toast('השינוי בוטל');
     },
     8000);
-}
-function renderTasks(q){
-  q=(q||'').trim();
-  const rows=TASKS.filter(t=>!q||[t.name,t.client,t.drv,t.veh].join(' ').includes(q));
-  $('#tbody').innerHTML=rows.map(t=>`<tr onclick="openTask(${t.id})">
-    <td><span class="tname">${t.name}</span><div class="tsub">${t.client}</div></td>
-    <td class="num">${t.day} ${t.date}</td>
-    <td>${t.drv}<div class="tsub">${t.veh||'נסיעה מנהלתית'}</div></td>
-    <td class="num">${t.s||'—'}</td><td class="num">${t.rel||'—'}</td><td class="num">${t.e||'—'}</td>
-    <td class="num">${t.h||'—'}</td>
-    <td class="num" style="${t.km>200?'color:var(--red);font-weight:700':''}">${t.km||'—'}</td>
-    <td>${stChip(t.st)}</td></tr>`).join('')||'<tr><td colspan="9" style="text-align:center;color:var(--mut);padding:30px">לא נמצאו משימות. נסה חיפוש אחר.</td></tr>';
-  $('#tcards').innerHTML=rows.map(t=>`<div class="card mcard" onclick="openTask(${t.id})">
-    <div class="row1"><div><span class="tname">${t.name}</span><div class="tsub">${t.client} · ${t.day} ${t.date}</div></div>${stChip(t.st)}</div>
-    <div class="meta"><span>🧑 <b>${t.drv}</b></span><span>🚙 <b>${t.veh||'מנהלתית'}</b></span>${t.km?`<span style="${t.km>200?'color:var(--red)':''}">📍 <b>${t.km} ק"מ</b></span>`:''}</div>
-    <div class="mtimes">
-      <div><span class="l">התחלה</span><span class="v">${t.s||'—'}</span></div>
-      <div><span class="l">הסרת אחריות</span><span class="v">${t.rel||'—'}</span></div>
-      <div><span class="l">סיום</span><span class="v">${t.e||'—'}</span></div>
-      <div><span class="l">שעות</span><span class="v">${t.h||'—'}</span></div>
-    </div></div>`).join('');
 }
 function openTask(id){
   const t=TASKS.find(x=>x.id===id)||TASKS[0];
@@ -3659,6 +4032,26 @@ function routeHash(h){
 }
 const _h0=location.hash.slice(1);
 if(!routeHash(_h0))go(views[_h0]?_h0:'home');
+/* ===== עדכון חי מהמאגר המשותף (דיווחי נהג) ===== */
+function reloadTasksFromDB(){
+  try{
+    const saved=Store.reload('tasks');
+    if(saved&&Array.isArray(saved)){
+      TASKS_DB.length=0;
+      saved.forEach(t=>{if(t.veh){const ri=riByName(t.veh);if(ri>=0)t.ri=ri;}TASKS_DB.push(t);});
+      let mx=0;TASKS_DB.forEach(t=>{if(typeof t.id==='number'&&t.id>mx)mx=t.id});IDS.ensure('TSK',mx);
+    }
+  }catch(e){}
+}
+window.addEventListener('storage',e=>{
+  if(!e.key)return;
+  if(e.key==='vip_tasks'){reloadTasksFromDB();if(typeof refreshRows==='function')refreshRows();if(window.CURV)go(window.CURV);}
+  else if(e.key.indexOf('vip_veh:')===0){
+    try{const sk=e.key.slice(4),name=sk.slice(4),rec=Store.reload(sk),v=VEHICLES.find(x=>x.n===name);
+      if(v&&rec){if(rec.km!=null)v.km=rec.km;if(rec.loc)v.loc=rec.loc;if(rec.svcKm)v.svcKm=rec.svcKm;if(rec.kmAt)v.kmAt=rec.kmAt;}}catch(err){}
+    if(window.CURV)go(window.CURV);
+  }
+});
 /* שם המשתמש המחובר בפרופיל */
 if(SESSION){
   const nm=document.getElementById('meName');
