@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover, user-scalable=no">
+<title>911VIP · ממשק נהג</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&family=Rubik:wght@500;600;700;800&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --btn:#0E0F11;
+  --ink:#0E0F11;--ink2:#3A3C40;--paper:#F2F2EE;--card:#FFFFFF;
+  --line:#E4E4DE;--line2:#D6D6CE;--mut:#8A8D92;
+  --lime:#E0892F;--lime-soft:#FBEFE2;
+  --green:#1F9D55;--green-bg:#E5F3EB;--amber:#B97A0A;--amber-bg:#FBF3E1;
+  --red:#C03A2B;--red-bg:#F9E9E6;--violet:#6D5BD0;--violet-bg:#EEEBFA;
+  --mono:'IBM Plex Mono',monospace;
+  --r:20px;
+}
+html[data-theme="dark"]{
+  --paper:#101114;--card:#1A1C20;--ink:#F1F1EC;--ink2:#CFD1D5;
+  --line:#262930;--line2:#34373E;--mut:#8E9197;
+  --lime-soft:#2A2014;
+  --green-bg:#11271B;--amber-bg:#2A2110;--red-bg:#2B1613;--violet-bg:#1F1B34;
+  background:#101114;
+}
+html[data-theme="dark"] body{background:#101114;color:#F1F1EC}
+html[data-theme="dark"] .app{background:#101114}
+html[data-theme="dark"] .main{background:#101114}
+html[data-theme="dark"] .nav{background:rgba(26,28,32,.94);border-color:rgba(255,255,255,.06)}
+html[data-theme="dark"] .nav button.on{background:rgba(255,255,255,.1)}
+html[data-theme="dark"] .hero{box-shadow:0 12px 34px rgba(0,0,0,.5)}
+html[data-theme="dark"] .sheet,html[data-theme="dark"] .row,html[data-theme="dark"] .tcard,html[data-theme="dark"] .av-row,html[data-theme="dark"] .pay-row,html[data-theme="dark"] .fab-adm{box-shadow:none}
+html[data-theme="dark"] .dchip,html[data-theme="dark"] .tile{background:#121316}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;touch-action:manipulation}
+body{
+  font-family:'Heebo',sans-serif;background:var(--paper);color:var(--ink);
+  position:fixed;inset:0;overflow:hidden;
+}
+h1,h2,h3{font-family:'Rubik',sans-serif}
+button{font-family:inherit;border:none;background:none;cursor:pointer;color:inherit}
+input,select,textarea{font-family:inherit}
+.num{font-family:var(--mono)}
+
+/* ================= shell ================= */
+.app{height:100%;max-width:560px;margin:0 auto;display:flex;flex-direction:column;position:relative}
+
+/* כותרת כהה שהתוכן צף עליה */
+.hd{
+  background:linear-gradient(160deg,#131417 0%,#0E0F11 60%);
+  color:#fff;flex:none;
+  padding:calc(14px + env(safe-area-inset-top)) 20px 52px;
+  border-radius:0 0 30px 30px;
+  position:relative;z-index:1;
+}
+.hd-row{display:flex;align-items:center;gap:12px}
+.hd img{height:26px;opacity:.95}
+.hd .mgr{
+  margin-inline-start:auto;font-size:10.5px;color:#9DA0A6;text-decoration:none;
+  border:1px solid #2A2C30;border-radius:999px;padding:5px 11px;font-weight:600;
+}
+.hd .hello{margin-top:16px}
+.hd .hello b{display:block;font-size:21px;font-family:'Rubik';font-weight:700}
+.hd .hello span{font-size:12px;color:#9DA0A6;font-weight:500}
+.hd .ava{
+  width:38px;height:38px;border-radius:50%;background:var(--lime);color:#0E0F11;
+  display:grid;place-items:center;font-weight:800;font-size:14px;flex:none;font-family:'Rubik';
+}
+
+.main{
+  flex:1;overflow:auto;-webkit-overflow-scrolling:touch;
+  padding:0 16px calc(108px + env(safe-area-inset-bottom));
+  margin-top:-34px;position:relative;z-index:2;
+}
+
+/* ================= hero ================= */
+.hero{
+  background:var(--card);border-radius:24px;padding:18px 18px 16px;
+  box-shadow:0 12px 34px rgba(14,15,17,.12);
+}
+.h-status{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.h-status .pill{
+  display:inline-flex;align-items:center;gap:6px;border-radius:999px;
+  padding:5px 12px;font-size:11.5px;font-weight:800;
+}
+.pill.live{background:var(--green-bg);color:var(--green)}
+.pill.next{background:var(--lime-soft);color:#A96012}
+.pill.wait{background:var(--amber-bg);color:var(--amber)}
+.dot{width:7px;height:7px;border-radius:50%;background:currentColor}
+.pulse{animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.h-status .when{margin-inline-start:auto;font-size:11.5px;color:var(--mut);font-weight:700}
+.hero h2{font-size:24px;letter-spacing:-.01em}
+.hero .cl{font-size:13px;color:var(--mut);font-weight:600;margin-top:2px}
+
+.h-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:15px}
+.tile{background:var(--paper);border-radius:15px;padding:11px 13px;min-width:0}
+.tile.w{grid-column:1/-1}
+.tile span{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--mut);font-weight:700;letter-spacing:.02em}
+.tile b{display:block;font-size:16px;font-weight:700;margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tile svg{flex:none}
+
+/* stepper */
+.stepper{display:flex;align-items:flex-start;margin-top:17px;padding:0 4px}
+.snode{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;position:relative}
+.snode::before{
+  content:'';position:absolute;top:11px;inset-inline-start:calc(50% + 14px);inset-inline-end:calc(-50% + 14px);
+  height:2.5px;border-radius:99px;background:var(--line);
+}
+.snode:last-child::before{display:none}
+.snode.done::before{background:var(--green)}
+.sdot{
+  width:23px;height:23px;border-radius:50%;background:var(--card);border:2.5px solid var(--line2);
+  display:grid;place-items:center;color:#fff;position:relative;z-index:1;
+}
+.snode.done .sdot{background:var(--green);border-color:var(--green)}
+.snode.cur .sdot{border-color:var(--lime);box-shadow:0 0 0 4px var(--lime-soft)}
+.snode.cur .sdot::after{content:'';width:9px;height:9px;border-radius:50%;background:var(--lime);animation:pulse 1.5s infinite}
+.snode small{font-size:9.5px;font-weight:700;color:var(--mut);text-align:center;line-height:1.25}
+.snode.cur small{color:var(--ink)}
+
+.bigact{
+  margin-top:16px;width:100%;border-radius:17px;padding:18px;font-size:18.5px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;gap:9px;
+  transition:transform .08s;
+}
+.bigact:active{transform:scale(.98)}
+.ap-btn{
+  width:100%;margin-top:13px;display:flex;align-items:center;justify-content:center;gap:8px;
+  border:1.5px solid var(--green);color:var(--green);background:var(--green-bg);
+  border-radius:14px;padding:12px;font-weight:800;font-size:14.5px;
+}
+.ap-btn:active{transform:scale(.985)}
+.bigact.approve{background:var(--green);color:#fff;box-shadow:0 8px 22px rgba(31,157,85,.3)}
+.bigact.start{background:var(--btn);color:var(--lime);box-shadow:0 8px 22px rgba(14,15,17,.28)}
+.bigact.rel{background:var(--lime);color:#fff;box-shadow:0 8px 22px rgba(224,137,47,.32)}
+.bigact.end{background:var(--btn);color:var(--lime);box-shadow:0 8px 22px rgba(14,15,17,.28)}
+
+/* ================= lists ================= */
+.sec-t{font-size:12px;font-weight:800;color:var(--mut);letter-spacing:.05em;margin:22px 4px 10px}
+.row{
+  background:var(--card);border-radius:18px;padding:13px 14px;margin-bottom:9px;
+  display:flex;align-items:center;gap:13px;box-shadow:0 1px 3px rgba(14,15,17,.05);
+}
+.dchip{
+  width:46px;flex:none;background:var(--paper);border-radius:13px;text-align:center;padding:7px 0 6px;
+}
+.dchip b{display:block;font-size:17px;font-family:var(--mono);font-weight:700;line-height:1}
+.dchip span{font-size:9.5px;color:var(--mut);font-weight:700}
+.row .bd{flex:1;min-width:0}
+.row .bd h3{font-size:14.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row .bd p{font-size:11.5px;color:var(--mut);font-weight:500;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chip{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:4px 10px;font-size:10.5px;font-weight:800;flex:none}
+.c-green{background:var(--green-bg);color:var(--green)}
+.c-amber{background:var(--amber-bg);color:var(--amber)}
+.c-mut{background:#EDEDE8;color:var(--mut)}
+.c-violet{background:var(--violet-bg);color:var(--violet)}
+.row .ok{
+  flex:none;border:1.5px solid var(--green);color:var(--green);border-radius:999px;
+  padding:7px 13px;font-size:12px;font-weight:800;
+}
+.adm-ic{width:16px;height:16px;border-radius:5px;background:var(--violet);color:#fff;font-size:10px;font-weight:800;display:grid;place-items:center}
+.fab-adm{
+  width:100%;background:var(--card);border-radius:18px;padding:14px;margin-top:12px;
+  color:var(--violet);font-weight:800;font-size:13.5px;display:flex;align-items:center;justify-content:center;gap:9px;
+  box-shadow:0 1px 3px rgba(14,15,17,.05);
+}
+.empty{color:var(--mut);text-align:center;padding:40px 10px;font-size:13.5px}
+
+/* ================= floating nav ================= */
+.nav{
+  position:fixed;bottom:calc(10px + env(safe-area-inset-bottom));left:16px;right:16px;z-index:40;
+  max-width:532px;margin:0 auto;background:rgba(255,255,255,.92);
+  -webkit-backdrop-filter:blur(18px) saturate(1.6);backdrop-filter:blur(18px) saturate(1.6);
+  border-radius:999px;display:flex;padding:7px;gap:3px;
+  box-shadow:0 12px 36px rgba(14,15,17,.16),0 2px 8px rgba(14,15,17,.07);
+  border:1px solid rgba(14,15,17,.04);
+}
+.nav button{
+  flex:1;display:grid;place-items:center;color:var(--ink);
+  padding:12px 0;border-radius:999px;font-size:0;line-height:0;transition:background .15s;
+}
+.nav button svg{stroke:currentColor;width:23px;height:23px}
+.nav button.on{background:rgba(14,15,17,.08)}
+.nav button:active{background:rgba(14,15,17,.12)}
+
+/* ================= sheet ================= */
+.scrim{position:fixed;inset:0;background:rgba(14,15,17,.5);opacity:0;pointer-events:none;transition:.18s;z-index:60}
+.scrim.open{opacity:1;pointer-events:auto}
+.sheet{
+  position:fixed;left:0;right:0;bottom:0;z-index:61;max-width:560px;margin:0 auto;
+  background:var(--card);border-radius:26px 26px 0 0;
+  padding:10px 20px calc(20px + env(safe-area-inset-bottom));
+  transform:translateY(105%);transition:transform .26s cubic-bezier(.22,.8,.3,1);
+  max-height:88dvh;overflow:auto;
+}
+.sheet.open{transform:translateY(0)}
+.grab{width:38px;height:4px;border-radius:99px;background:var(--line2);margin:4px auto 16px}
+.sheet h3{font-size:19px;padding-inline-end:52px}
+.sheet .sub{font-size:12.5px;color:var(--mut);margin:3px 0 17px;font-weight:600;padding-inline-end:52px}
+.fld{margin-bottom:13px}
+.fld>label{display:block;font-size:11.5px;font-weight:800;color:var(--ink2);margin-bottom:6px}
+.fld input,.fld select{
+  width:100%;border:1.5px solid var(--line2);border-radius:14px;padding:15px;font-size:18px;
+  background:var(--card);outline:none;font-weight:600;
+}
+.fld input:focus,.fld select:focus{border-color:var(--ink)}
+/* iOS: שדות שעה מתעלמים מרוחב — קיבוע מפורש */
+.fld input[type="time"]{
+  -webkit-appearance:none;appearance:none;display:block;
+  width:100%;max-width:100%;min-width:0;text-align:start;
+  background:var(--card);color:var(--ink);
+}
+.fld input[type="time"]::-webkit-date-and-time-value{text-align:start}
+.fnote{font-size:11px;color:var(--mut);margin:-7px 0 13px;font-weight:500}
+.fhelp{display:flex;align-items:center;gap:8px;margin:-7px 0 13px;flex-wrap:wrap}
+.fh-info{font-size:11.5px;color:var(--mut);font-weight:600}
+.fh-btn{
+  display:inline-flex;align-items:center;gap:5px;border:1.5px solid var(--line2);
+  border-radius:999px;padding:6px 12px;font-size:11.5px;font-weight:800;color:var(--ink2);
+  background:var(--card);
+}
+.fh-btn:active{background:var(--paper)}
+.s-act{
+  width:100%;border-radius:16px;padding:17px;font-size:17.5px;font-weight:800;
+  background:var(--btn);color:var(--lime);text-align:center;margin-top:5px;
+}
+.s-x{position:absolute;top:16px;inset-inline-start:16px;width:32px;height:32px;border-radius:50%;background:var(--paper);display:grid;place-items:center}
+
+/* ================= avail / pay ================= */
+.av-head{
+  background:var(--card);border-radius:18px;padding:15px 16px;margin-bottom:12px;
+  box-shadow:0 1px 3px rgba(14,15,17,.05);
+}
+.av-head .t{display:flex;align-items:center;gap:9px}
+.av-head .t b{font-size:15.5px;font-family:'Rubik'}
+.av-head .t .chip{margin-inline-start:auto}
+.av-head .d{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:4px}
+.av-remind{
+  background:var(--amber-bg);color:var(--amber);border-radius:14px;padding:11px 14px;
+  font-size:12px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px;
+}
+.av-all{
+  width:100%;border:1.5px dashed var(--line2);border-radius:14px;padding:11px;margin-bottom:10px;
+  color:var(--green);font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;gap:7px;
+  background:var(--card);
+}
+.seg3{display:flex;gap:0;border:1.5px solid var(--line2);border-radius:12px;overflow:hidden;flex:none}
+.seg3 button{
+  width:46px;padding:9px 0;display:grid;place-items:center;color:var(--mut);
+  border-inline-start:1.5px solid var(--line2);background:var(--card);
+}
+.seg3 button:first-child{border-inline-start:none}
+.seg3 .y.on{background:var(--green);color:#fff}
+.seg3 .p.on{background:var(--amber);color:#fff}
+.seg3 .n.on{background:var(--red);color:#fff}
+.av-note{flex:1;min-width:0}
+.av-note input{
+  width:100%;border:1.5px solid var(--amber);border-radius:11px;padding:8px 11px;
+  font-size:16px;background:var(--amber-bg);color:var(--ink);outline:none;font-weight:500;
+}
+.av-mini{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-bottom:10px}
+.av-d{border-radius:13px;padding:9px 2px 8px;text-align:center;background:var(--card)}
+.av-d span{display:block;font-size:9.5px;font-weight:700;color:var(--mut)}
+.av-d b{display:block;font-size:15px;font-family:var(--mono);margin:2px 0 3px}
+.av-d .ic{display:flex;justify-content:center}
+.av-d.y{background:var(--green-bg)}.av-d.y .ic{color:var(--green)}
+.av-d.p{background:var(--amber-bg)}.av-d.p .ic{color:var(--amber)}
+.av-d.n{background:var(--red-bg)}.av-d.n .ic{color:var(--red)}
+.av-notes{margin-bottom:10px}
+.av-notes div{font-size:11.5px;color:var(--mut);font-weight:600;padding:3px 4px}
+.av-more{
+  width:100%;border:1.5px dashed var(--line2);border-radius:14px;padding:12px;margin-top:14px;
+  color:var(--ink2);font-weight:800;font-size:13px;background:var(--card);
+}
+.av-sum{flex:1;min-width:0;display:flex;align-items:center;gap:8px}
+.av-sum .nt{font-size:12px;color:var(--mut);font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.av-submit{
+  width:100%;border-radius:16px;padding:16px;font-size:16px;font-weight:800;margin-top:6px;
+  background:var(--btn);color:var(--lime);
+}
+.av-submit:disabled{opacity:.4}
+.av-row{
+  background:var(--card);border-radius:17px;padding:13px 15px;margin-bottom:9px;
+  display:flex;align-items:center;gap:10px;box-shadow:0 1px 3px rgba(14,15,17,.05);
+}
+.av-row .d{flex:1}
+.av-row .d b{display:block;font-size:14.5px}
+.av-row .d span{font-size:11px;color:var(--mut);font-weight:600}
+.av-opts{display:flex;gap:6px}
+.av-opts button{
+  width:38px;height:38px;border-radius:12px;border:1.5px solid var(--line2);
+  display:grid;place-items:center;color:var(--mut);
+}
+.av-opts button.y.on{background:var(--green-bg);border-color:var(--green);color:var(--green)}
+.av-opts button.p.on{background:var(--amber-bg);border-color:var(--amber);color:var(--amber)}
+.av-opts button.n.on{background:var(--red-bg);border-color:var(--red);color:var(--red)}
+
+.pay-sum{
+  background:linear-gradient(150deg,#16181C,#0E0F11);color:#fff;border-radius:22px;
+  padding:20px;margin-bottom:16px;box-shadow:0 10px 28px rgba(14,15,17,.2);
+}
+.pay-sum .lbl{font-size:11px;color:#9DA0A6;font-weight:700}
+.pay-sum .big{font-size:34px;font-weight:700;font-family:var(--mono);color:var(--lime);margin-top:3px}
+.pay-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:15px}
+.pay-grid div b{display:block;font-size:17px;font-family:var(--mono)}
+.pay-grid div span{font-size:10.5px;color:#9DA0A6;font-weight:600}
+.pay-row{
+  background:var(--card);border-radius:15px;padding:12px 15px;margin-bottom:8px;
+  display:flex;align-items:center;gap:10px;box-shadow:0 1px 3px rgba(14,15,17,.05);
+}
+.pay-row .n{flex:1}
+.pay-row .n b{display:block;font-size:14px}
+.pay-row .n span{font-size:11px;color:var(--mut);font-weight:600}
+.pay-row .amt{font-family:var(--mono);font-weight:700;font-size:15px}
+
+.toast{
+  position:fixed;bottom:calc(86px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%) translateY(16px);
+  background:#26282D;color:#fff;border-radius:14px;padding:12px 18px;font-size:13px;font-weight:600;
+  opacity:0;pointer-events:none;transition:.2s;z-index:80;white-space:nowrap;max-width:92vw;overflow:hidden;text-overflow:ellipsis;
+  box-shadow:0 10px 26px rgba(14,15,17,.3);
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="hd">
+    <div class="hd-row">
+      <img src="data:image/png;base64,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" alt="911VIP">
+      <button class="mgr" id="themeBtn" onclick="toggleTheme()" style="display:grid;place-items:center;width:32px;padding:5px 0"></button>
+      <a class="mgr" id="backToAdmin" href="index.html" style="display:none">חזרה לניהול ←</a>
+      <button class="mgr" id="logoutBtn" style="display:none" onclick="vipLogout()">התנתקות</button>
+    </div>
+    <div class="hd-row hello-row" style="margin-top:18px">
+      <div class="hello" style="flex:1;margin-top:0">
+        <b id="hello"></b>
+        <span id="helloDate"></span>
+      </div>
+      <div class="ava" id="ava"></div>
+    </div>
+  </div>
+  <div class="main" id="main"></div>
+</div>
+
+<nav class="nav">
+  <button data-v="veh" onclick="go('veh')" title="רכבים">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M5 11l1.5-4.5A2 2 0 0 1 8.4 5h7.2a2 2 0 0 1 1.9 1.5L19 11"/><rect x="3" y="11" width="18" height="7" rx="2"/><circle cx="7.5" cy="18" r="1.6"/><circle cx="16.5" cy="18" r="1.6"/></svg></button>
+  <button data-v="avail" onclick="go('avail')" title="זמינות">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9 12l2 2 4-4"/></svg></button>
+  <button class="on" data-v="tasks" onclick="go('tasks')" title="המשימות שלי">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="3"/><path d="M8 2v4M16 2v4M3 9h18"/></svg></button>
+  <button data-v="exp" onclick="go('exp')" title="הוצאות">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M5 3h14v18l-2.3-1.5L14.4 21l-2.4-1.5L9.6 21l-2.3-1.5L5 21z"/><path d="M9 8h6M9 12h6"/></svg></button>
+  <button data-v="pay" onclick="go('pay')" title="שכר">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="2" y="6" width="20" height="13" rx="2"/><path d="M2 10h20"/></svg></button>
+</nav>
+
+<div class="scrim" id="scrim" onclick="closeSheet()"></div>
+<div class="sheet" id="sheet"></div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================
+   Store — שכבת אחסון מרכזית אחת לכל המערכת (זהה בכל הקבצים).
+   כל שינוי עובר דרך כאן. היום: localStorage. מעבר לאונליין:
+   מחליפים רק את גוף set/get כך שידברו עם השרת. ============= */
+const Store=(()=>{
+  const PREFIX='vip_';const mem={};
+  function set(key,val){mem[key]=val;try{localStorage.setItem(PREFIX+key,JSON.stringify(val))}catch(e){}return val;}
+  function get(key,fallback){if(key in mem)return mem[key];try{const r=localStorage.getItem(PREFIX+key);if(r!=null){mem[key]=JSON.parse(r);return mem[key]}}catch(e){}return(fallback!==undefined?fallback:null);}
+  function remove(key){delete mem[key];try{localStorage.removeItem(PREFIX+key)}catch(e){}}
+  return{set,get,remove};
+})();
+
+/* ===== הרשאות: נהג רואה רק את הממשק שלו · מנהל יכול לפעול כנהג ולחזור ===== */
+/* תוקף סשן: מנהל — חודש · נהג — חצי שנה */
+const SESSION_MAX={manager:30*24*60*60*1000,driver:183*24*60*60*1000};
+const sessionExpired=s=>!s||!s.at||(Date.now()-s.at)>(SESSION_MAX[s.role]||0);
+let SESSION=null;
+SESSION=Store.get('session',null);
+if(sessionExpired(SESSION)){Store.remove('session');location.replace('911vip-login.html')}
+function vipLogout(){Store.remove('session');location.replace('911vip-login.html')}
+/* נהג מחובר (דמו). במערכת אמיתית: OTP, והשרת מחזיר רק את נתוני הנהג.
+   הרשאות: נהג ניגש אך ורק לעמוד זה · מנהל/סדרן ניגשים לכל העמודים ופועלים גם כנהג. */
+const ME={n:'טירן שרון',rate:70,rateS:90,home:'מבשרת ציון, האלון 12'}; /* תעריף אחיד לכל הנהגים: 70 חול · 90 שבת */
+const DEMO_TODAY=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Jerusalem',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date()); // היום האמיתי לפי שעון ישראל
+const DAY_NAMES=['ראשון','שני','שלישי','רביעי','חמישי','שישי','שבת'];
+const fromIso=s=>new Date(s+'T00:00:00');
+const addD=(s,n)=>{const d=fromIso(s);d.setDate(d.getDate()+n);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+const ddmm=s=>s.slice(8,10)+'/'+s.slice(5,7);
+const dayLabel=s=>DAY_NAMES[fromIso(s).getDay()]+' '+ddmm(s);
+const nowHM=()=>{const d=new Date();return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')};
+
+const VEHICLES=[
+ {n:'קאדילק 003',loc:'מוסך רחובות',km:87652,arm:1},
+ {n:'קאדילק 004',loc:'הר חוצבים',km:55987,arm:1},
+ {n:'סברבן 904',loc:'המצור ירושלים',km:16269,arm:1},
+ {n:'סברבן 603',loc:'ראשל"צ ויקטורי',km:99218,arm:1},
+ {n:'סברבן 203',loc:'קדר',km:104807,arm:1},
+ {n:'טאהו 303',loc:'רון ויקטורי',km:91888,arm:1},
+ {n:'סילברדו 503',loc:'פיק"א 44',km:10300,arm:1},
+ {n:'סילברדו 801',loc:'הכרכום 11, מעלה אדומים',km:10300,arm:1},
+ {n:'סברבן 901',loc:'גבעת זאב, רח׳ הזית',km:239563,arm:1},
+ {n:'ספרינטר 911',loc:'ראשל"צ ויקטורי',km:82000,arm:1},
+ {n:'ספרינטר 290',loc:'רון',km:104326,arm:1},
+ {n:'טאהו רך 703',loc:'החומה מעלה אדומים',km:82444,arm:0},
+ {n:'סברבן רך 803',loc:'מבשרת - אליאב',km:50000,arm:0},
+ {n:'קאדילק רך 403',loc:'מוסך רחובות',km:50000,arm:0},
+ {n:'קאדילק אסקלייד V',loc:'קידר',km:50000,arm:0},
+];
+
+/* stage: -1 ממתין לאישור · 0 מאושרת · 1 בנסיעה · 2 אחרי הסרת אחריות · 3 הסתיימה */
+let TASKS=[
+ /* טירן שרון */
+ {id:1,drv:'טירן שרון',n:'צבי סוכות',client:'כנסת ישראל',date:DEMO_TODAY,time:'06:30',loc:'ראשל"צ ויקטורי',veh:'סברבן 603',stage:1,
+  ts:{start:'06:30'},km:{start:'99218'},rts:{ap:'21:14',start:'06:31'},locs:{}},
+ {id:2,drv:'טירן שרון',n:'בית הנשיא',client:'בית הנשיא',date:addD(DEMO_TODAY,1),time:'07:45',loc:'הר חוצבים',veh:'סברבן 603',stage:-1,ts:{},km:{},rts:{},locs:{}},
+ {id:3,drv:'טירן שרון',n:'איגור',client:'ECI',date:addD(DEMO_TODAY,2),time:'09:00',loc:'קידר',veh:'קאדילק אסקלייד V',stage:-1,ts:{},km:{},rts:{},locs:{}},
+ {id:4,drv:'טירן שרון',n:'בית הנשיא',client:'בית הנשיא',date:addD(DEMO_TODAY,-1),time:'07:30',loc:'הר חוצבים',veh:'סברבן 603',stage:3,
+  ts:{start:'07:25',rel:'13:10',end:'13:55'},km:{start:'99102',rel:'99166',end:'99180'},rts:{ap:'20:02',start:'07:26',rel:'13:11',end:'13:57'},locs:{rel:'בית הנשיא',end:'בית'}},
+ /* רון אוחיון */
+ {id:5,drv:'רון אוחיון',n:'ליווי אח"מ — נתב"ג',client:'משרד ראש הממשלה',date:DEMO_TODAY,time:'18:00',loc:'טרמינל 3 · שער VIP',veh:'קאדילק 004',stage:-1,ts:{},km:{},rts:{},locs:{}},
+ {id:6,drv:'רון אוחיון',n:'סיור ביטחוני',client:'ECI',date:addD(DEMO_TODAY,2),time:'08:30',loc:'קריית הממשלה ת"א',veh:'טאהו 303',stage:-1,ts:{},km:{},rts:{},locs:{}},
+ {id:7,drv:'רון אוחיון',n:'ועידת חירום — ירושלים',client:'משרד ראש הממשלה',date:addD(DEMO_TODAY,-2),time:'06:00',loc:'',veh:'קאדילק 004',stage:3,
+  ts:{start:'05:50',rel:'14:20',end:'15:05'},km:{start:'55720',rel:'55905',end:'55960'},rts:{ap:'19:11',start:'05:52',rel:'14:21',end:'15:06'},locs:{rel:'בנייני האומה',end:'בית'}},
+ /* אופיר אוחיון */
+ {id:8,drv:'אופיר אוחיון',n:'בית הנשיא',client:'בית הנשיא',date:addD(DEMO_TODAY,1),time:'07:00',loc:'הר חוצבים',veh:'סברבן 904',stage:-1,ts:{},km:{},rts:{},locs:{}},
+ {id:9,drv:'אופיר אוחיון',n:'חדשות — אולפן',client:'חדשות 10 בע"מ',date:addD(DEMO_TODAY,-1),time:'16:00',loc:'',veh:'ספרינטר 290',stage:3,
+  ts:{start:'15:45',rel:'22:30',end:'23:10'},km:{start:'104210',rel:'104298',end:'104326'},rts:{ap:'12:40',start:'15:47',rel:'22:31',end:'23:12'},locs:{rel:'אולפני נווה אילן',end:'בית'}},
+ /* בר בנימין · שבי מזרחי */
+ {id:10,drv:'בר בנימין',n:'ביסמוט',client:'משרד ראש הממשלה',date:addD(DEMO_TODAY,1),time:'08:15',loc:'קריה ת"א',veh:'סברבן 901',stage:-1,ts:{},km:{},rts:{},locs:{}},
+ {id:11,drv:'שבי מזרחי',n:'בית הנשיא',client:'בית הנשיא',date:DEMO_TODAY,time:'07:30',loc:'הר חוצבים',veh:'קאדילק 003',stage:-1,ts:{},km:{},rts:{},locs:{}},
+];
+let NEXT_ID=100;
+const byId=id=>TASKS.find(t=>t.id===+id);
+/* הרשאות נתונים: נהג רואה אך ורק את המשימות שלו (בייצור: הסינון בשרת) */
+const MY_TASKS=()=>TASKS.filter(t=>t.drv===ME.n);
+
+const $=s=>document.querySelector(s);
+const vehRec=n=>VEHICLES.find(v=>v.n===n);
+
+/* ===== מצב כהה ===== */
+function setTheme(t){
+  document.documentElement.dataset.theme=t;
+  let mc=document.querySelector('meta[name="theme-color"]');
+  if(!mc){mc=document.createElement('meta');mc.name='theme-color';document.head.appendChild(mc)}
+  mc.content=t==='dark'?'#101114':'#F2F2EE';
+  Store.set('theme',t);
+  const b=$('#themeBtn');if(b)b.innerHTML=t==='dark'
+    ?'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.6 4.6l1.8 1.8M17.6 17.6l1.8 1.8M19.4 4.6l-1.8 1.8M6.4 17.6l-1.8 1.8"/></svg>'
+    :'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>';
+}
+function toggleTheme(){setTheme(document.documentElement.dataset.theme==='dark'?'light':'dark')}
+
+/* ===== דיווח אופליין: תור שנשמר במכשיר ונשלח כשחוזרת רשת ===== */
+let OUTBOX=[];
+OUTBOX=Store.get('outbox',[]);
+function saveOutbox(){Store.set('outbox',OUTBOX)}
+function queueReport(desc){OUTBOX.push({desc,at:Date.now()});saveOutbox()}
+function flushOutbox(){
+  if(!OUTBOX.length||!navigator.onLine)return;
+  const n=OUTBOX.length;OUTBOX=[];saveOutbox();
+  toast(n+' דיווחים שנשמרו במכשיר סונכרנו לשרת ✓',3600);
+  go('tasks');
+}
+window.addEventListener('online',flushOutbox);
+window.addEventListener('offline',()=>toast('אין חיבור — דיווחים יישמרו במכשיר ויסונכרנו אוטומטית',3600));
+function toast(t,ms=2800){$('#toast').textContent=t;$('#toast').classList.add('show');clearTimeout(window._t);window._t=setTimeout(()=>$('#toast').classList.remove('show'),ms)}
+function openSheet(h){$('#sheet').innerHTML='<div class="grab"></div>'+h;$('#sheet').classList.add('open');$('#scrim').classList.add('open')}
+function closeSheet(){$('#sheet').classList.remove('open');$('#scrim').classList.remove('open')}
+
+const views={};
+function go(v){
+  window.CURV=v;
+  if(location.hash.slice(1)!==v){try{location.hash=v}catch(e){}}
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));
+  $('#main').innerHTML=views[v]();
+  $('#main').scrollTop=0;
+}
+window.addEventListener('hashchange',()=>{
+  const v=location.hash.slice(1);
+  if(v&&views[v]&&v!==window.CURV)go(v);
+});
+
+/* ================= משימות ================= */
+const STAGE_ACT={'-1':{next:0},'0':{next:1},'1':{next:2},'2':{next:3}};
+const ACT_META={
+  '-1':{label:'אשר שיבוץ',cls:'approve'},
+  '0':{label:'התחלת משימה',cls:'start'},
+  '1':{label:'הסרת אחריות',cls:'rel'},
+  '2':{label:'סיום משימה',cls:'end'},
+};
+const TI={
+  clock:'<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+  cal:'<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><rect x="3" y="4" width="18" height="17" rx="3"/><path d="M8 2v4M16 2v4M3 9h18"/></svg>',
+  pin:'<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>',
+  car:'<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 11l1.5-4.5A2 2 0 0 1 8.4 5h7.2a2 2 0 0 1 1.9 1.5L19 11"/><rect x="3" y="11" width="18" height="7" rx="2"/></svg>',
+  check:'<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>',
+};
+function stChip(t){
+  if(t.stage===3)return '<span class="chip c-mut">הושלמה</span>';
+  if(t.stage===1||t.stage===2)return '<span class="chip c-green"><span class="dot pulse"></span>בנסיעה</span>';
+  if(t.stage===-1)return '<span class="chip c-amber">ממתין לאישורך</span>';
+  if(t.adm)return '<span class="chip c-violet">מנהלתית</span>';
+  return '<span class="chip c-green">מאושרת</span>';
+}
+function stepper(t){
+  const steps=t.adm?[['אישור',0],['התחלה',1],['סיום',3]]:[['אישור',0],['התחלה',1],['הסרת אחריות',2],['סיום',3]];
+  /* done אם השלב הושג, cur אם הוא הבא בתור */
+  const reached=s=>t.stage>=s;
+  let curFound=false;
+  return '<div class="stepper">'+steps.map(([lbl,s])=>{
+    const done=reached(s);
+    let cls='';
+    if(done)cls='done';
+    else if(!curFound){cls='cur';curFound=true}
+    return `<div class="snode ${cls}"><span class="sdot">${done?TI.check:''}</span><small>${lbl}</small></div>`;
+  }).join('')+'</div>';
+}
+function heroCard(t){
+  const live=t.stage===1||t.stage===2;
+  /* כפתור הפעולה הראשי הוא תמיד שלב הנסיעה הבא — גם אם השיבוץ טרם אושר
+     (שיבוץ של "מעכשיו לעכשיו": הנהג יוצא מיד, האישור בכפתור נפרד למעלה) */
+  const eff=Math.max(0,t.stage);
+  const a=ACT_META[t.adm&&eff===1?'2':String(eff)];
+  const lbl=t.adm&&eff===1?'סיום משימה':a.label;
+  const pill=live?'<span class="pill live"><span class="dot pulse"></span>נסיעה פעילה</span>'
+    :t.stage===-1?'<span class="pill wait">ממתין לאישורך</span>'
+    :'<span class="pill next">המשימה הבאה שלך</span>';
+  return `
+  <div class="hero">
+    <div class="h-status">${pill}<span class="when num">${ddmm(t.date)}</span></div>
+    <h2>${t.adm?'<span class="adm-ic" style="display:inline-grid;vertical-align:-2px;margin-inline-end:8px">מ</span>':''}${t.n}</h2>
+    ${t.client?`<div class="cl">${t.client}</div>`:''}
+    ${t.stage===-1?`<button class="ap-btn" onclick="approveTask(${t.id})">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M5 13l4 4L19 7"/></svg>
+      אשר שיבוץ</button>`:''}
+    <div class="h-grid">
+      <div class="tile"><span>${TI.cal} תאריך</span><b>${dayLabel(t.date)}</b></div>
+      ${t.time?`<div class="tile"><span>${TI.clock} התייצבות</span><b class="num">${t.time}</b></div>`:`<div class="tile"><span>${TI.clock} התייצבות</span><b>—</b></div>`}
+      ${t.veh?`<div class="tile ${t.loc?'':'w'}"><span>${TI.car} רכב</span><b>${t.veh}</b></div>`:''}
+      ${t.loc?`<div class="tile"><span>${TI.pin} ${t.adm?'הערה':'מיקום התייצבות'}</span><b>${t.loc}</b></div>`:''}
+    </div>
+    ${stepper(t)}
+    ${t.stage<3?`<button class="bigact ${a.cls}" onclick="actOn(${t.id})">${lbl}
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M14 6l-6 6 6 6"/></svg></button>`:''}
+  </div>`;
+}
+function rowCard(t){
+  const d=fromIso(t.date);
+  return `<div class="row" onclick="openTaskInfo(${t.id})" style="cursor:pointer">
+    <div class="dchip"><b>${t.date.slice(8,10)}</b><span>${DAY_NAMES[d.getDay()]}</span></div>
+    <div class="bd">
+      <h3>${t.adm?'<span class="adm-ic" style="display:inline-grid;vertical-align:-2px;margin-inline-end:5px">מ</span>':''}${t.n}</h3>
+      <p>${[t.client,t.time,t.veh].filter(Boolean).join(' · ')}</p>
+    </div>
+    ${t.stage===-1?`<button class="ok" onclick="event.stopPropagation();approveTask(${t.id})">אשר שיבוץ</button>`:stChip(t)}
+  </div>`;
+}
+views.tasks=()=>{
+  const open=MY_TASKS().filter(t=>t.stage<3&&t.date>=DEMO_TODAY).sort((a,b)=>a.date<b.date?-1:a.date>b.date?1:(b.stage-a.stage));
+  const live=open.find(t=>t.stage===1||t.stage===2);
+  const hero=live||open[0];
+  const rest=open.filter(t=>t!==hero);
+  const done=MY_TASKS().filter(t=>t.stage===3||t.date<DEMO_TODAY);
+  return `
+    ${OUTBOX.length?`<div style="background:var(--amber-bg);color:var(--amber);border-radius:14px;padding:10px 14px;font-size:12px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:8px">
+      <span class="dot pulse" style="background:var(--amber)"></span>${OUTBOX.length} דיווחים שמורים במכשיר · יסונכרנו כשתחזור הקליטה</div>`:''}
+    ${hero?heroCard(hero):'<div class="hero"><div class="empty">אין כרגע משימות קרובות</div></div>'}
+    <button class="fab-adm" onclick="openAdm()"><span class="adm-ic">מ</span>פתיחת משימה מנהלתית</button>
+    ${rest.length?`<div class="sec-t">המשימות הקרובות</div>${rest.map(rowCard).join('')}`:''}
+    ${done.length?`<div class="sec-t">משימות שבוצעו</div>${done.map(rowCard).join('')}`:''}
+  `;
+}
+
+/* דיווח שלב */
+/* פרטי משימה — נפתח בלחיצה על שורה ברשימות */
+function openTaskInfo(id){
+  const t=byId(id);if(!t)return;
+  const log=[
+    {l:'התחלה',h:t.ts.start,k:t.km.start,loc:null},
+    {l:'הסרת אחריות',h:t.ts.rel,k:t.km.rel,loc:t.locs.rel},
+    {l:'סיום',h:t.ts.end,k:t.km.end,loc:t.locs.end},
+  ].filter(x=>x.h||x.k);
+  openSheet(`
+    <button class="s-x" onclick="closeSheet()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+    <h3>${t.adm?'<span class="adm-ic" style="display:inline-grid;vertical-align:-2px;margin-inline-end:7px">מ</span>':''}${t.n}</h3>
+    <div class="sub">${[t.client,dayLabel(t.date)+'/'+t.date.slice(0,4)].filter(Boolean).join(' · ')}</div>
+    <div style="margin-bottom:13px">${stChip(t)}</div>
+    <div class="h-grid" style="margin-top:0;margin-bottom:${log.length?'15px':'4px'}">
+      ${t.time?`<div class="tile"><span>${TI.clock} התייצבות</span><b class="num">${t.time}</b></div>`:''}
+      ${t.veh?`<div class="tile"><span>${TI.car} רכב</span><b>${t.veh}</b></div>`:''}
+      ${t.loc?`<div class="tile w"><span>${TI.pin} ${t.adm?'הערה':'מיקום התייצבות'}</span><b>${t.loc}</b></div>`:''}
+    </div>
+    ${log.length?`<div class="sec-t" style="margin:0 2px 8px">הדיווחים שלי</div>
+      ${log.map(x=>`<div class="row" style="padding:11px 14px">
+        <div class="bd"><h3 style="font-size:13.5px">${x.l}</h3>
+        <p>${[x.h,x.k?(+x.k).toLocaleString()+' ק"מ':null,x.loc].filter(Boolean).join(' · ')}</p></div>
+      </div>`).join('')}`:''}
+    ${t.stage===-1?`<button class="s-act" style="background:var(--green);color:#fff" onclick="approveTask(${t.id});closeSheet()">אשר שיבוץ ‹‹</button>`:''}
+  `);
+}
+function approveTask(id){
+  const t=byId(id);
+  if(!t||t.stage>-1)return; /* כבר אושר — לחיצה כפולה נבלעת */
+  t.stage=0;t.rts.ap=nowHM();
+  go('tasks');toast('השיבוץ אושר · הסדרן עודכן');
+}
+function actOn(id){
+  const t=byId(id);
+  const eff=Math.max(0,t.stage); /* התחלה אפשרית גם לפני אישור — שיבוץ דחוף */
+  const a=STAGE_ACT[eff];if(!a)return;
+  const next=t.adm&&eff===1?3:a.next;
+  const kind=next===1?{t:'התחלת משימה',k:'start',kmL:'ק"מ בהתחלת נסיעה',tL:'שעת התחלה',loc:false,notes:true,btn:'שמור והתחל משימה'}
+            :next===2?{t:'הסרת אחריות',k:'rel',kmL:'ק"מ בהסרת אחריות',tL:'שעת הסרת אחריות (חיוב לקוח)',loc:true,lph:'מיקום הסרת אחריות',btn:'שמור'}
+            :{t:'סיום משימה',k:'end',kmL:'ק"מ בסיום',tL:'שעת סיום',loc:true,lph:'מיקום סיום',btn:'שמור וסיים משימה'};
+  /* התחלה: ק"מ אחרון של הרכב + סנכרון · הסרה/סיום: תצוגת הדיווח הקודם של הנהג בלבד */
+  const lastKm=kind.k==='start'?vehRec(t.veh)?.km:null;
+  const prevKm=kind.k==='rel'?{l:'ק"מ שהזנת בהתחלה',v:t.km.start}
+              :kind.k==='end'?{l:'ק"מ שהזנת בהסרת אחריות',v:t.km.rel||t.km.start}
+              :null;
+  openSheet(`
+    <button class="s-x" onclick="closeSheet()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+    <h3>${kind.t}</h3>
+    <div class="sub">«${t.n}»${t.veh?' · '+t.veh:''}</div>
+    <div class="fld"><label>${kind.kmL}</label><input type="text" inputmode="numeric" id="rK" placeholder="הזן מספר"></div>
+    ${lastKm?`<div class="fhelp">
+      <span class="fh-info">ק"מ אחרון שדווח: <b class="num">${(+lastKm).toLocaleString()}</b></span>
+      <button type="button" class="fh-btn" onclick="$('#rK').value='${lastKm}'">סנכרן</button>
+    </div>`:''}
+    ${prevKm&&prevKm.v?`<div class="fhelp">
+      <span class="fh-info">${prevKm.l}: <b class="num">${(+prevKm.v).toLocaleString()}</b></span>
+    </div>`:''}
+    <div class="fld"><label>${kind.tL}</label><input type="time" id="rT" value="${nowHM()}"></div>
+    <div class="fnote">השעה ניתנת לעריכה · שעת הדיווח בפועל נרשמת אוטומטית</div>
+    ${kind.loc?`<div class="fld"><label>${kind.lph}</label><input type="text" id="rL" placeholder="הזן כתובת"></div>
+    <div class="fhelp">
+      <button type="button" class="fh-btn" onclick="gpsFill('rL',this)">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><circle cx="12" cy="12" r="8"/></svg>
+        המיקום שלי</button>
+      ${kind.k==='end'?`<button type="button" class="fh-btn" onclick="$('#rL').value='${ME.home}'">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M3 11l9-8 9 8v9a2 2 0 01-2 2h-4v-7h-6v7H5a2 2 0 01-2-2z"/></svg>
+        בית</button>`:''}
+    </div>`:''}
+    ${kind.notes?`<div class="fld"><label>הערות נהג (לא חובה)</label><input type="text" id="rN"></div>`:''}
+    <button class="s-act" id="sheetGo" onclick="doReport(${t.id},${next},'${kind.k}',${!!kind.loc})">${kind.btn} ‹‹</button>
+  `);
+  setTimeout(()=>$('#rK')?.focus(),260);
+}
+/* מילוי מיקום מ-GPS של המכשיר */
+function gpsFill(id,btn){
+  if(!navigator.geolocation){toast('המכשיר לא תומך באיתור מיקום');return}
+  const orig=btn.innerHTML;btn.innerHTML='מאתר…';btn.disabled=true;
+  navigator.geolocation.getCurrentPosition(
+    p=>{
+      $('#'+id).value='GPS: '+p.coords.latitude.toFixed(5)+', '+p.coords.longitude.toFixed(5);
+      btn.innerHTML=orig;btn.disabled=false;
+      toast('המיקום נקלט ✓');
+    },
+    ()=>{btn.innerHTML=orig;btn.disabled=false;toast('לא ניתן לקבל מיקום — בדוק הרשאות')},
+    {enableHighAccuracy:true,timeout:8000}
+  );
+}
+function doReport(id,next,key,hasLoc){
+  const t=byId(id);
+  /* הגנה מלחיצה כפולה: השלב כבר בוצע — מתעלמים */
+  if(!t||t.stage>=next){closeSheet();return}
+  const b=$('#sheetGo');
+  if(b){if(b.disabled)return;b.disabled=true;b.style.opacity=.6;b.textContent='שולח…'}
+  const time=$('#rT').value,km=($('#rK').value||'').replace(/[^\d]/g,'');
+  if(!km){toast('חסר דיווח ק"מ');$('#rK').focus();
+    if(b){b.disabled=false;b.style.opacity=1;b.textContent='שמור ‹‹'}return}
+  if(t.stage===-1&&!t.rts.ap)t.rts.ap=nowHM(); /* התחלה לפני אישור = אישור מובלע */
+  t.ts[key]=time;t.km[key]=km;t.rts[key]=nowHM();
+  if(hasLoc){const l=$('#rL').value.trim();if(l)t.locs[key]=l}
+  const nEl=$('#rN');if(nEl&&nEl.value.trim())t.dnotes=nEl.value.trim();
+  t.stage=next;
+  /* עדכון ק"מ אחרון בכרטיס הרכב */
+  const vr=vehRec(t.veh);if(vr&&+km>+(vr.km||0))vr.km=km;
+  closeSheet();go('tasks');
+  if(!navigator.onLine){
+    queueReport(kindDesc(next,t));
+    toast('אין קליטה — הדיווח נשמר במכשיר ויסונכרן אוטומטית',3800);
+  }else{
+    toast(next===3?'המשימה הסתיימה · נשלח לסדרן':'הדיווח נשלח לסדרן');
+  }
+}
+const kindDesc=(next,t)=>(next===1?'התחלת':next===2?'הסרת אחריות':'סיום')+' «'+t.n+'»';
+
+/* משימה מנהלתית ביוזמת הנהג */
+function openAdm(){
+  openSheet(`
+    <button class="s-x" onclick="closeSheet()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+    <h3><span class="adm-ic" style="display:inline-grid;vertical-align:-2px;margin-inline-end:7px">מ</span>נסיעה מנהלתית</h3>
+    <div class="sub">החלפת רכב, טיפול, שטיפה וכד׳ — ללא חיוב לקוח · הנסיעה מתחילה מיד</div>
+    <div class="fld"><label>תיאור הנסיעה</label><input type="text" id="aN" placeholder="לדוגמה: החלפת רכב, טיפול במוסך"></div>
+    <div class="fld"><label>רכב</label>
+      <select id="aV" onchange="admKmHint()">
+        <option value="" selected disabled>בחר רכב</option>
+        ${VEHICLES.map(v=>`<option value="${v.n}">${v.n}</option>`).join('')}
+      </select></div>
+    <div class="fld"><label>ק"מ בהתחלת נסיעה</label><input type="text" inputmode="numeric" id="aK" placeholder="הזן מספר"></div>
+    <div class="fhelp" id="aKmHint" style="display:none">
+      <span class="fh-info">ק"מ אחרון שדווח: <b class="num" id="aKmVal"></b></span>
+      <button type="button" class="fh-btn" onclick="$('#aK').value=$('#aKmVal').dataset.v">סנכרן</button>
+    </div>
+    <div class="fld"><label>שעת התחלה</label><input type="time" id="aT" value="${nowHM()}"></div>
+    <button class="s-act" id="sheetGo" onclick="startAdm()">התחל נסיעה מנהלתית ‹‹</button>
+  `);
+}
+function admKmHint(){
+  const v=vehRec($('#aV').value);
+  const h=$('#aKmHint');
+  if(v&&v.km){h.style.display='';$('#aKmVal').textContent=(+v.km).toLocaleString();$('#aKmVal').dataset.v=v.km}
+  else h.style.display='none';
+}
+function startAdm(){
+  const b=$('#sheetGo');if(b&&b.disabled)return;
+  const name=$('#aN').value.trim();
+  if(!name){toast('חסר תיאור הנסיעה');$('#aN').focus();return}
+  const veh=$('#aV').value;
+  if(!veh){toast('בחר רכב');return}
+  const km=($('#aK').value||'').replace(/[^\d]/g,'');
+  if(!km){toast('חסר דיווח ק"מ');$('#aK').focus();return}
+  if(b){b.disabled=true;b.style.opacity=.6;b.textContent='מתחיל…'}
+  const t={id:NEXT_ID++,drv:ME.n,n:name,client:'',date:DEMO_TODAY,time:'',loc:'',veh,
+    stage:1,adm:true,ts:{start:$('#aT').value},km:{start:km},rts:{ap:nowHM(),start:nowHM()},locs:{}};
+  TASKS.unshift(t);
+  const vr=vehRec(veh);if(vr&&+km>+(vr.km||0))vr.km=km;
+  closeSheet();go('tasks');
+  if(!navigator.onLine){queueReport('התחלת מנהלתית «'+name+'»');toast('אין קליטה — הדיווח נשמר במכשיר ויסונכרן אוטומטית',3800)}
+  else toast('הנסיעה המנהלתית התחילה · הסדרן עודכן');
+}
+
+/* ================= זמינות ================= */
+/* מבנה: {weekStart:{iso:{v:'y/p/n',note}}} + מצב הגשה · נשמר במכשיר */
+let AV={},AV_SUB={};
+AV=Store.get('av',{});AV_SUB=Store.get('av_sub',{});
+function avSave(){Store.set('av',AV);Store.set('av_sub',AV_SUB)}
+const startOfWeek=s=>{const d=fromIso(s);d.setDate(d.getDate()-d.getDay());return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+const NEXT_WK=addD(startOfWeek(DEMO_TODAY),7);
+
+function avDayRow(wk,iso){
+  const e=(AV[wk]||{})[iso]||{};
+  const d=fromIso(iso);
+  return `<div class="av-row">
+    <div class="dchip"><b>${iso.slice(8,10)}</b><span>${DAY_NAMES[d.getDay()]}</span></div>
+    <div class="seg3">
+      <button class="y ${e.v==='y'?'on':''}" title="זמין" onclick="avSet('${wk}','${iso}','y')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8"><path d="M5 13l4 4L19 7"/></svg></button>
+      <button class="p ${e.v==='p'?'on':''}" title="זמין חלקית" onclick="avSet('${wk}','${iso}','p')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l2.5 1.5"/></svg></button>
+      <button class="n ${e.v==='n'?'on':''}" title="לא זמין" onclick="avSet('${wk}','${iso}','n')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+    </div>
+    ${e.v==='p'
+      ?`<div class="av-note"><input type="text" placeholder="פרט שעות" value="${e.note||''}" onchange="avNote('${wk}','${iso}',this.value)"></div>`
+      :'<div style="flex:1"></div>'}
+  </div>`;
+}
+/* שורת תצוגה בלבד אחרי הגשה */
+function avSumRow(wk,iso){
+  const e=(AV[wk]||{})[iso]||{};
+  const d=fromIso(iso);
+  const st=e.v==='y'?'<span class="chip c-green">זמין</span>'
+    :e.v==='p'?'<span class="chip c-amber">חלקית</span>'
+    :e.v==='n'?'<span class="chip" style="background:var(--red-bg);color:var(--red)">לא זמין</span>'
+    :'<span class="chip c-mut">—</span>';
+  return `<div class="av-row">
+    <div class="dchip"><b>${iso.slice(8,10)}</b><span>${DAY_NAMES[d.getDay()]}</span></div>
+    <div class="av-sum">${st}${e.v==='p'&&e.note?`<span class="nt">${e.note}</span>`:''}</div>
+  </div>`;
+}
+function avSet(wk,iso,v){
+  AV[wk]=AV[wk]||{};
+  const cur=AV[wk][iso];
+  AV[wk][iso]=(cur&&cur.v===v)?{}:{v,note:cur?.note};
+  avSave();
+  if(AV_SUB[wk])toast('עדכון הזמינות נשלח לסדרן');
+  go('avail');
+}
+function avNote(wk,iso,val){AV[wk][iso].note=val.trim();avSave();if(AV_SUB[wk])toast('עדכון הזמינות נשלח לסדרן')}
+function avAll(wk){
+  AV[wk]=AV[wk]||{};
+  for(let i=0;i<7;i++){const iso=addD(wk,i);AV[wk][iso]={v:'y'}}
+  avSave();go('avail');
+}
+function avSubmit(wk){
+  AV_SUB[wk]=true;AV_EDIT[wk]=false;avSave();go('avail');
+  toast('הזמינות לשבוע הבא הוגשה לסדרן ✓',3400);
+}
+function avCount(wk){
+  let n=0;for(let i=0;i<7;i++){if(((AV[wk]||{})[addD(wk,i)]||{}).v)n++}
+  return n;
+}
+const AV_EDIT={};
+let AV2_OPEN=false;
+const WK2=addD(NEXT_WK,7);
+const SEG_IC={
+  y:'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>',
+  p:'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l2.5 1.5"/></svg>',
+  n:'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M18 6L6 18M6 6l12 12"/></svg>',
+};
+/* סיכום מצומצם: רצועת שבוע אחת + פירוטי "חלקית" מתחת */
+function avMini(wk){
+  const tiles=Array.from({length:7},(_,i)=>{
+    const iso=addD(wk,i),e=(AV[wk]||{})[iso]||{};
+    return `<div class="av-d ${e.v||''}">
+      <span>${DAY_NAMES[fromIso(iso).getDay()].slice(0,5)}</span>
+      <b>${iso.slice(8,10)}</b>
+      <span class="ic">${e.v?SEG_IC[e.v]:''}</span>
+    </div>`;
+  }).join('');
+  const notes=Array.from({length:7},(_,i)=>{
+    const iso=addD(wk,i),e=(AV[wk]||{})[iso]||{};
+    return (e.v==='p'&&e.note)?`<div>◐ ${DAY_NAMES[fromIso(iso).getDay()]} · ${e.note}</div>`:'';
+  }).join('');
+  return `<div class="av-mini">${tiles}</div>${notes?`<div class="av-notes">${notes}</div>`:''}`;
+}
+function avSection(wk,title,primary){
+  const done=avCount(wk),sub=AV_SUB[wk];
+  const editing=!sub||AV_EDIT[wk];
+  const range=ddmm(wk)+' – '+ddmm(addD(wk,6));
+  return `
+    ${primary&&!sub?`<div class="av-remind">
+      <span class="dot pulse" style="background:var(--amber)"></span>
+      תזכורת: טרם הגשת זמינות לשבוע הבא · נשלחת תזכורת אוטומטית בוואטסאפ בכל יום חמישי
+    </div>`:''}
+    <div class="av-head">
+      <div class="t"><b>${title}</b>
+        <span class="chip ${sub?'c-green':'c-amber'}">${sub?'הוגשה ✓':done+'/7 ימים'}</span></div>
+      <div class="d">${range}${sub&&!editing?'':' · '+(sub?'במצב עריכה — כל שינוי נשלח לסדרן':'סמן זמינות לכל יום והגש')}</div>
+    </div>
+    ${editing?`
+      ${!sub&&done<7?`<button class="av-all" onclick="avAll('${wk}')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M5 13l4 4L19 7"/></svg>
+        סמן את כל השבוע כזמין</button>`:''}
+      ${Array.from({length:7},(_,i)=>avDayRow(wk,addD(wk,i))).join('')}
+      ${!sub
+        ?`<button class="av-submit" ${done<7?'disabled':''} onclick="avSubmit('${wk}')">
+            ${done<7?'נותרו '+(7-done)+' ימים לסימון':'הגש זמינות לסדרן ‹‹'}</button>`
+        :`<button class="av-submit" onclick="AV_EDIT['${wk}']=false;go('avail')">סיום עריכה ‹‹</button>`}
+    `:`
+      ${avMini(wk)}
+      <button class="av-submit" style="background:var(--card);color:var(--ink);border:1.5px solid var(--line2);padding:12px;font-size:13.5px" onclick="AV_EDIT['${wk}']=true;go('avail')">עריכת הזמינות</button>
+    `}`;
+}
+views.avail=()=>{
+  const wk2HasData=AV_SUB[WK2]||avCount(WK2)>0||AV2_OPEN;
+  return `
+    <div style="height:34px"></div>
+    ${avSection(NEXT_WK,'זמינות לשבוע הבא',true)}
+    ${wk2HasData
+      ?`<div style="height:20px"></div>${avSection(WK2,'זמינות לשבוע שאחרי',false)}`
+      :`<button class="av-more" onclick="AV2_OPEN=true;go('avail')">+ הגשת זמינות לשבוע שאחרי (${ddmm(WK2)} – ${ddmm(addD(WK2,6))})</button>`}
+    <div class="fnote" style="margin-top:14px;text-align:center">שינוי בתוכניות? ערוך — הסדרן מתעדכן מיד</div>
+  `;
+}
+
+/* ================= שכר ================= */
+function payOf(t){
+  if(!t.ts.start||!t.ts.end)return null;
+  const p=x=>{const[a,b]=x.split(':').map(Number);return a*60+b};
+  let m=p(t.ts.end)-p(t.ts.start);if(m<=0)m+=1440;
+  const shabbat=fromIso(t.date).getDay()===6;
+  const rate=shabbat?ME.rateS:ME.rate;
+  return{m,amt:Math.round(m/60*rate),rate,shabbat,
+    h:String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0')};
+}
+views.pay=()=>{
+  const rows=MY_TASKS().filter(t=>t.stage===3).map(t=>({t,p:payOf(t)})).filter(x=>x.p);
+  const totM=rows.reduce((s,x)=>s+x.p.m,0),totA=rows.reduce((s,x)=>s+x.p.amt,0);
+  return `
+    <div style="height:34px"></div>
+    <div class="pay-sum">
+      <div class="lbl">שכר מצטבר · יוני 2026</div>
+      <div class="big">₪${totA.toLocaleString()}</div>
+      <div class="pay-grid">
+        <div><b>${String(Math.floor(totM/60)).padStart(2,'0')}:${String(totM%60).padStart(2,'0')}</b><span>סה"כ שעות</span></div>
+        <div><b>${rows.length}</b><span>משימות שהושלמו</span></div>
+      </div>
+    </div>
+    <div class="sec-t">פירוט משימות</div>
+    ${rows.map(({t,p})=>`<div class="pay-row">
+      <div class="n"><b>${t.n}</b><span>${dayLabel(t.date)} · ${p.h} שע׳${p.shabbat?' · שבת':''}</span></div>
+      <div class="amt">₪${p.amt.toLocaleString()}</div>
+    </div>`).join('')||'<div class="empty">אין עדיין משימות שהושלמו החודש</div>'}
+    <div class="fnote" style="margin-top:12px;text-align:center">החישוב: שעות בפועל × תעריף (חול/שבת) · הוצאות יתווספו בהמשך</div>
+  `;
+}
+
+/* ================= הוצאות ================= */
+let MY_EXP=[
+ {date:addD(DEMO_TODAY,-1),what:'שטיפה',veh:'סברבן 603',amt:80,st:'ok'},
+ {date:DEMO_TODAY,what:'תדלוק',veh:'סברבן 603',amt:510,st:'pend'},
+];
+views.exp=()=>{
+  const tot=MY_EXP.reduce((s,e)=>s+e.amt,0);
+  const pend=MY_EXP.filter(e=>e.st==='pend').length;
+  return `
+    <div style="height:34px"></div>
+    <div class="pay-sum">
+      <div class="lbl">הוצאות החודש · יוני 2026</div>
+      <div class="big">₪${tot.toLocaleString()}</div>
+      <div class="pay-grid">
+        <div><b>${MY_EXP.length}</b><span>דיווחים</span></div>
+        <div><b>${pend}</b><span>ממתינים לאישור</span></div>
+      </div>
+    </div>
+    <button class="fab-adm" onclick="openExp()" style="color:var(--lime)">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg>
+      דיווח הוצאה חדשה</button>
+    <div class="sec-t">הדיווחים שלי</div>
+    ${MY_EXP.slice().reverse().map(e=>`<div class="pay-row">
+      <div class="n"><b>${e.what} · ${e.veh}</b><span>${dayLabel(e.date)}</span></div>
+      <span class="chip ${e.st==='ok'?'c-green':'c-amber'}">${e.st==='ok'?'אושר':'ממתין'}</span>
+      <div class="amt">₪${e.amt.toLocaleString()}</div>
+    </div>`).join('')}
+    <div class="fnote" style="margin-top:12px;text-align:center">הוצאה מאושרת מתקזזת בשכר החודשי · בהמשך: צירוף צילום קבלה</div>
+  `;
+}
+function openExp(){
+  openSheet(`
+    <button class="s-x" onclick="closeSheet()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+    <h3>דיווח הוצאה</h3>
+    <div class="sub">נשלח לאישור הסדרן ומתקזז בשכר</div>
+    <div class="fld"><label>סוג ההוצאה</label>
+      <select id="eW"><option>תדלוק</option><option>שטיפה</option><option>חניה</option><option>כביש 6</option><option>אחר</option></select></div>
+    <div class="fld"><label>רכב</label>
+      <select id="eV">${VEHICLES.map(v=>`<option>${v.n}</option>`).join('')}</select></div>
+    <div class="fld"><label>סכום (₪)</label><input type="text" inputmode="numeric" id="eA" placeholder="הזן סכום"></div>
+    <button class="s-act" id="sheetGo" onclick="saveExp()">שלח לאישור ‹‹</button>
+  `);
+  setTimeout(()=>$('#eA')?.focus(),260);
+}
+function saveExp(){
+  const b=$('#sheetGo');if(b&&b.disabled)return;
+  const amt=+(($('#eA').value||'').replace(/[^\d]/g,''));
+  if(!amt){toast('חסר סכום');$('#eA').focus();return}
+  if(b)b.disabled=true;
+  MY_EXP.push({date:DEMO_TODAY,what:$('#eW').value,veh:$('#eV').value,amt,st:'pend'});
+  closeSheet();go('exp');
+  toast('ההוצאה נשלחה לאישור הסדרן');
+}
+
+/* ================= רכבים ================= */
+views.veh=()=>{
+  return `
+    <div style="height:34px"></div>
+    <div class="sec-t" style="margin-top:0">מיקומי הרכבים</div>
+    ${VEHICLES.map(v=>`<div class="row">
+      <div class="bd">
+        <h3>${v.arm?'<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-1px;margin-inline-end:5px"><path d="M12 2l8 3v6c0 5-3.4 9.4-8 11-4.6-1.6-8-6-8-11V5z"/></svg>':''}${v.n}</h3>
+        <p>${v.loc||'—'}</p>
+      </div>
+      ${v.loc?`<a class="ok" style="text-decoration:none" href="https://waze.com/ul?q=${encodeURIComponent(v.loc)}" target="_blank">נווט</a>`:''}
+    </div>`).join('')}
+    <div class="fnote" style="margin-top:12px;text-align:center">המיקום מתעדכן לפי דיווחי סיום המשימות</div>
+  `;
+}
+
+/* נעילת זום — תחושת אפליקציה */
+document.addEventListener('gesturestart',e=>e.preventDefault());
+document.addEventListener('gesturechange',e=>e.preventDefault());
+document.addEventListener('gestureend',e=>e.preventDefault());
+document.addEventListener('touchmove',e=>{if(e.scale!==undefined&&e.scale!==1)e.preventDefault()},{passive:false});
+
+/* init */
+(function(){
+  if(SESSION){
+    ME.n=SESSION.name;
+    /* נהג: אין מעבר לניהול · מנהל: יש חזרה לניהול */
+    if(SESSION.role==='manager')$('#backToAdmin').style.display='';
+    else $('#logoutBtn').style.display='';
+  }
+  let th=Store.get('theme','light');
+  setTheme(th);
+  if(navigator.onLine)setTimeout(flushOutbox,800);
+  const h=new Date().getHours();
+  $('#hello').textContent=(h<5?'לילה טוב':h<12?'בוקר טוב':h<18?'צהריים טובים':'ערב טוב')+', '+ME.n+'!';
+  $('#helloDate').textContent='היום '+fromIso(DEMO_TODAY).toLocaleDateString('he-IL',{day:'numeric',month:'long',year:'numeric'});
+  $('#ava').textContent=ME.n.split(' ').map(x=>x[0]).join('');
+})();
+const _h0=location.hash.slice(1);
+go(views[_h0]?_h0:'tasks');
+</script>
+</body>
+</html>

@@ -39,7 +39,7 @@ input,select{font-family:inherit;font-size:inherit;color:inherit}
   padding:20px 14px calc(16px + env(safe-area-inset-bottom));overflow:visible;
 }
 .brand{display:flex;justify-content:center;padding:2px 8px 14px}
-.logo-img{width:64px;height:auto;filter:drop-shadow(0 2px 8px rgba(0,0,0,.4))}
+.logo-img{width:38px;height:auto;filter:drop-shadow(0 2px 8px rgba(0,0,0,.4))}
 .badge911{
   width:38px;height:42px;display:grid;place-items:center;flex:none;
   background:var(--lime);color:var(--ink);font-family:'Rubik';font-weight:800;font-size:15px;
@@ -73,7 +73,6 @@ body.railc .ntg:hover .tg-ic{transform:rotate(180deg) scale(1.28)}
 body.railc .rail{width:72px}
 body.railc .main{margin-inline-start:72px}
 body.railc .me-txt,body.railc .brand small{display:none}
-body.railc .logo-img{width:38px}
 body.railc .me{justify-content:center;padding-inline:0}
 body.railc .nav button{justify-content:center;padding:12px 0;position:relative}
 body.railc .nav button svg{transition:transform .16s ease}
@@ -109,6 +108,14 @@ body.railc .nav button.on:hover .lbl::after{background:var(--lime);border-color:
 .btn-gho{background:var(--card);border:1px solid var(--line2)}
 .btn-gho:hover{border-color:var(--ink2)}
 .btn-eq{min-width:62px;justify-content:center;padding-inline:10px}
+.mob-live{display:none !important;position:relative}
+@media (max-width:768px){
+  .mob-live{display:inline-flex !important}
+  .actions{flex-wrap:nowrap;gap:5px}
+  .actions .btn{padding-inline:8px}
+  .actions .btn-eq{min-width:52px}
+  .actions .btn-ico{width:34px;height:34px}
+}
 .btn-ico{width:38px;height:38px;padding:0;justify-content:center;font-size:17px;font-weight:700;border-radius:50%}
 
 /* ---------- Cards / chips ---------- */
@@ -520,8 +527,6 @@ body.dragging-now .wk-wrap{overscroll-behavior:none}
 .wk-add svg{width:12px;height:12px}
 .mobile-only{display:none}
 @media (max-width:768px){.mobile-only{display:flex}}
-.wk-legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--mut);margin-top:10px;align-items:center}
-.wk-legend i{width:10px;height:10px;border-radius:3px;display:inline-block;margin-inline-end:5px;vertical-align:-1px}
 
 /* ---------- Home layout: journal + live side dashboard ---------- */
 .home-grid{display:grid;grid-template-columns:minmax(0,1fr) clamp(300px,23vw,392px);gap:16px;align-items:start}
@@ -577,20 +582,64 @@ body.dragging-now .wk-wrap{overscroll-behavior:none}
 /* ---------- Vehicles ---------- */
 .vgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(265px,1fr));gap:12px}
 .vcard{padding:16px;display:flex;flex-direction:column;gap:11px}
-.vtop{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
-.vname{font-weight:700;font-size:15px;display:flex;align-items:center;gap:7px}
-.vshield{font-size:11px;background:var(--ink);color:var(--lime);border-radius:5px;padding:1px 6px;font-weight:700}
-.vplate{font-family:var(--mono);font-size:12px;color:var(--mut);margin-top:2px}
-.vstats{display:grid;grid-template-columns:1fr 1fr;gap:7px}
-.vstat{background:var(--paper);border-radius:var(--r-s);padding:8px 11px}
-.vstat .l{font-size:10.5px;color:var(--mut);display:block}
-.vstat .v{font-size:13px;font-weight:700;font-family:var(--mono)}
-.vbar{height:5px;border-radius:99px;background:var(--line);overflow:hidden}
-.vbar i{display:block;height:100%;border-radius:99px}
-.vfoot{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--mut)}
 
 /* ---------- Drivers ---------- */
 .dlist{display:flex;flex-direction:column}
+/* --- עמוד רכבים: טבלה עם גרירה לסדר --- */
+.vo-row{display:flex;align-items:center;gap:11px;padding:9px 2px;border-bottom:1px solid var(--paper)}
+.vo-row b{flex:1;font-size:13.5px}
+.vo-btns{display:flex;gap:5px}
+.vo-btns button{
+  width:30px;height:30px;border-radius:9px;border:1.5px solid var(--line2);
+  display:grid;place-items:center;color:var(--ink2);background:var(--card);
+}
+.vo-btns button:disabled{opacity:.3}
+.vo-btns button:not(:disabled):active{background:var(--paper)}
+.vnum{
+  display:inline-grid;width:28px;height:28px;border-radius:9px;background:var(--paper);
+  place-items:center;font-weight:700;font-size:12.5px;color:var(--ink2);
+}
+.vtbl td{vertical-align:middle}
+.vtbl tr.vrow:hover{background:#FAFAF6}
+.vtbl tr.vdrag{background:var(--lime-soft)}
+.vtbl th{white-space:nowrap}
+.vscale{display:flex;align-items:center;gap:9px;min-width:170px}
+.vbar{width:90px;height:6px;border-radius:99px;background:#E7E7DF;overflow:hidden;flex:none}
+.vbar i{display:block;height:100%;border-radius:99px}
+.vscale b{font-size:12px}
+.vdate{
+  display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:4px 10px;
+  font-size:11.5px;font-weight:700;white-space:nowrap;
+}
+.vdate i{font-style:normal;font-size:10px;font-weight:800;opacity:.85}
+/* --- עמוד נהגים: טבלה --- */
+.dsearch{
+  display:flex;align-items:center;gap:8px;background:var(--card);border:1.5px solid var(--line);
+  border-radius:999px;padding:8px 14px;color:var(--mut);
+}
+.dsearch input{border:none;outline:none;font-family:inherit;font-size:13.5px;font-weight:600;background:none;color:var(--ink);width:150px}
+.dtbl th.c,.dtbl td.c{text-align:center}
+.dtbl td .dcell{display:flex;align-items:center;gap:10px}
+.dtbl .dava{
+  width:30px;height:30px;border-radius:50%;flex:none;
+  background:linear-gradient(135deg,#5b5f66,#2c2f34);color:var(--lime);
+  display:grid;place-items:center;font-family:'Rubik';font-weight:700;font-size:11px;
+}
+.dtbl b{font-size:13.5px;white-space:nowrap}
+.crown{color:var(--lime);display:inline-grid;place-items:center;margin-inline-start:1px}
+.dtbl .mutc{color:var(--mut)}
+.ent-id{font-size:10px;color:#B7B9B1;font-weight:700;margin-inline-start:5px}
+.pyes{
+  display:inline-grid;place-items:center;width:21px;height:21px;border-radius:50%;
+  background:var(--green-bg);color:var(--green);
+}
+.pno{color:#C9CBC4;font-weight:700}
+.dact{
+  flex:none;width:30px;height:30px;border-radius:50%;background:var(--paper);color:var(--ink2);
+  display:grid;place-items:center;text-decoration:none;border:none;cursor:pointer;
+}
+.dact:hover{background:#ECECE6}
+@media (max-width:768px){.dsearch input{width:100px}}
 .drow{display:flex;align-items:center;gap:13px;padding:13px 18px;border-bottom:1px solid var(--line);cursor:pointer;transition:background .1s}
 .drow:hover{background:#FAFAF6}
 .drow:last-child{border:none}
@@ -633,6 +682,171 @@ body.dragging-now .wk-wrap{overscroll-behavior:none}
 .dr-head h3{font-size:17px;font-weight:800}
 .dr-body{padding:18px 20px;overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:16px}
 .dr-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+/* ===== כרטיס רכב — טיפולים ===== */
+.svc-list{display:flex;flex-direction:column;gap:10px;margin-top:14px}
+.svc-card{border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:var(--card)}
+.svc-card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:8px}
+.svc-when{display:flex;flex-wrap:wrap;align-items:baseline;gap:5px 12px}
+.svc-when b{font-size:14px}
+.svc-when>span{font-size:12px;color:var(--mut)}
+.svc-next{color:var(--green)!important;font-weight:700}
+.svc-card-acts{display:flex;gap:6px;flex:none}
+.svc-edit,.svc-del{flex:none;width:28px;height:28px;border-radius:8px;border:none;background:var(--paper);color:var(--mut);display:grid;place-items:center;cursor:pointer}
+.svc-edit:hover{color:var(--ink);background:#ECECE6}
+.svc-del{flex:none;width:28px;height:28px;border-radius:8px;border:none;background:var(--paper);color:var(--mut);display:grid;place-items:center;cursor:pointer}
+.svc-del:hover{color:var(--red);background:var(--red-bg)}
+.svc-item{display:flex;align-items:center;gap:9px;padding:5px 0}
+.svc-item+.svc-item{border-top:1px dashed var(--line)}
+.svc-tag{flex:none;font-size:11px;font-weight:800;padding:3px 10px;border-radius:999px}
+.svc-note{font-size:12.5px;color:var(--ink2);line-height:1.4}
+.svc-note.mut{color:#C9CBC4}
+/* טופס */
+.svc-form-item{background:var(--paper);border-radius:12px;padding:10px 12px;margin-bottom:9px}
+.svc-form-row{display:flex;gap:9px;align-items:flex-end}
+.svc-rm{flex:none;width:30px;height:30px;border-radius:9px;border:1.5px solid var(--line2);background:var(--card);color:var(--mut);display:grid;place-items:center;cursor:pointer;margin-bottom:1px}
+.svc-rm:hover{color:var(--red);border-color:#EBD2CD}
+.km-sync{display:inline-flex;align-items:center;gap:5px;margin-top:6px;background:none;border:none;
+  color:var(--ink2);font-family:inherit;font-size:11.5px;font-weight:700;cursor:pointer;padding:2px 0}
+.km-sync:hover{color:var(--ink)}
+.dr-body select{width:100%;padding:10px;border:1.5px solid var(--line2);border-radius:10px;font-family:inherit;font-size:13px;font-weight:600;background:var(--card);color:var(--ink)}
+/* ===== כרטיס רכב: טאבים + סקירה ===== */
+.vc-tabs{display:flex;gap:4px;padding:0 20px;border-bottom:1px solid var(--line);background:var(--card)}
+.vc-tabs button{
+  flex:1;padding:12px 4px;border:none;background:none;font-family:inherit;font-size:13px;font-weight:700;
+  color:var(--mut);cursor:pointer;border-bottom:2.5px solid transparent;position:relative;
+}
+.vc-tabs button.on{color:var(--ink);border-bottom-color:var(--lime)}
+.vc-badge{display:inline-grid;place-items:center;min-width:17px;height:17px;padding:0 4px;margin-inline-start:4px;
+  border-radius:999px;background:var(--red);color:#fff;font-size:10px;font-weight:800;vertical-align:1px}
+.vc-grid2{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.vc-stat{background:var(--paper);border-radius:12px;padding:11px 13px;display:flex;flex-direction:column;gap:1px}
+.vc-stat-l{font-size:11px;color:var(--mut);font-weight:700}
+.vc-stat b{font-size:18px;font-weight:800;line-height:1.15}
+.vc-stat-s{font-size:10.5px;color:var(--mut)}
+.vc-sec{margin-top:18px}
+.vc-sec h4{font-size:13px;font-weight:800;margin-bottom:10px}
+.vc-diag-wrap{display:flex;gap:4px;align-items:center;justify-content:center}
+.vc-side{display:flex;flex-direction:column;gap:30px;justify-content:center}
+.vc-side-r{text-align:right}
+.vc-side-l{text-align:left}
+.vc-cn{display:flex;flex-direction:column;gap:1px}
+.vc-cn span{font-size:10.5px;color:var(--mut)}
+.vc-cn b{font-size:12.5px;white-space:nowrap}
+.vc-cn-date{font-size:10px;color:var(--mut);margin-top:1px}
+.vc-diag-wrap .cardiag{width:104px}
+.cardiag{width:108px;height:auto;flex:none}
+.vc-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:6px 12px}
+.vc-legend div{display:flex;flex-direction:column}
+.vc-legend span{font-size:10.5px;color:var(--mut)}
+.vc-legend b{font-size:12.5px}
+.vc-hint{font-size:10.5px;color:var(--mut);margin-top:8px;line-height:1.5}
+.vc-fleet{margin-top:10px;font-size:12px;color:var(--ink2);background:var(--paper);border-radius:10px;padding:9px 12px}
+.vc-fleet b{color:var(--ink)}
+.vc-freq{display:flex;flex-direction:column;gap:10px}
+.vc-freq-grp{background:var(--paper);border-radius:12px;padding:10px 13px}
+.vc-freq-h{font-size:11.5px;font-weight:800;color:var(--ink2);margin-bottom:6px}
+.vc-freq-row{display:flex;justify-content:space-between;align-items:center;padding:3px 0;font-size:12.5px}
+.vc-freq-row span{color:var(--mut)}
+.vc-freq-row b{font-weight:800}
+.vc-freq-row b.mut{color:#B7B9B1;font-weight:600}
+/* מדים — ציר ערך */
+.vc-meter{background:var(--paper);border-radius:12px;padding:11px 13px;margin-bottom:9px}
+.vc-meter-top{display:flex;justify-content:space-between;align-items:baseline}
+.vc-meter-l{font-size:12px;font-weight:700;color:var(--ink2)}
+.vc-meter-top b{font-size:15px;font-weight:800}
+.vc-meter-bar{height:7px;border-radius:99px;background:#E7E7DF;overflow:hidden;margin:7px 0 5px}
+.vc-meter-bar i{display:block;height:100%;border-radius:99px}
+.vc-meter-sub{font-size:10.5px;color:var(--mut)}
+/* מסמכי רכב */
+.vdoc-list{display:flex;flex-direction:column;gap:14px}
+.vdoc{border:1px solid var(--line);border-radius:16px;padding:14px;background:var(--card)}
+.vdoc.has{box-shadow:0 1px 3px rgba(14,15,17,.04)}
+.vdoc-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:12px}
+.vdoc-title{display:flex;align-items:center;gap:10px}
+.vdoc-ic{flex:none;width:34px;height:34px;border-radius:10px;background:var(--paper);display:grid;place-items:center;color:var(--ink2)}
+.vdoc-title b{font-size:13.5px;display:block}
+.vdoc-meta{font-size:10.5px;color:var(--mut)}
+.vdoc-meta.mut{color:#B7B9B1}
+.vdoc-menu{position:relative;flex:none}
+.vdoc-dots{width:32px;height:32px;border-radius:9px;border:none;background:none;color:var(--mut);cursor:pointer;display:grid;place-items:center}
+.vdoc-dots:hover{background:var(--paper)}
+.vdoc-pop{position:absolute;top:36px;inset-inline-start:0;background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 30px rgba(14,15,17,.16);padding:5px;min-width:150px;z-index:20;display:none}
+.vdoc-pop.show{display:block}
+.vdoc-pop button{display:block;width:100%;text-align:start;padding:9px 12px;border:none;background:none;font-family:inherit;font-size:13px;font-weight:600;color:var(--ink);border-radius:8px;cursor:pointer}
+.vdoc-pop button:hover{background:var(--paper)}
+.vdoc-pop button.del{color:var(--red)}
+.vdoc-open{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border:1.5px solid var(--line2);
+  border-radius:10px;background:var(--card);font-family:inherit;font-size:13px;font-weight:700;color:var(--ink2);cursor:pointer}
+.vdoc-open:hover{background:var(--paper);color:var(--ink)}
+.vdoc-file{display:flex;flex-direction:column;align-items:center;gap:8px;padding:34px;color:var(--mut)}
+.vdoc-file span{font-size:12.5px;font-weight:700}
+.vdoc-up{width:100%;display:flex;align-items:center;justify-content:center;gap:8px;padding:13px;border:1.5px dashed var(--line2);border-radius:12px;background:var(--paper);font-family:inherit;font-size:13.5px;font-weight:700;color:var(--ink2);cursor:pointer}
+.vdoc-up:hover{border-color:var(--ink2);color:var(--ink)}
+/* כפתור רישיון בטבלה */
+.lic-btn{width:30px;height:30px;border-radius:8px;border:none;background:var(--paper);color:var(--ink2);display:inline-grid;place-items:center;cursor:pointer}
+.lic-btn:hover{background:#ECECE6;color:var(--ink)}
+/* הגדרות רכב */
+.veh-hidden-tag{font-size:9.5px;font-weight:800;color:var(--mut);background:var(--paper);border-radius:6px;padding:1px 6px;margin-inline-start:5px;vertical-align:1px}
+.vtoggle{flex:none;width:44px;height:26px;border-radius:99px;border:none;background:#D8D8D2;cursor:pointer;position:relative;transition:background .15s}
+.vtoggle.on{background:var(--green)}
+.vtoggle span{position:absolute;top:3px;inset-inline-start:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:inset-inline-start .15s}
+.vtoggle.on span{inset-inline-start:21px}
+/* תפריט הגדרות בכרטיס רכב */
+.vc-head-acts{display:flex;align-items:center;gap:4px}
+.vc-menu{position:relative}
+.vc-menu-pop{position:absolute;top:42px;inset-inline-end:0;background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:0 14px 36px rgba(14,15,17,.18);padding:12px;width:240px;max-width:calc(100vw - 32px);z-index:30;display:none}
+.vc-menu-pop.show{display:block}
+.vc-menu-row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.vc-menu-row span{font-size:13px;font-weight:700}
+.vc-menu-note{font-size:10.5px;color:var(--mut);margin:5px 0 11px;line-height:1.45}
+.vc-menu-arch{width:100%;display:flex;align-items:center;justify-content:center;gap:7px;padding:9px;border:1.5px solid #EBD2CD;border-radius:10px;background:var(--card);color:var(--red);font-family:inherit;font-size:12.5px;font-weight:700;cursor:pointer}
+.vc-menu-arch:hover{background:var(--red-bg)}
+.vc-stat-edit{border:none;background:none;color:var(--mut);cursor:pointer;padding:0;margin-inline-start:4px;vertical-align:-1px}
+.vc-stat-edit:hover{color:var(--ink)}
+.pbox-ov{position:fixed;inset:0;background:rgba(14,15,17,.4);z-index:200;display:grid;place-items:center;padding:20px}
+.pbox{background:var(--card);border-radius:18px;padding:20px;width:100%;max-width:360px;box-shadow:0 20px 50px rgba(0,0,0,.3)}
+.pbox h3{font-size:16px;font-weight:800;margin-bottom:14px}
+.pbox-acts{display:flex;gap:8px;margin-top:16px}
+.pbox-acts .btn{flex:1}
+/* פינות בטופס */
+.svc-corners{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line)}
+.svc-corners-l{font-size:11.5px;font-weight:700;color:var(--ink2);margin-bottom:6px}
+.svc-corners .cardiag{width:84px;display:block;margin:0 auto}
+.svc-quick{display:flex;gap:6px;justify-content:center;margin-top:8px}
+.svc-quick button{flex:1;padding:7px 4px;border:1.5px solid var(--line2);border-radius:9px;background:var(--card);
+  font-family:inherit;font-size:11.5px;font-weight:700;color:var(--ink2);cursor:pointer}
+.svc-quick button:hover{background:var(--paper)}
+/* בחירת סוג טיפול — כפתורים עם אייקונים */
+.svc-type-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px}
+.svc-type-head label{font-size:12px;font-weight:700;color:var(--ink2)}
+.svc-type-btns{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:7px}
+.svc-type{
+  display:flex;flex-direction:column;align-items:center;gap:5px;padding:11px 4px;
+  border:1.5px solid var(--line2);border-radius:12px;background:var(--card);cursor:pointer;
+  font-family:inherit;font-size:11.5px;font-weight:700;color:var(--ink2);transition:.12s;
+}
+.svc-type:hover{background:var(--paper)}
+.svc-type.on{border-color:var(--ink);background:var(--ink);color:#fff}
+.svc-type-ic{width:22px;height:22px}
+.svc-type-ic svg{width:100%;height:100%}
+/* פירוט בלמים לפי פינה */
+.svc-bd{margin-top:10px;display:flex;flex-direction:column;gap:7px}
+.svc-bd-row{display:flex;align-items:center;gap:8px}
+.svc-bd-c{flex:none;width:74px;font-size:11.5px;font-weight:700;color:var(--ink2)}
+.svc-bd-opts{display:flex;gap:5px;flex:1}
+.svc-bd-opts button{
+  flex:1;padding:7px 4px;border:1.5px solid var(--line2);border-radius:9px;background:var(--card);
+  font-family:inherit;font-size:11px;font-weight:700;color:var(--ink2);cursor:pointer;
+}
+.svc-bd-opts button.on{border-color:var(--lime);background:var(--lime-soft);color:var(--ink)}
+@media (max-width:480px){.svc-type-btns{grid-template-columns:1fr 1fr}}
+.cn.pick rect{transition:fill .12s}
+/* תקלות */
+.fault-open{color:var(--red);font-weight:800}
+.sev{font-size:10.5px;font-weight:800;padding:2px 8px;border-radius:999px}
+.sev-low{background:var(--green-bg);color:var(--green)}
+.sev-mid{background:var(--amber-bg);color:var(--amber)}
+.sev-high{background:var(--red-bg);color:var(--red)}
 .dr-item{background:var(--paper);border-radius:var(--r-s);padding:9px 12px}
 .dr-item .l{font-size:11px;color:var(--mut);display:block}
 .dr-item .v{font-size:13.5px;font-weight:600}
@@ -653,14 +867,26 @@ body.dragging-now .wk-wrap{overscroll-behavior:none}
 .fld{display:flex;flex-direction:column;gap:5px;margin-bottom:13px}
 .fld>label{font-size:11.5px;font-weight:700;color:var(--ink2)}
 .fld>label .req{color:var(--red)}
-.fld input[type=text],.fld input[type=date],.fld input[type=time],.fld select,.fld textarea{
-  width:100%;border:1px solid var(--line2);border-radius:10px;padding:9px 12px;font-size:14px;
-  background:var(--card);outline:none;transition:border-color .12s;font-family:inherit;
+.fld input[type=text],.fld input[type=date],.fld input[type=time],.fld input[type=number],.fld select,.fld textarea{
+  width:100%;box-sizing:border-box;border:1px solid var(--line2);border-radius:10px;
+  padding:0 12px;height:44px;line-height:42px;font-size:14px;font-weight:600;
+  background:var(--card);color:var(--ink);outline:none;transition:border-color .12s;font-family:inherit;
 }
+.fld textarea{height:auto;line-height:1.5;padding:9px 12px}
 .fld input:focus,.fld select:focus,.fld textarea:focus{border-color:var(--ink)}
+/* תאריך/שעה/מספר — נירמול מראה אחיד וטקסט מיושר להתחלה */
+.fld input[type="time"],.fld input[type="date"],.fld input[type="number"],.rep-row input[type="time"]{
+  -webkit-appearance:none;appearance:none;display:block;
+  width:100%;max-width:100%;min-width:0;text-align:start;
+}
+.fld input[type="number"]{-moz-appearance:textfield}
+.fld input[type="number"]::-webkit-outer-spin-button,.fld input[type="number"]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.fld input[type="date"]::-webkit-calendar-picker-indicator{margin-inline-start:0;opacity:.55}
+.fld input[type="date"]::-webkit-date-and-time-value,.fld input[type="time"]::-webkit-date-and-time-value{text-align:start}
 .fld textarea{resize:vertical;min-height:64px}
 .fld .hint{font-size:11px;color:var(--mut)}
 .f-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (max-width:768px){.f-row{grid-template-columns:1fr;gap:0}}
 .tseg{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:15px}
 .tseg>button,.tseg .combo>button{
   border:1.5px solid var(--line2);border-radius:11px;padding:9px 8px;font-size:12.5px;font-weight:700;
@@ -683,6 +909,11 @@ body.dragging-now .wk-wrap{overscroll-behavior:none}
   background:var(--card);text-align:start;font-weight:600;transition:border-color .12s;
 }
 .f-datebtn:hover{border-color:var(--ink2)}
+.cl-sum{
+  width:100%;text-align:start;margin-top:2px;padding:11px 14px;border-radius:12px;
+  background:var(--paper);font-size:12.5px;font-weight:700;color:var(--ink2);
+}
+.cl-sum:hover{background:#ECECE6}
 .dtabs{display:flex;gap:7px;padding:12px 20px;border-bottom:1px solid var(--line)}
 .dtabs button{flex:1;padding:9px;border-radius:11px;font-weight:700;font-size:13px;color:var(--mut);background:var(--paper);transition:all .12s}
 .dtabs button.on{background:var(--ink);color:var(--lime)}
@@ -726,15 +957,24 @@ body.dragging-now .wk-wrap{overscroll-behavior:none}
 
 /* ---------- Mobile nav ---------- */
 .mnav{
-  display:none;position:fixed;bottom:0;left:0;right:0;z-index:50;background:rgba(14,15,17,.97);
-  backdrop-filter:blur(14px);padding:8px 6px calc(8px + env(safe-area-inset-bottom));
-  border-top:1px solid rgba(255,255,255,.08);
+  display:none;position:fixed;bottom:calc(10px + env(safe-area-inset-bottom));left:16px;right:16px;z-index:50;
+  background:rgba(255,255,255,.92);
+  -webkit-backdrop-filter:blur(18px) saturate(1.6);backdrop-filter:blur(18px) saturate(1.6);
+  border-radius:999px;padding:7px;
+  box-shadow:0 12px 36px rgba(14,15,17,.16),0 2px 8px rgba(14,15,17,.07);
+  border:1px solid rgba(14,15,17,.04);
 }
-.mnav .wrap{display:flex;max-width:520px;margin:auto}
-.mnav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;color:#9CA0A8;font-size:10.5px;font-weight:600;padding:5px 2px;border-radius:11px}
-.mnav button.on{color:var(--lime)}
+.mnav .wrap{display:flex;max-width:520px;margin:auto;gap:3px}
+.mnav button{
+  flex:1;display:grid;place-items:center;color:var(--ink);
+  padding:12px 0;border-radius:999px;font-size:0;line-height:0;transition:background .15s;
+}
+.mnav button svg{width:23px;height:23px}
+.mnav button.on{background:rgba(14,15,17,.08)}
+.mnav .mn-pager{color:var(--mut)}
+.mnav button:active{background:rgba(14,15,17,.12)}
 .fab{
-  display:none;position:fixed;bottom:calc(76px + env(safe-area-inset-bottom));inset-inline-end:18px;z-index:51;
+  display:none;position:fixed;bottom:calc(92px + env(safe-area-inset-bottom));inset-inline-end:18px;z-index:51;
   width:54px;height:54px;border-radius:18px;background:var(--lime);color:var(--ink);
   box-shadow:0 10px 28px -8px rgba(190,110,30,.55);place-items:center;
 }
@@ -761,7 +1001,7 @@ body.dragging-now .wk-wrap{overscroll-behavior:none}
     padding:14px 12px calc(86px + env(safe-area-inset-bottom));
   }
   /* היומן: גלילה פנימית בלבד — כותרות ימים ועמודת רכבים נשארות קפואות */
-  .wk-wrap{height:calc(100dvh - 300px);min-height:400px;max-height:none}
+  .wk-wrap{height:calc(100dvh - 235px);min-height:460px;max-height:none}
   .side{display:flex;flex-direction:column;gap:12px;position:static;max-height:none;overflow:visible}
   .side .sp{min-width:0}
   .sec-hint{display:flex;align-items:center;gap:8px;color:var(--mut);font-size:12px;font-weight:600;margin:4px 2px -2px}
@@ -774,9 +1014,11 @@ body.dragging-now .wk-wrap{overscroll-behavior:none}
   .wk-add{opacity:.55}
   .home-grid{gap:12px}
   .mnav{display:block}
-  .fab{display:grid}
-  .scrollx .tbl{display:none}
-  .cards{display:flex}
+  body.show-fab .fab{display:grid}
+  .scrollx.has-cards .tbl{display:none}
+  .has-cards .cards{display:flex}
+  /* טבלאות נהגים/רכבים נשארות גלויות ונגללות אופקית במובייל */
+  .dtbl,.vtbl{min-width:640px}
   .topbar{align-items:center}
   .topbar .actions .btn-pri{display:none}
   .drawer{inset-inline:0;top:auto;bottom:0;width:100%;max-height:88dvh;border-radius:20px 20px 0 0;transform:translateY(105%)}
@@ -802,8 +1044,8 @@ body.dragging-now .wk-wrap{overscroll-behavior:none}
       <span class="lbl">טבלת משימות</span>
     </button>
     <button data-v="board">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8v9a2 2 0 01-2 2h-4v-7h-6v7H5a2 2 0 01-2-2z"/></svg>
-      <span class="lbl">סקירה חיה</span>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><rect x="7" y="12" width="3" height="6" rx="1"/><rect x="12" y="8" width="3" height="10" rx="1"/><rect x="17" y="5" width="3" height="13" rx="1"/></svg>
+      <span class="lbl">דשבורד</span>
     </button>
     <button data-v="vehicles">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 16l1.5-5h11L19 16M5 16h14M5 16v3h2v-2h10v2h2v-3M8 8h8"/></svg>
@@ -813,17 +1055,30 @@ body.dragging-now .wk-wrap{overscroll-behavior:none}
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></svg>
       <span class="lbl">נהגים</span>
     </button>
+    <button data-v="clients">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.4 3.3-5 6.5-5s5.7 1.6 6.5 5"/><circle cx="17" cy="9" r="2.8"/><path d="M16 15.2c3 .2 5 1.7 5.5 4.8"/></svg>
+      <span class="lbl">לקוחות</span>
+    </button>
     <button data-v="avail">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3 8-8"/><path d="M21 12v6a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2h11"/></svg>
       <span class="lbl">זמינות</span>
     </button>
     <button data-v="pay">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="13" rx="2"/><path d="M2 10h20M6 15h4"/></svg>
-      <span class="lbl">שכר והוצאות</span>
+      <span class="lbl">שכר</span>
     </button>
-  <a href="911vip-driver.html" style="display:flex;align-items:center;gap:11px;padding:10px 13px;border-radius:11px;color:inherit;text-decoration:none;font-size:13.5px;font-weight:600">
-    <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg>ממשק נהג
-  </a>
+    <button data-v="expenses">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 3h14v18l-2.3-1.5L14.4 21l-2.4-1.5L9.6 21l-2.3-1.5L5 21z"/><path d="M9 8h6M9 12h6"/></svg>
+      <span class="lbl">הוצאות</span>
+    </button>
+    <button onclick="location.href='911vip-driver.html'" title="ממשק נהג">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg>
+      <span class="lbl">ממשק נהג</span>
+    </button>
+    <button onclick="vipLogout()" title="התנתקות">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+      <span class="lbl">התנתקות</span>
+    </button>
     <div class="spacer"></div>
     <button class="ntg" onclick="toggleRail()">
       <svg class="tg-ic" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 17l5-5-5-5M6 17l5-5-5-5"/></svg>
@@ -831,8 +1086,8 @@ body.dragging-now .wk-wrap{overscroll-behavior:none}
     </button>
   </nav>
   <div class="me">
-    <div class="ava">רא</div>
-    <div class="me-txt"><b style="font-size:13.5px">רון אוחיון</b><small>מנהל · מעבר לממשק נהג</small></div>
+    <div class="ava" id="meAva">—</div>
+    <div class="me-txt"><b style="font-size:13.5px" id="meName"></b></div>
   </div>
 </aside>
 
@@ -841,13 +1096,7 @@ body.dragging-now .wk-wrap{overscroll-behavior:none}
 </div>
 
 <!-- ===== Mobile bottom nav ===== -->
-<nav class="mnav"><div class="wrap" id="mnav">
-  <button data-v="home" class="on"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 4V2M16 4V2"/></svg>יומן</button>
-  <button data-v="tasks"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5h10M9 12h10M9 19h10M4 5h.01M4 12h.01M4 19h.01"/></svg>משימות</button>
-  <button data-v="board"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8v9a2 2 0 01-2 2h-4v-7h-6v7H5a2 2 0 01-2-2z"/></svg>סקירה</button>
-  <button data-v="vehicles"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 16l1.5-5h11L19 16M5 16h14M5 16v3h2v-2h10v2h2v-3"/></svg>רכבים</button>
-  <button data-v="pay"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="13" rx="2"/><path d="M2 10h20"/></svg>שכר</button>
-</div></nav>
+<nav class="mnav"><div class="wrap" id="mnav"></div></nav>
 <button class="fab" onclick="openNewTask()"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg></button>
 
 <div class="scrim" id="scrim" onclick="closeDrawer()"></div>
@@ -885,31 +1134,107 @@ body.dragging-now .wk-wrap{overscroll-behavior:none}
 <div class="toast" id="toast"><span class="dot"></span><span id="toastTxt"></span><button class="toast-btn" id="toastBtn"></button></div>
 
 <script>
+/* ============================================================
+   Store — שכבת אחסון מרכזית אחת לכל המערכת.
+   כל שינוי שמשתמש מבצע (רכבים, נהגים, משימות, לקוחות, סדר,
+   סל מחיקה, זמינות...) נכתב ונקרא אך ורק דרך כאן.
+   היום: נשמר במכשיר (localStorage) — אב-טיפוס.
+   מעבר לאונליין: מחליפים רק את גוף set/get כך שיעשו fetch
+   לשרת (למשל Supabase), וכל המערכת הופכת מסונכרנת בין כל
+   המשתמשים — בלי לגעת באף עמוד. זה הצינור היחיד.
+   ============================================================ */
+const Store=(()=>{
+  const PREFIX='vip_';
+  const mem={}; // מטמון בזיכרון — בעתיד יתמלא מתשובת השרת
+  function set(key,val){
+    mem[key]=val;
+    try{localStorage.setItem(PREFIX+key,JSON.stringify(val))}catch(e){}
+    /* כאן בעתיד: fetch(API+'/'+key,{method:'PUT',body:JSON.stringify(val)}) */
+    return val;
+  }
+  function get(key,fallback){
+    if(key in mem)return mem[key];
+    try{const r=localStorage.getItem(PREFIX+key);if(r!=null){mem[key]=JSON.parse(r);return mem[key]}}catch(e){}
+    /* כאן בעתיד: await fetch(API+'/'+key) */
+    return (fallback!==undefined?fallback:null);
+  }
+  function remove(key){delete mem[key];try{localStorage.removeItem(PREFIX+key)}catch(e){}}
+  return {set,get,remove};
+})();
+
+/* ============================================================
+   מזהים: מונה אינקרמנטלי מרכזי לכל ישות. נשמר ב-Store ולא חוזר
+   אחורה (גם אחרי מחיקה) — כך שמספר לעולם לא ממוחזר.
+   רכבים VEH · נהגים DRV · לקוחות CLI · משימות TSK · טיפולים SVC.
+   ============================================================ */
+const IDS=(()=>{
+  const ctr=Store.get('idctr',{})||{};
+  function next(kind){const n=(ctr[kind]||0)+1;ctr[kind]=n;Store.set('idctr',ctr);return n;}
+  function ensure(kind,minimum){if((ctr[kind]||0)<minimum){ctr[kind]=minimum;Store.set('idctr',ctr);}}
+  return {next,ensure};
+})();
+
+/* ===== הרשאות: מנהל בלבד. נהג מנותב לממשק שלו, אורח — לכניסה ===== */
+/* תוקף סשן: מנהל — חודש · נהג — חצי שנה */
+const SESSION_MAX={manager:30*24*60*60*1000,driver:183*24*60*60*1000};
+const sessionExpired=s=>!s||!s.at||(Date.now()-s.at)>(SESSION_MAX[s.role]||0);
+let SESSION=null;
+SESSION=Store.get('session',null);
+if(sessionExpired(SESSION)){Store.remove('session');location.replace('911vip-login.html')}
+else if(SESSION.role==='driver'){location.replace('911vip-driver.html')}
+function vipLogout(){Store.remove('session');location.replace('911vip-login.html')}
 /* ================= DEMO DATA ================= */
+/* רשימת הרכבים האמיתית (vehicles.xlsx) · o = סדר תצוגה */
 const VEHICLES=[
- {n:'קאדילק משוריין 003',plate:'566-85-003',km:87652,svc:6348,test:'05/12/26',ins:'31/03/27',loc:'מוסך רחובות',arm:1,st:'free'},
- {n:'קאדילק משוריין 004',plate:'128-91-004',km:55987,svc:1513,test:'16/09/26',ins:'30/09/26',loc:'הר חוצבים',arm:1,st:'free'},
- {n:'סברבן משוריין 904',plate:'128-91-904',km:16269,svc:7731,test:'20/12/26',ins:'31/12/26',loc:'המצור ירושלים',arm:1,st:'free'},
- {n:'סברבן משוריין 603',plate:'752-22-603',km:99218,svc:4782,test:'26/05/27',ins:'31/05/27',loc:'ראשל"צ ויקטורי',arm:1,st:'task'},
- {n:'סברבן משוריין 203',plate:'566-85-203',km:104807,svc:8193,test:'30/08/26',ins:'31/08/26',loc:'קדר',arm:1,st:'task'},
- {n:'טאהו משוריין 303',plate:'566-85-303',km:91888,svc:1612,test:'05/12/26',ins:'30/11/26',loc:'רון ויקטורי',arm:1,st:'free'},
- {n:'סילברדו משוריין 801',plate:'940-96-801',km:10300,svc:1700,test:'06/11/26',ins:'01/01/27',loc:'מעלה אדומים',arm:1,st:'free'},
- {n:'סברבן משוריין 901',plate:'470-66-901',km:239563,svc:7437,test:'05/09/26',ins:'30/04/27',loc:'גבעת זאב',arm:1,st:'free'},
- {n:'קאדילק רך 403',plate:'752-22-403',km:53128,svc:5872,test:'03/07/26',ins:'30/06/26',loc:'מוסך רחובות',arm:0,st:'down',warn:'חידוש טסט וביטוח'},
- {n:'מרצדס S',plate:'907-10-401',km:155550,svc:24450,test:'30/06/26',ins:'31/07/26',loc:'קידר',arm:0,st:'free',warn:'חידוש טסט'},
- {n:'ספרינטר משוריין 290',plate:'76-290-39',km:104326,svc:3674,test:'14/12/26',ins:'30/04/27',loc:'רון',arm:1,st:'admin'},
- {n:'טאהו רך 703',plate:'470-02-703',km:82444,svc:9556,test:'14/03/27',ins:'30/04/27',loc:'החומה מעלה אדומים',arm:0,st:'free'},
+ {o:1,n:'קאדילק רך 403',typ:'רך',mk:'קאדילק',plate:'752-22-403',vin:'1GYS4JKL7PR500778',km:53128,svcKm:59000,test:'03/07/2026',ins:'30/06/2026',loc:'מוסך רחובות',arm:0,st:'free'},
+ {o:2,n:'קאדילק משוריין 004',typ:'משוריין',mk:'קאדילק',plate:'128-91-004',vin:'1GYS4JKL7PR500778',km:56332,svcKm:57500,test:'16/09/2026',ins:'30/09/2026',loc:'הר חוצבים',arm:1,st:'free'},
+ {o:3,n:'קאדילק משוריין 003',typ:'משוריין',mk:'קאדילק',plate:'566-85-003',vin:'1GYS4KKL6PR435024',km:87652,svcKm:94000,test:'05/12/2026',ins:'31/03/2027',loc:'מוסך רחובות',arm:1,st:'free'},
+ {o:4,n:'קאדילק אסקלייד V',typ:'רך',mk:'קאדילק',plate:'777-77-803',vin:'1GYS4HK92PR165460',km:85610,svcKm:96000,test:'09/08/2026',ins:'30/04/2027',loc:'קידר',arm:0,st:'free'},
+ {o:5,n:'ספרינטר משוריין 911',typ:'משוריין',mk:'מרצדס',plate:'128-91-104',vin:'W1X8NB3Y2RP737805',km:31500,svcKm:40000,test:'22/02/2027',ins:'28/02/2027',loc:'ראשל"צ ויקטורי',arm:1,st:'free'},
+ {o:6,n:'ספרינטר משוריין 290',typ:'משוריין',mk:'מרצדס',plate:'76-290-39',vin:'WDB9066531P231823',km:104326,svcKm:108000,test:'14/12/2026',ins:'30/04/2027',loc:'רון',arm:1,st:'free'},
+ {o:7,n:'סילברדו משוריין 801',typ:'משוריין',mk:'שברולט',plate:'940-96-801',vin:'2GC1YMEY5R1219556',km:10300,svcKm:12000,test:'06/11/2026',ins:'01/01/2027',loc:'מעלה אדומים',arm:1,st:'free'},
+ {o:8,n:'סילברדו משוריין 503',typ:'משוריין',mk:'שברולט',plate:'470-02-503',vin:'2GC4YLEY6P1713963',km:77747,svcKm:80000,test:'07/06/2027',ins:'31/05/2027',loc:'פיק"א 44',arm:1,st:'free'},
+ {o:9,n:'סברבן רך 803',typ:'רך',mk:'שברולט',plate:'470-02-803',vin:'1GNSKGKL6PR172484',km:99651,svcKm:110000,test:'14/03/2027',ins:'30/04/2027',loc:'מבשרת - אליאב',arm:0,st:'free'},
+ {o:10,n:'סברבן משוריין 904',typ:'משוריין',mk:'שברולט',plate:'128-91-904',vin:'1GNS6GRL0SR223674',km:16269,svcKm:24000,test:'20/12/2026',ins:'31/12/2026',loc:'המצור ירושלים',arm:1,st:'free'},
+ {o:11,n:'סברבן משוריין 901',typ:'משוריין',mk:'שברולט',plate:'470-66-901',vin:'1GNSKJKC4JR337050',km:239563,svcKm:247000,test:'05/09/2026',ins:'30/04/2027',loc:'גבעת זאב',arm:1,st:'free'},
+ {o:12,n:'סברבן משוריין 803',typ:'משוריין',mk:'שברולט',plate:'566-84-803',vin:'1GNSKGKL9PR217319',km:99391,svcKm:124000,test:'25/10/2026',ins:'31/10/2026',loc:'',arm:1,st:'free'},
+ {o:13,n:'סברבן משוריין 603',typ:'משוריין',mk:'שברולט',plate:'752-22-603',vin:'1GNSKGKL1PR531238',km:99218,svcKm:104000,test:'26/05/2027',ins:'31/05/2027',loc:'ראשל"צ ויקטורי',arm:1,st:'free'},
+ {o:14,n:'סברבן משוריין 203',typ:'משוריין',mk:'שברולט',plate:'566-85-203',vin:'1GNSKEKL5PR221260',km:104807,svcKm:113000,test:'30/08/2026',ins:'31/08/2026',loc:'קדר',arm:1,st:'free'},
+ {o:15,n:'נגרר',typ:'אחר',mk:'-',plate:'676-78-501',vin:'ללא',km:0,svcKm:0,test:'24/02/2027',ins:'31/05/2027',loc:'',arm:0,st:'free'},
+ {o:16,n:'מרצדס S',typ:'רך',mk:'מרצדס',plate:'907-10-401',vin:'WDD2221331A339898',km:155550,svcKm:180000,test:'30/06/2026',ins:'31/07/2026',loc:'',arm:0,st:'free'},
+ {o:17,n:'טאהו רך 703',typ:'רך',mk:'שברולט',plate:'470-02-703',vin:'1GNSKTKL8PR215098',km:82444,svcKm:92000,test:'14/03/2027',ins:'30/04/2027',loc:'החומה מעלה אדומים',arm:0,st:'free'},
+ {o:18,n:'טאהו משוריין 303',typ:'משוריין',mk:'שברולט',plate:'566-85-303',vin:'1GNSKTKL8PR217630',km:91888,svcKm:93500,test:'05/12/2026',ins:'30/11/2026',loc:'רון ויקטורי',arm:1,st:'free'}
 ];
 const DRIVERS=[
- {n:'טירן שרון',ph:'0585444300',knesset:1,gov:1,rate:60},
- {n:'בר בנימין',ph:'0537454518',knesset:1,gov:1,rate:70},
- {n:'דוד יעקב',ph:'0505713291',knesset:1,gov:1,rate:65},
- {n:'איתן אוחיון',ph:'0537454518',knesset:1,gov:1,rate:70},
- {n:'עמיר אלוני',ph:'0509729991',knesset:1,gov:1,rate:65},
- {n:'שבי מזרחי',ph:'0544572027',knesset:1,gov:0,rate:60},
- {n:'אופיר אוחיון',ph:'0503729997',knesset:1,gov:1,rate:70},
- {n:'שחר שמאי',ph:'0537003522',knesset:0,gov:1,rate:60},
+ {n:'טירן שרון',ph:'0585444300',tz:'037813839',gov:1,knesset:1,svg:1,gun:1,active:1,rate:70,rateS:90},
+ {n:'אופיר אוחיון',mgr:1,ph:'0503729997',tz:'315671843',gov:1,knesset:1,svg:1,gun:1,active:1,rate:70,rateS:90},
+ {n:'איתן אוחיון',mgr:1,ph:'0537454518',tz:'028149128',gov:1,knesset:1,svg:1,gun:1,active:1,rate:70,rateS:90},
+ {n:'רון אוחיון',mgr:1,ph:'0509729991',tz:'206199283',gov:1,knesset:1,svg:1,gun:1,active:1,rate:70,rateS:90},
+ {n:'דורון גולדברג',ph:'0549847435',tz:'313968638',gov:1,knesset:1,svg:1,gun:1,active:1,rate:70,rateS:90},
+ {n:'דוד יעקב',ph:'0505713291',tz:'055684120',gov:1,knesset:1,svg:0,gun:1,active:1,rate:70,rateS:90},
+ {n:'שבי מזרחי',ph:'0544572027',tz:'032420671',gov:0,knesset:1,svg:0,gun:1,active:1,rate:70,rateS:90},
+ {n:'שאול בנימין',ph:'0527570067',tz:'315415257',gov:1,knesset:1,svg:1,gun:1,active:1,rate:70,rateS:90},
+ {n:'רונן אזולאי',ph:'0546606914',tz:'052718194',gov:0,knesset:0,svg:0,gun:1,active:1,rate:70,rateS:90},
+ {n:'רוני מזל טוב',ph:'0506502501',tz:'056198120',gov:1,knesset:0,svg:0,gun:1,active:1,rate:70,rateS:90},
+ {n:'שחר שמאי',ph:'0504424482',tz:'209367713',gov:1,knesset:1,svg:1,gun:0,active:1,rate:70,rateS:90},
+ {n:'סהר בצי',ph:'0505071509',tz:'034780940',gov:0,knesset:0,svg:0,gun:1,active:1,rate:70,rateS:90},
+ {n:'אליהו איטח',ph:'0538250850',tz:'211460332',gov:0,knesset:0,svg:0,gun:1,active:1,rate:70,rateS:90},
+ {n:'עמיר אלוני',ph:'0506235282',tz:'056109747',gov:0,knesset:0,svg:0,gun:1,active:1,rate:70,rateS:90},
+ {n:'אורי בוגנים',ph:'0537003522',tz:'212341150',gov:1,knesset:0,svg:0,gun:1,active:1,rate:70,rateS:90},
+ {n:'יותם סלע',ph:'0547663993',tz:'301274635',gov:0,knesset:0,svg:0,gun:1,active:1,rate:70,rateS:90},
+ {n:'מיכאל רקיצנוב',ph:'0545479050',tz:'311290399',gov:0,knesset:0,svg:0,gun:1,active:1,rate:70,rateS:90},
+ {n:'אייל נעמד',ph:'0547266618',tz:'066677691',gov:1,knesset:0,svg:0,gun:1,active:1,rate:70,rateS:90},
+ {n:'יהודה נעמד',ph:'0549199345',tz:'311603583',gov:1,knesset:1,svg:0,gun:1,active:1,rate:70,rateS:90},
+ {n:'שחר אסרף',ph:'0525095091',tz:'312255664',gov:0,knesset:0,svg:0,gun:1,active:1,rate:70,rateS:90},
+ {n:'גדעון ארד',ph:'0505698268',tz:'059845867',gov:0,knesset:0,svg:0,gun:1,active:1,rate:70,rateS:90},
+ {n:'אורן כנעני',ph:'0508510559',tz:'027803493',gov:1,knesset:0,svg:0,gun:1,active:1,rate:70,rateS:90},
+ {n:'בר בנימין',ph:'0504305205',tz:'315174037',gov:0,knesset:0,svg:0,gun:1,active:1,rate:70,rateS:90}
 ];
+/* מזהי נהגים: DRV-n לפי סדר ההגדרה */
+DRIVERS.forEach((d,i)=>{if(d.id===undefined)d.id=i+1});
+IDS.ensure('DRV',DRIVERS.length);
+const drvById=id=>DRIVERS.find(d=>d.id===+id);
+const drvByName=nm=>DRIVERS.find(d=>d.n===nm);
 const TASKS=[
  {id:1,name:'צבי סוכות',client:'כנסת ישראל',drv:'טירן שרון',veh:'סברבן משוריין 603',day:'חמישי',date:'11/06',s:'08:32',rel:'11:47',e:'13:02',km:106,st:'live',h:'04:30'},
  {id:2,name:'תפוצות',client:'מודיעין אזרחי בע"מ',drv:'דוד יעקב',veh:'',day:'חמישי',date:'11/06',s:'09:10',rel:'',e:'',km:0,st:'pend',h:''},
@@ -966,7 +1291,7 @@ const PAY=[
 ];
 
 /* ===== מודל תאריכים ===== */
-const DEMO_TODAY='2026-06-11'; // "היום" של הדמו
+const DEMO_TODAY=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Jerusalem',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date()); // היום האמיתי לפי שעון ישראל
 const DAY_NAMES=['ראשון','שני','שלישי','רביעי','חמישי','שישי','שבת'];
 const fromIso=s=>new Date(s+'T00:00:00');
 const toIso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
@@ -981,91 +1306,137 @@ const weekDays=()=>Array.from({length:7},(_,i)=>{
   return{iso:di,name:DAY_NAMES[i],dt:ddmm(di),cls:di<DEMO_TODAY?'past':di===DEMO_TODAY?'today':''};
 });
 
-/* שורות היומן (רכבים) */
-const ROWS=[
- {v:'קאדילק משוריין 003',loc:'מוסך רחובות',arm:1},
- {v:'קאדילק משוריין 004',loc:'הר חוצבים',arm:1},
- {v:'סברבן משוריין 904',loc:'המצור ירושלים',arm:1},
- {v:'סברבן משוריין 603',loc:'ראשל"צ ויקטורי',arm:1},
- {v:'סברבן משוריין 203',loc:'קדר',arm:1},
- {v:'טאהו משוריין 303',loc:'רון ויקטורי',arm:1},
- {v:'סילברדו משוריין 503',loc:'פיק"א 44',arm:1},
- {v:'סילברדו משוריין 801',loc:'הכרכום 11, מעלה אדומים',arm:1},
- {v:'סברבן משוריין 901',loc:'גבעת זאב, רח׳ הזית',arm:1},
- {v:'ספרינטר משוריין 911',loc:'ראשל"צ ויקטורי',arm:1},
- {v:'ספרינטר משוריין 290',loc:'רון',arm:1},
- {v:'טאהו רך 703',loc:'החומה מעלה אדומים',arm:0},
- {v:'סברבן רך 803',loc:'מבשרת - אליאב',arm:0},
- {v:'קאדילק רך 403',loc:'מוסך רחובות',arm:0},
- {v:'קאדילק אסקלייד V',loc:'קידר',arm:0},
- {v:'סברבן משוריין 803',loc:'',arm:1},
- {v:'משימת נהיגה',loc:'',arm:0},
- {v:'משימה חיצונית',loc:'',arm:0},
-];
-const RI={};ROWS.forEach((r,i)=>RI[r.v.replace(' משוריין','').replace(' רך','')]=i);
+/* ===== שורות היומן נגזרות מרשימת הרכבים שבמערכת =====
+   שמות, מיקום, סדר ושריון נשאבים מ-VEHICLES (אותו מקור כמו עמוד הרכבים),
+   בסדר ששמור ב-Store. שתי שורות-העל (נהיגה/חיצונית) קבועות בסוף.
+   מיקום נוכחי מתעדכן כשנהג מסיים משימה (syncVehicleKm/דיווח). */
+const PSEUDO=['משימת נהיגה','משימה חיצונית'];
+/* דגלי נראות לכל רכב — נשמרים ב-Store. hidden=מוסתר · archived=ארכיון.
+   מוגדר כאן (לפני buildRows/refreshRows) כי buildRows משתמש ב-vehActive. */
+function vehActive(v){return !v.hidden&&!v.archived}
+function loadVehFlags(){const F=Store.get('vehflags',{})||{};VEHICLES.forEach(v=>{const f=F[v.n];if(f){v.hidden=!!f.hidden;v.archived=!!f.archived}});}
+loadVehFlags();
+function vehFlagsSave(){
+  const o={};VEHICLES.forEach(v=>{if(v.hidden||v.archived)o[v.n]={hidden:!!v.hidden,archived:!!v.archived}});
+  Store.set('vehflags',o);
+}
+function setVehFlag(name,key,val){const v=VEHICLES.find(x=>x.n===name);if(!v)return;v[key]=val;vehFlagsSave();refreshRows()}
+function buildRows(){
+  const ord=vehOrder(); // הסדר מעמוד הרכבים
+  const rows=ord.map(n=>{const v=VEHICLES.find(x=>x.n===n);return (v&&vehActive(v))?{v:v.n,loc:v.loc||'',arm:v.arm}:null}).filter(Boolean);
+  PSEUDO.forEach(p=>rows.push({v:p,loc:'',arm:0}));
+  return rows;
+}
+/* ROWS חי — נבנה אחרי שאתחול הסדר זמין (ראה בהמשך) */
+let ROWS=[];
+function refreshRows(){ROWS=buildRows();}
+/* מ"שם רכב" לאינדקס שורה ביומן (תומך גם בשם מקוצר) */
+function riByName(name){
+  let i=ROWS.findIndex(r=>r.v===name);
+  if(i<0)i=ROWS.findIndex(r=>r.v.replace(' משוריין','').replace(' רך','')===name);
+  return i;
+}
+const RI=new Proxy({},{get:(_,k)=>riByName(String(k))});
 
 /* משימות לפי תאריך אמיתי. ri = אינדקס רכב */
 const TASKS_DB=[
+ /* רון אוחיון — מוצגות גם בממשק הנהג שלו */
+ {vn:'קאדילק 004',date:DEMO_TODAY,n:'ליווי אח"מ — נתב"ג',drv:'רון אוחיון',time:'18:00',loc:'טרמינל 3 · שער VIP',client:'משרד ראש הממשלה'},
+ {vn:'טאהו 303',date:addD(DEMO_TODAY,2),n:'סיור ביטחוני',drv:'רון אוחיון',time:'08:30',loc:'קריית הממשלה ת"א',client:'ECI אי סי איי טלקום'},
+ {vn:'קאדילק 004',date:addD(DEMO_TODAY,-2),n:'ועידת חירום — ירושלים',drv:'רון אוחיון',done:true,stage:3,client:'משרד ראש הממשלה',
+  ts:{start:'05:50',rel:'14:20',end:'15:05'},km:{start:'55720',rel:'55905',end:'55960'},locs:{rel:'בנייני האומה',end:'בית'}},
+ /* אופיר אוחיון */
+ {vn:'סברבן 904',date:addD(DEMO_TODAY,1),n:'בית הנשיא',drv:'אופיר אוחיון',time:'07:00',loc:'הר חוצבים',client:'בית הנשיא'},
+ {vn:'ספרינטר 290',date:addD(DEMO_TODAY,-1),n:'חדשות — אולפן',drv:'אופיר אוחיון',done:true,stage:3,client:'חדשות 10 בע"מ',
+  ts:{start:'15:45',rel:'22:30',end:'23:10'},km:{start:'104210',rel:'104298',end:'104326'},locs:{rel:'אולפני נווה אילן',end:'בית'}},
  /* שבוע שעבר */
- {ri:3,date:'2026-06-02',n:'מדע',drv:'טירן שרון'},
- {ri:8,date:'2026-06-03',n:'ECI',drv:'בר בנימין'},
- {ri:8,date:'2026-06-04',n:'IBC',drv:'בר בנימין'},
+ {vn:'סברבן משוריין 603',date:'2026-06-02',n:'מדע',drv:'טירן שרון'},
+ {vn:'סברבן משוריין 901',date:'2026-06-03',n:'ECI',drv:'בר בנימין'},
+ {vn:'סברבן משוריין 901',date:'2026-06-04',n:'IBC',drv:'בר בנימין'},
  /* השבוע הנוכחי */
- {ri:0,date:'2026-06-10',n:'לפיד',drv:'אופיר אוחיון'},
- {ri:0,date:'2026-06-13',n:'איגור',drv:'שאול בנימין'},
- {ri:1,date:'2026-06-10',n:'בית הנשיא',drv:'שבי מזרחי'},
- {ri:1,date:'2026-06-12',n:'ביסמוט',drv:'שבי מזרחי'},
- {ri:3,date:'2026-06-08',n:'בית הנשיא',drv:'טירן שרון'},
- {ri:3,date:'2026-06-10',n:'בית הנשיא',drv:'טירן שרון'},
- {ri:3,date:'2026-06-11',n:'צבי סוכות',drv:'טירן שרון',cls:'live',ts:{start:'06:30'},km:{start:'99218'},rts:{ap:'21:14',start:'06:31'}},
- {ri:3,date:'2026-06-13',n:'איגור',drv:'אופיר אוחיון'},
- {ri:4,date:'2026-06-07',n:'עליה וקליטה',drv:'עמיר אלוני'},
- {ri:4,date:'2026-06-07',n:'חדשות 13',drv:'עמיר אלוני'},
- {ri:4,date:'2026-06-07',n:'איסוף שגריר',drv:'עמיר אלוני'},
- {ri:4,date:'2026-06-08',n:'בית הנשיא',drv:'איתן אוחיון'},
- {ri:4,date:'2026-06-10',n:'תחבורה',drv:'איתן אוחיון'},
- {ri:7,date:'2026-06-07',n:'מחצבות',drv:'בר בנימין'},
- {ri:8,date:'2026-06-10',n:'חדשות 13',drv:'בר בנימין',ts:{start:'06:30',rel:'10:52',end:'11:07'},km:{start:'99218',rel:'99245',end:'99251'},locs:{rel:'כנסת ישראל',end:'גבעת זאב'},rts:{ap:'21:14',start:'06:31',rel:'12:47',end:'11:09'}},
- {ri:10,date:'2026-06-07',n:'מחצבות',drv:'דוד יעקב'},
- {ri:11,date:'2026-06-08',n:'כ.ד נהיגה עצמית',cls:'self'},
- {ri:11,date:'2026-06-09',n:'כ.ד נהיגה עצמית',cls:'self'},
- {ri:11,date:'2026-06-10',n:'כ.ד נהיגה עצמית',cls:'self'},
- {ri:13,date:'2026-06-07',n:'טום ניידס',drv:'אופיר אוחיון'},
- {ri:13,date:'2026-06-08',n:'טום ניידס',drv:'אופיר אוחיון'},
+ {vn:'קאדילק משוריין 003',date:'2026-06-10',n:'לפיד',drv:'אופיר אוחיון'},
+ {vn:'קאדילק משוריין 003',date:'2026-06-13',n:'איגור',drv:'שאול בנימין'},
+ {vn:'קאדילק משוריין 004',date:'2026-06-10',n:'בית הנשיא',drv:'שבי מזרחי'},
+ {vn:'קאדילק משוריין 004',date:'2026-06-12',n:'ביסמוט',drv:'שבי מזרחי'},
+ {vn:'סברבן משוריין 603',date:'2026-06-08',n:'בית הנשיא',drv:'טירן שרון'},
+ {vn:'סברבן משוריין 603',date:'2026-06-10',n:'בית הנשיא',drv:'טירן שרון'},
+ {vn:'סברבן משוריין 603',date:'2026-06-11',n:'צבי סוכות',drv:'טירן שרון',cls:'live',ts:{start:'06:30'},km:{start:'99218'},rts:{ap:'21:14',start:'06:31'}},
+ {vn:'סברבן משוריין 603',date:'2026-06-13',n:'איגור',drv:'אופיר אוחיון'},
+ {vn:'סברבן משוריין 203',date:'2026-06-07',n:'עליה וקליטה',drv:'עמיר אלוני'},
+ {vn:'סברבן משוריין 203',date:'2026-06-07',n:'חדשות 13',drv:'עמיר אלוני'},
+ {vn:'סברבן משוריין 203',date:'2026-06-07',n:'איסוף שגריר',drv:'עמיר אלוני'},
+ {vn:'סברבן משוריין 203',date:'2026-06-08',n:'בית הנשיא',drv:'איתן אוחיון'},
+ {vn:'סברבן משוריין 203',date:'2026-06-10',n:'תחבורה',drv:'איתן אוחיון'},
+ {vn:'סילברדו משוריין 801',date:'2026-06-07',n:'מחצבות',drv:'בר בנימין'},
+ {vn:'סברבן משוריין 901',date:'2026-06-10',n:'חדשות 13',drv:'בר בנימין',ts:{start:'06:30',rel:'10:52',end:'11:07'},km:{start:'99218',rel:'99245',end:'99251'},locs:{rel:'כנסת ישראל',end:'גבעת זאב'},rts:{ap:'21:14',start:'06:31',rel:'12:47',end:'11:09'}},
+ {vn:'ספרינטר משוריין 290',date:'2026-06-07',n:'מחצבות',drv:'דוד יעקב'},
+ {vn:'טאהו רך 703',date:'2026-06-08',n:'כ.ד נהיגה עצמית',cls:'self'},
+ {vn:'טאהו רך 703',date:'2026-06-09',n:'כ.ד נהיגה עצמית',cls:'self'},
+ {vn:'טאהו רך 703',date:'2026-06-10',n:'כ.ד נהיגה עצמית',cls:'self'},
+ {vn:'קאדילק רך 403',date:'2026-06-07',n:'טום ניידס',drv:'אופיר אוחיון'},
+ {vn:'קאדילק רך 403',date:'2026-06-08',n:'טום ניידס',drv:'אופיר אוחיון'},
  /* סדרת איגור — נמשכת ברצף אל השבוע הבא */
- {ri:14,date:'2026-06-11',n:'איגור',drv:'שאול בנימין',sid:'igor'},
- {ri:14,date:'2026-06-12',n:'איגור',drv:'שאול בנימין',sid:'igor'},
- {ri:14,date:'2026-06-13',n:'איגור',drv:'שאול בנימין',sid:'igor'},
- {ri:14,date:'2026-06-14',n:'איגור',drv:'שאול בנימין',sid:'igor'},
- {ri:14,date:'2026-06-15',n:'איגור',drv:'שאול בנימין',sid:'igor'},
- {ri:10,date:'2026-06-10',n:'החלפת רכב',drv:'דוד יעקב',cls:'admin'},
- {ri:10,date:'2026-06-11',n:'טיפול במוסך',drv:'דוד יעקב',cls:'admin'},
- {ri:1,date:'2026-06-09',n:'שטיפה',drv:'שבי מזרחי',cls:'admin'},
- {ri:3,date:'2026-06-11',n:'החלפת רכב',drv:'טירן שרון',cls:'admin'},
+ {vn:'קאדילק אסקלייד V',date:'2026-06-11',n:'איגור',drv:'שאול בנימין',sid:'igor'},
+ {vn:'קאדילק אסקלייד V',date:'2026-06-12',n:'איגור',drv:'שאול בנימין',sid:'igor'},
+ {vn:'קאדילק אסקלייד V',date:'2026-06-13',n:'איגור',drv:'שאול בנימין',sid:'igor'},
+ {vn:'קאדילק אסקלייד V',date:'2026-06-14',n:'איגור',drv:'שאול בנימין',sid:'igor'},
+ {vn:'קאדילק אסקלייד V',date:'2026-06-15',n:'איגור',drv:'שאול בנימין',sid:'igor'},
+ {vn:'ספרינטר משוריין 290',date:'2026-06-10',n:'החלפת רכב',drv:'דוד יעקב',cls:'admin'},
+ {vn:'ספרינטר משוריין 290',date:'2026-06-11',n:'טיפול במוסך',drv:'דוד יעקב',cls:'admin'},
+ {vn:'קאדילק משוריין 004',date:'2026-06-09',n:'שטיפה',drv:'שבי מזרחי',cls:'admin'},
+ {vn:'סברבן משוריין 603',date:'2026-06-11',n:'החלפת רכב',drv:'טירן שרון',cls:'admin'},
  /* השבוע הבא */
- {ri:17,date:'2026-06-12',n:'יוניברסל',cls:'ext'},
- {ri:17,date:'2026-06-13',n:'יוניברסל',cls:'ext'},
- {ri:3,date:'2026-06-16',n:'בית הנשיא',drv:'טירן שרון'},
- {ri:4,date:'2026-06-17',n:'כנסת ישראל',drv:'איתן אוחיון'},
+ {vn:'משימה חיצונית',date:'2026-06-12',n:'יוניברסל',cls:'ext'},
+ {vn:'משימה חיצונית',date:'2026-06-13',n:'יוניברסל',cls:'ext'},
+ {vn:'סברבן משוריין 603',date:'2026-06-16',n:'בית הנשיא',drv:'טירן שרון'},
+ {vn:'סברבן משוריין 203',date:'2026-06-17',n:'כנסת ישראל',drv:'איתן אוחיון'},
 ];
 /* '81' — נהיגה עצמית קבועה */
 for(let i=0;i<14;i++)TASKS_DB.push({ri:15,date:addD('2026-06-07',i),n:'81',cls:'self'});
-TASKS_DB.forEach((t,i)=>t.id=i+1);
-let NEXT_ID=TASKS_DB.length+1;
+/* קישור משימות דמו ללקוחות — בייצור: client_id מטבלת הלקוחות */
+const CLIENT_OF={'בית הנשיא':'בית הנשיא','כנסת ישראל':'כנסת ישראל','צבי סוכות':'כנסת ישראל','תחבורה':'כנסת ישראל','חדשות 13':'חדשות 10 בע"מ','איגור':'ECI אי סי איי טלקום','ECI':'ECI אי סי איי טלקום','IBC':'IBC — איי בי סי','מחצבות':'מחצבות','לפיד':'משרד ראש הממשלה','ביסמוט':'משרד ראש הממשלה','טום ניידס':'משרד ראש הממשלה','עליה וקליטה':'משרד ראש הממשלה','איסוף שגריר':'משרד ראש הממשלה'};
+TASKS_DB.forEach(t=>{if(!t.client&&CLIENT_OF[t.n])t.client=CLIENT_OF[t.n]});
+TASKS_DB.forEach((t,i)=>{if(t.id===undefined)t.id=i+1});
+IDS.ensure('TSK',TASKS_DB.length);
+
+/* ===== סל מחיקה — הדמיית אזור ה-backend =====
+   כל מחיקה נכתבת לכאן (עם מי מחק ומתי), נשמרת במכשיר, ונשמרת 30 יום עד מחיקה סופית.
+   בייצור: טבלת deleted_missions בשרת עם אותה לוגיקה בדיוק. */
+const TRASH_TTL=30*24*60*60*1000;
+const tSig=t=>t.date+'|'+t.n+'|'+t.ri+'|'+(t.drv||'');
+let TRASH=Store.get('trash',[]);
+/* ניקוי סופי אחרי 30 יום */
+TRASH=TRASH.filter(e=>Date.now()-e.at<TRASH_TTL);
+function trashSave(){Store.set('trash',TRASH)}
+trashSave();
+/* החלת מחיקות שמורות — כדי שרענון לא יחזיר משימות שנמחקו */
+for(let i=TASKS_DB.length-1;i>=0;i--){
+  if(TRASH.some(e=>e.sig===tSig(TASKS_DB[i])))TASKS_DB.splice(i,1);
+}
+let NEXT_ID=TASKS_DB.length+1; /* תאימות לאחור — שיבוץ חדש משתמש ב-IDS.next('TSK') */
 
 /* תחזוקה: ק"מ נותר לטיפול — נכנס לרשימה מתחת ל-3,000. טסט/ביטוח — ספירה לאחור מ-30 יום */
-const MAINT=[
- {n:'סברבן 904',svc:-265,next:'24,000'},
- {n:'ספרינטר 911',svc:820,next:'40,000'},
- {n:'קאדילק 004',svc:1513,next:'57,500'},
- {n:'טאהו 303',svc:1612,next:'93,500'},
- {n:'סילברדו 801',svc:1700,next:'12,000'},
-];
-const DOCS=[
- {n:'מרצדס S',what:'טסט',days:19,exp:'30/06'},
- {n:'קאדילק רך 403',what:'ביטוח',days:19,exp:'30/06'},
- {n:'קאדילק רך 403',what:'טסט',days:22,exp:'03/07'},
-];
+/* ===== הווידג'טים בעמוד הבית נגזרים חיים מנתוני עמוד הרכבים ===== */
+const vShort=n=>n.replace(' משוריין','');
+function maintList(){
+  return VEHICLES.filter(v=>v.svcKm>0)
+    .map(v=>({n:vShort(v.n),...svcMeta(v.km,v.svcKm),next:v.svcKm.toLocaleString()}))
+    .filter(m=>m.rem<=3000) /* רק רכבים שעד 3,000 ק"מ מהטיפול */
+    .sort((a,b)=>a.rem-b.rem);
+}
+function docsList(){
+  const today=fromIso(DEMO_TODAY);
+  const parse=s=>{const[d,m,y]=s.split('/');return new Date(+y,+m-1,+d)};
+  const out=[];
+  VEHICLES.forEach(v=>{
+    [['טסט',v.test],['ביטוח',v.ins]].forEach(([what,exp])=>{
+      if(!exp)return;
+      const days=Math.round((parse(exp)-today)/86400000);
+      if(days<=30)out.push({n:vShort(v.n),what,days,exp:exp.slice(0,5),yr:exp.slice(6)});
+    });
+  });
+  return out.sort((a,b)=>a.days-b.days);
+}
 const UNASSIGNED=[
  {n:'עמיר אלוני',av:'y'},
  {n:'בר בנימין',av:'y'},
@@ -1163,6 +1534,9 @@ function dpPick(v){
 }
 function navWeek(n){WEEK_START=addD(WEEK_START,7*n);renderWeek(WKQ)}
 function goToday(){WEEK_START=startOfWeek(DEMO_TODAY);renderWeek(WKQ)}
+function scrollToSide(){
+  document.getElementById('sidePanel')?.scrollIntoView({behavior:'smooth',block:'start'});
+}
 if(window.innerWidth>768)document.body.classList.add('railc');
 function toggleSide(open){
   SIDE_OPEN=open;
@@ -1170,10 +1544,115 @@ function toggleSide(open){
   if(g)g.classList.toggle('collapsed',!SIDE_OPEN);
   requestAnimationFrame(syncSideHeight);
 }
-const svcCol=r=>r<0?'var(--red)':r<1000?'#C2590B':'var(--amber)';
-const svcPct=r=>r<=0?100:Math.max(6,Math.min(100,(3000-r)/3000*100));
-const docCol=d=>d<=0?'var(--red)':d<=10?'#C2590B':'var(--amber)';
-const docPct=d=>Math.max(6,Math.min(100,(30-d)/30*100));
+/* ===== חוקיות אחידה לטיפול: ציר מטיפול לטיפול (מחזור 12,000 ק"מ) =====
+   ירוק עד שנותרו 3,000 · כתום בהיר 3,000–1,000 · כתום כהה 1,000–0 · חריגה: אדום עם ! */
+const SVC_CYCLE=12000;
+/* ===== טיפולי רכב =====
+   כרטיס טיפול = תאריך + ק"מ משותפים, ובתוכו פריט אחד או יותר.
+   סוגים: periodic(תקופתי) · brakes(בלמים) · tires(צמיגים) · general(כללי).
+   רק תקופתי קובע ק"מ לטיפול הבא. הכל נשמר דרך Store (מוכן לשרת). */
+const SVC_TYPES={
+  periodic:{label:'תקופתי',col:'var(--green)',bg:'var(--green-bg)'},
+  brakes:{label:'בלמים',col:'#B8860B',bg:'#FBF3D5'},
+  tires:{label:'צמיגים',col:'#2563EB',bg:'#DCEBFF'},
+  general:{label:'כללי',col:'var(--ink2)',bg:'var(--paper)'}
+};
+/* הצעת ק"מ לטיפול הבא: הכפולה הקרובה של 12,000 מעל הק"מ הנוכחי */
+/* הצעת ק"מ לטיפול הבא = מחזור אחד (12,000) מעל הטיפול הבא המתוכנן של הרכב.
+   כך המחזור נשאר קבוע ולא "זוחל" לפי מתי שהוזן הטיפול בפועל.
+   אם אין טיפול הבא מתוכנן — נופלים לכפולה הקרובה מעל הק"מ הנוכחי. */
+function suggestNextSvc(km,plannedNext){
+  if(plannedNext&&plannedNext>0)return plannedNext+SVC_CYCLE;
+  return Math.ceil((km+1)/SVC_CYCLE)*SVC_CYCLE;
+}
+/* היסטוריית טיפולים לרכב (מהדמו + מה שנשמר) */
+let SVC_LOG=Store.get('svclog',null);
+if(!SVC_LOG){
+  SVC_LOG={'סברבן משוריין 203':[
+    {id:1,date:'2025-06-08',km:68538,items:[{type:'periodic',note:''}],next:80000},
+    {id:2,date:'2025-06-10',km:72263,items:[{type:'tires',note:'הוחלפו 4 צמיגים והותקנו 4 ונטילים+חיזוק ראנפלט ברזל בבית עובד',corners:['fl','fr','rl','rr']}]},
+    {id:3,date:'2025-07-09',km:76096,items:[{type:'brakes',note:'צלחות קדמיות + רפידות',corners:['fl','fr']},{type:'general',note:'הוחלף דיפרנציאל אחורי, מכסה מיכל דלק'}]},
+    {id:4,date:'2025-07-24',km:78510,items:[{type:'periodic',note:''}],next:90000},
+    {id:5,date:'2025-12-04',km:88800,items:[{type:'brakes',note:'הוחלפו 2 רפידות וצלחות קדמיות',corners:['fl','fr']}]},
+    {id:6,date:'2026-04-12',km:96000,items:[{type:'brakes',note:'החלפת רפידות וצלחות קדמיות',corners:['fl','fr']}]},
+  ]};
+  Store.set('svclog',SVC_LOG);
+}
+function svcOf(name){return SVC_LOG[name]||[]}
+const CORNERS=[['fl','קדמי שמאל'],['fr','קדמי ימין'],['rl','אחורי שמאל'],['rr','אחורי ימין']];
+/* לכל פינה: הטיפול האחרון מסוג נתון (brakes/tires) — להצגת "כמה ק\"מ עברו" */
+function cornerState(name,type){
+  const log=svcOf(name).slice().sort((a,b)=>a.km-b.km); // ישן→חדש
+  const cur=(VEHICLES.find(v=>v.n===name)||{}).km||0;
+  const st={};
+  CORNERS.forEach(([c])=>{st[c]=null});
+  log.forEach(r=>r.items.forEach(it=>{
+    if(it.type===type&&Array.isArray(it.corners)) it.corners.forEach(c=>{st[c]={km:r.km,date:r.date}});
+  }));
+  CORNERS.forEach(([c])=>{if(st[c])st[c].since=Math.max(0,cur-st[c].km)});
+  return st;
+}
+/* ===== ממוצע מרווח החלפה (ק"מ) לפי ציר ולפי רכיב =====
+   axle: 'front'|'rear' · part: 'pads'(רפידות)|'discs'(צלחות)
+   ממוצע = (ק"מ אחרון − ק"מ ראשון) / (מספר החלפות − 1). דורש ≥2 החלפות. */
+function brakeInterval(name,axle,part){
+  const cs=axle==='front'?['fl','fr']:['rl','rr'];
+  const log=svcOf(name).slice().sort((a,b)=>a.km-b.km);
+  const kms=[];
+  log.forEach(r=>r.items.forEach(it=>{
+    if(it.type!=='brakes'||!Array.isArray(it.corners))return;
+    const onAxle=it.corners.some(c=>cs.includes(c));
+    if(!onAxle)return;
+    // האם הרכיב הזה הוחלף? צלחות רק אם detail=pads_discs; רפידות תמיד בהחלפת בלמים
+    let hit=false;
+    cs.forEach(c=>{if(it.corners.includes(c)){const d=(it.detail&&it.detail[c])||'pads';if(part==='pads')hit=true;else if(part==='discs'&&d==='pads_discs')hit=true;}});
+    if(hit)kms.push(r.km);
+  }));
+  const uniq=[...new Set(kms)].sort((a,b)=>a-b);
+  if(uniq.length<2)return {avg:null,count:uniq.length,last:uniq[uniq.length-1]||null};
+  const avg=Math.round((uniq[uniq.length-1]-uniq[0])/(uniq.length-1));
+  return {avg,count:uniq.length,last:uniq[uniq.length-1]};
+}
+function tireInterval(name,axle){
+  const cs=axle==='front'?['fl','fr']:['rl','rr'];
+  const log=svcOf(name).slice().sort((a,b)=>a.km-b.km);
+  const kms=[];
+  log.forEach(r=>r.items.forEach(it=>{
+    if(it.type!=='tires'||!Array.isArray(it.corners))return;
+    if(it.corners.some(c=>cs.includes(c)))kms.push(r.km);
+  }));
+  const uniq=[...new Set(kms)].sort((a,b)=>a-b);
+  if(uniq.length<2)return {avg:null,count:uniq.length};
+  return {avg:Math.round((uniq[uniq.length-1]-uniq[0])/(uniq.length-1)),count:uniq.length};
+}
+function svcLogSave(){Store.set('svclog',SVC_LOG)}
+/* מזהי טיפולים דרך המחולל המרכזי */
+(()=>{let m=0;Object.values(SVC_LOG).forEach(a=>a.forEach(r=>{if(r.id>m)m=r.id}));IDS.ensure('SVC',m)})();
+/* הוספת כרטיס טיפול: שומר, ואם יש פריט תקופתי — מאפס את סקלת הרכב */
+function addSvcRecord(name,rec){
+  rec.id=IDS.next('SVC');
+  (SVC_LOG[name]=SVC_LOG[name]||[]).push(rec);
+  const veh=VEHICLES.find(v=>v.n===name);
+  if(veh){
+    /* ק"מ נוכחי: האחרון שדווח תופס (טיפול או משימה) */
+    if(rec.km){veh.km=rec.km;veh.kmAt=Date.now();}
+    /* ק"מ טיפול הבא מתעדכן רק מטיפול תקופתי */
+    const per=rec.items.find(it=>it.type==='periodic');
+    if(per&&rec.next)veh.svcKm=rec.next;
+    Store.set('veh:'+veh.n,{km:veh.km,loc:veh.loc,svcKm:veh.svcKm,kmAt:veh.kmAt});
+  }
+  svcLogSave();
+}
+function svcMeta(km,svcKm){
+  const prev=svcKm-SVC_CYCLE;
+  const rem=svcKm-km;
+  const pct=Math.max(3,Math.min(100,(km-prev)/(svcKm-prev)*100));
+  const col=rem<=0?'var(--red)':rem<=1000?'#C2590B':rem<=3000?'#E8A23B':'var(--green)';
+  return{rem,pct,col};
+}
+/* רמזור תוקפים: יותר מחודש — ירוק · חודש ומטה — כתום · חריגה — אדום */
+const docCol=d=>d<0?'var(--red)':d<=30?'var(--amber)':'var(--green)';
+const docPct=d=>d<0?100:Math.max(6,Math.min(100,(30-d)/30*100));
 
 views.home=()=>`
 <div class="home-grid ${SIDE_OPEN?"":"collapsed"}" id="homeGrid">
@@ -1193,6 +1672,10 @@ views.home=()=>`
       <button class="btn btn-gho btn-eq ${SEL_MODE?'on-sel':''}" id="selModeBtn" title="מצב בחירה מרובה" onclick="toggleSelMode()">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8.5 12l2.5 2.5L15.5 9.5"/></svg>
       </button>
+      <button class="btn btn-gho btn-eq mob-live" title="סקירה חיה" onclick="scrollToSide()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 12h-4l-3 8L9 4l-3 8H2"/></svg>
+        <span class="dot pulse" style="position:absolute;top:7px;inset-inline-end:9px;width:6px;height:6px;background:var(--green)"></span>
+      </button>
       <button class="btn btn-pri" onclick="openNewTask()">+ משימה חדשה</button>
     </div>
   </div>
@@ -1204,18 +1687,12 @@ views.home=()=>`
     <div id="wkdays" style="display:contents"></div>
     <div id="wkrows" style="display:contents"></div>
   </div></div>
-  <div class="wk-legend">
-    <span><i style="background:var(--green)"></i>נסיעה פעילה</span>
-    <span><i style="background:var(--amber)"></i>נהיגה עצמית</span>
-    <span><i style="background:var(--violet)"></i>נסיעה מנהלתית</span>
-    <span><i style="background:#A9ACA2"></i>משימה חיצונית</span>
-  </div>
 </div>
 
 <button class="side-tab" onclick="toggleSide(true)" title="פתח סקירה חיה">
   <span class="dot pulse"></span>סקירה חיה
 </button>
-<aside class="side">
+<aside class="side" id="sidePanel">
   <div class="sec-hint mobile-only">סקירה חיה</div>
   <div class="side-head"><b>סקירה חיה</b>
     <button class="side-x" onclick="toggleSide(false)">הסתר ‹</button>
@@ -1235,23 +1712,23 @@ views.home=()=>`
   </div>
 
   <div class="card sp">
-    <h3>מתקרבים לטיפול <a onclick="go('vehicles')">לרכבים ←</a></h3>
-    ${MAINT.map(m=>`<div class="mt-row">
+    <h3><span style="display:inline-flex;align-items:center;gap:6px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1"><path d="M14.7 6.3a4.5 4.5 0 0 0-6 5.9L3 18a2.1 2.1 0 0 0 3 3l5.8-5.7a4.5 4.5 0 0 0 5.9-6L14.5 12l-2.5-2.5z"/></svg>מתקרבים לטיפול</span> <a onclick="go('vehicles')">לרכבים ←</a></h3>
+    ${maintList().map(m=>`<div class="mt-row">
       <div class="mt-top"><b>${m.n}</b>
-        <span class="num" style="color:${svcCol(m.svc)}">${m.svc<0?`חריגה ${Math.abs(m.svc).toLocaleString()}`:m.svc.toLocaleString()} ק"מ</span></div>
-      <div class="meter"><i style="width:${svcPct(m.svc)}%;background:${svcCol(m.svc)}"></i></div>
-      <div class="mt-sub" style="margin-top:4px">${m.svc<0?'⚠ עבר את מועד הטיפול — לתאם מוסך':'טיפול הבא ב-'+m.next+' ק"מ'}</div>
-    </div>`).join('')}
+        <span class="num" style="color:${m.col}">${m.rem<=0?'! חריגה '+Math.abs(m.rem).toLocaleString():m.rem.toLocaleString()+' ק"מ'}</span></div>
+      <div class="meter"><i style="width:${m.pct}%;background:${m.col}"></i></div>
+      <div class="mt-sub" style="margin-top:4px">${m.rem<=0?'⚠ עבר את מועד הטיפול — לתאם מוסך':'טיפול הבא ב-'+m.next+' ק"מ'}</div>
+    </div>`).join('')||'<div class="mt-sub" style="padding:6px 0">אין רכבים שמתקרבים לטיפול</div>'}
   </div>
 
   <div class="card sp">
-    <h3>טסט וביטוח — עד 30 יום</h3>
-    ${DOCS.map(d=>`<div class="mt-row">
+    <h3><span style="display:inline-flex;align-items:center;gap:6px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h6"/></svg>טסט וביטוח — עד 30 יום</span></h3>
+    ${docsList().map(d=>`<div class="mt-row">
       <div class="mt-top"><b>${d.n} · ${d.what}</b>
         <span class="num" style="color:${docCol(d.days)}">${d.days<=0?'פג תוקף':d.days+' ימים'}</span></div>
       <div class="meter"><i style="width:${docPct(d.days)}%;background:${docCol(d.days)}"></i></div>
-      <div class="mt-sub" style="margin-top:4px">בתוקף עד ${d.exp}/2026</div>
-    </div>`).join('')}
+      <div class="mt-sub" style="margin-top:4px">בתוקף עד ${d.exp}/${d.yr}</div>
+    </div>`).join('')||'<div class="mt-sub" style="padding:6px 0">אין תוקפים שפגים ב-30 הימים הקרובים</div>'}
   </div>
 </aside>
 </div>`;
@@ -1307,6 +1784,7 @@ views.tasks=()=>`
 <div class="topbar">
   <div><h1>משימות</h1><div class="sub">01–30 ביוני · ${TASKS.length} משימות מוצגות</div></div>
   <div class="actions">
+    <button class="btn btn-gho" onclick="openTrash()">סל מחיקה${TRASH.length?' ('+TRASH.length+')':''}</button>
     <button class="btn btn-gho" onclick="toast('הקובץ יורד… (דמו)')">ייצוא לאקסל</button>
     <button class="btn btn-pri" onclick="openNewTask()">+ משימה חדשה</button>
   </div>
@@ -1317,7 +1795,7 @@ views.tasks=()=>`
   <div class="seg"><button class="on">הכל</button><button onclick="toast('סינון (דמו)')">פעילות</button><button onclick="toast('סינון (דמו)')">ממתינות</button></div>
   <button class="filt" onclick="toast('בחירת טווח תאריכים (דמו)')">📅 יוני 2026</button>
 </div>
-<div class="card scrollx">
+<div class="card scrollx has-cards">
   <table class="tbl"><thead><tr>
     <th>משימה</th><th>תאריך</th><th>נהג + רכב</th><th>התחלה</th><th>הסרת אחריות</th><th>סיום</th><th>שעות</th><th>ק"מ</th><th>סטטוס</th>
   </tr></thead><tbody id="tbody"></tbody></table>
@@ -1326,31 +1804,842 @@ views.tasks=()=>`
 
 views.board=()=>views.overview();
 
-views.vehicles=()=>`
-<div class="topbar">
-  <div><h1>רכבים</h1><div class="sub">18 סה"כ · 14 פנויים · 1 מושבת</div></div>
-  <div class="actions"><button class="btn btn-pri" onclick="toast('טופס רכב חדש (דמו)')">+ רכב חדש</button></div>
-</div>
-<div class="toolbar"><div class="search"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg><input placeholder="חיפוש רכב…" oninput="renderVeh(this.value)"></div></div>
-<div class="vgrid" id="vgrid"></div>`;
-
-views.drivers=()=>`
-<div class="topbar">
-  <div><h1>נהגים</h1><div class="sub">27 נהגים · 8 עם אישור כניסה לכנסת</div></div>
-  <div class="actions"><button class="btn btn-gho" onclick="toast('בקשת זמינות נשלחה (דמו)')">בקשת זמינות</button>
-  <button class="btn btn-pri" onclick="toast('טופס נהג חדש (דמו)')">+ נהג</button></div>
-</div>
-<div class="card dlist">
-${DRIVERS.map(d=>`<div class="drow" onclick="toast('כרטיס נהג: ${d.n} (דמו)')">
-  <div class="ava">${d.n.split(' ').map(w=>w[0]).join('')}</div>
-  <div class="info"><b>${d.n}</b><span class="num">${d.ph} · ₪${d.rate}/שעה</span></div>
-  <div class="tags">
-    ${d.knesset?'<span class="chip c-blue">כנסת</span>':''}
-    ${d.gov?'<span class="chip c-violet">רישיון ממשלתי</span>':''}
-    <span class="chip c-green"><span class="dot"></span>פעיל</span>
+/* ===== לקוחות ===== */
+views.clients=()=>{
+  const mon=DEMO_TODAY.slice(0,7);
+  return `
+  <div class="topbar">
+    <div><h1>לקוחות</h1><div class="sub">${CLIENTS.length} לקוחות פעילים</div></div>
+    <div class="actions"><button class="btn btn-pri" onclick="toast('טופס לקוח חדש (דמו)')">+ לקוח חדש</button></div>
   </div>
-</div>`).join('')}
+  <div class="vgrid">
+    ${CLIENTS.map(c=>{
+      const monthTasks=TASKS_DB.filter(t=>t.client===c.n&&t.date.slice(0,7)===mon);
+      return `<div class="vcard">
+        <div class="vc-top"><b>${c.n}</b>
+          <span class="chip ${monthTasks.length?'c-green':'c-mut'}">${monthTasks.length} משימות החודש</span></div>
+        <div class="vc-meta">${c.contacts.map(x=>`<div>${x}</div>`).join('')}</div>
+        <div style="display:flex;gap:8px;margin-top:12px">
+          <button class="btn btn-gho" style="flex:1" onclick="openClientSummary('${c.n}','${DEMO_TODAY}')">ריכוז חודשי</button>
+          <button class="btn btn-gho" onclick="toast('עריכת לקוח (דמו)')">עריכה</button>
+        </div>
+      </div>`;
+    }).join('')}
+  </div>`;
+};
+
+/* ===== הוצאות ===== */
+const EXPENSES=[
+ {id:1,date:addD(DEMO_TODAY,-1),drv:'בר בנימין',veh:'סברבן 901',what:'תדלוק',amt:420,st:'ok'},
+ {id:2,date:addD(DEMO_TODAY,-1),drv:'טירן שרון',veh:'סברבן 603',what:'שטיפה',amt:80,st:'ok'},
+ {id:3,date:DEMO_TODAY,drv:'דוד יעקב',veh:'ספרינטר 290',what:'חניה',amt:36,st:'pend'},
+ {id:4,date:DEMO_TODAY,drv:'טירן שרון',veh:'סברבן 603',what:'תדלוק',amt:510,st:'pend'},
+ {id:5,date:addD(DEMO_TODAY,-3),drv:'שבי מזרחי',veh:'קאדילק 004',what:'כביש 6',amt:64,st:'ok'},
+];
+EXPENSES.forEach((e,i)=>{if(e.id===undefined)e.id=i+1});
+IDS.ensure('EXP',EXPENSES.length);
+const expById=id=>EXPENSES.find(e=>e.id===+id);
+views.expenses=()=>{
+  const monLabel=fromIso(DEMO_TODAY).toLocaleDateString('he-IL',{month:'long',year:'numeric'});
+  const tot=EXPENSES.reduce((s,e)=>s+e.amt,0);
+  const pend=EXPENSES.filter(e=>e.st==='pend');
+  return `
+  <div class="topbar">
+    <div><h1>הוצאות</h1><div class="sub">${monLabel} · סה"כ ₪${tot.toLocaleString()} · ${pend.length} ממתינות לאישור</div></div>
+    <div class="actions"><button class="btn btn-pri" onclick="toast('טופס הוצאה חדשה (דמו)')">+ הוצאה</button></div>
+  </div>
+  <div class="card" style="padding:6px 0">
+    ${EXPENSES.slice().sort((a,b)=>a.date<b.date?1:-1).map(e=>`
+      <div style="display:flex;align-items:center;gap:12px;padding:12px 18px;border-bottom:1px solid var(--paper)">
+        <div style="flex:1;min-width:0">
+          <b style="font-size:14px">${e.what} · ${e.veh}</b>
+          <div style="font-size:11.5px;color:var(--mut);margin-top:2px">${dayLabel(e.date)} · ${e.drv}</div>
+        </div>
+        ${e.st==='pend'
+          ?`<button class="btn btn-gho" style="padding:6px 13px;font-size:12px" onclick="this.outerHTML='<span class=\'chip c-green\'>אושר</span>';toast('ההוצאה אושרה')">אישור</button>`
+          :'<span class="chip c-mut">אושר</span>'}
+        <span class="num" style="font-weight:700;font-size:15px;min-width:64px;text-align:left">₪${e.amt.toLocaleString()}</span>
+      </div>`).join('')}
+  </div>
+  <div class="sub" style="margin-top:12px;color:var(--mut);font-size:12px">הוצאות שמדווחים הנהגים מהממשק שלהם מגיעות לכאן לאישור · מתקזזות בשכר החודשי</div>`;
+};
+
+/* סדר תצוגה: נשמר במכשיר · ברירת המחדל לפי המספור באקסל */
+let VEH_ORDER=null,VQ='';
+function vehOrder(){
+  if(!VEH_ORDER){
+    VEH_ORDER=Store.get('vehorder',null);
+    const def=VEHICLES.slice().sort((a,b)=>a.o-b.o).map(v=>v.n);
+    if(!VEH_ORDER)VEH_ORDER=def;
+    /* רכבים חדשים שלא בסדר השמור */
+    def.forEach(n=>{if(!VEH_ORDER.includes(n))VEH_ORDER.push(n)});
+    VEH_ORDER=VEH_ORDER.filter(n=>def.includes(n));
+  }
+  return VEH_ORDER;
+}
+function vehOrderSave(){Store.set('vehorder',VEH_ORDER);refreshRows()}
+refreshRows(); /* בנייה ראשונית של שורות היומן לאחר שהסדר זמין */
+/* פתרון אינדקס השורה לכל משימה לפי שם הרכב — אחרי ש-ROWS קיים */
+TASKS_DB.forEach(t=>{if(t.vn!==undefined){t.ri=riByName(t.vn);delete t.vn;}});
+/* החלת עדכוני רכב שמורים (ק"מ/מיקום מדיווחי נהגים) */
+VEHICLES.forEach(v=>{const s=Store.get('veh:'+v.n,null);if(s){if(s.km!=null)v.km=s.km;if(s.kmAt)v.kmAt=s.kmAt;if(s.loc)v.loc=s.loc;if(s.svcKm)v.svcKm=s.svcKm;}});
+refreshRows();
+/* מזהי רכבים: VEH-n לפי סדר ההגדרה (יציב) */
+VEHICLES.forEach((v,i)=>{if(v.id===undefined)v.id=i+1});
+IDS.ensure('VEH',VEHICLES.length);
+const vehById=id=>VEHICLES.find(v=>v.id===+id);
+const dUntil=s=>{const[d,mo,y]=s.split('/');return dayDiff(y+'-'+mo+'-'+d,DEMO_TODAY)}; /* ימים עד פקיעה: חיובי=עתידי */
+
+views.vehicles=()=>{
+  const ord=vehOrder();
+  const list=ord.map(n=>VEHICLES.find(v=>v.n===n)).filter(Boolean)
+                .filter(v=>!v.archived)
+                .filter(v=>!VQ||v.n.includes(VQ)||v.plate.includes(VQ));
+  const visible=VEHICLES.filter(v=>!v.archived);
+  const arm=visible.filter(v=>v.arm).length;
+  const due=visible.filter(v=>v.svcKm&&svcMeta(v.km,v.svcKm).rem<=3000).length;
+  const arch=VEHICLES.filter(v=>v.archived).length;
+  return `
+<div class="topbar">
+  <div><h1>רכבים</h1><div class="sub">${visible.length} רכבים · ${arm} משוריינים · ${due} מתקרבים לטיפול${arch?' · '+arch+' בארכיון':''}</div></div>
+  <div class="actions">
+    <div class="dsearch">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+      <input type="text" placeholder="חיפוש רכב…" value="${VQ}"
+        oninput="VQ=this.value;const p=this.selectionStart;go('vehicles');const i=document.querySelector('.dsearch input');i.focus();i.setSelectionRange(p,p)">
+    </div>
+    <button class="btn btn-gho" onclick="openVehArchive()">ארכיון${arch?' ('+arch+')':''}</button>
+    <button class="btn btn-gho" onclick="openVehOrder()">עריכת סדר</button>
+    <button class="btn btn-pri" onclick="toast('טופס רכב חדש (דמו)')">+ רכב חדש</button>
+  </div>
+</div>
+<div class="card scrollx">
+  <table class="tbl vtbl">
+    <thead><tr>
+      <th style="width:36px">#</th><th>רכב</th><th>מיקום נוכחי</th>
+      <th>ק"מ נותר לטיפול</th>
+      <th class="c">תוקף טסט</th><th class="c">תוקף ביטוח</th>
+      <th class="c">ק"מ נוכחי</th><th class="c">ק"מ טיפול הבא</th><th class="c">רישיון</th>
+    </tr></thead>
+    <tbody id="vlist">
+    ${list.map(v=>{
+      const sm=v.svcKm?svcMeta(v.km,v.svcKm):null;
+      return `<tr class="vrow" data-n="${v.n}" style="cursor:pointer" onclick="openVehCard('${v.n.replace(/'/g,"\\'")}')">
+      <td><span class="vnum num">${vehOrder().indexOf(v.n)+1}</span></td>
+      <td>
+        <b style="font-size:13.5px;white-space:nowrap">${v.arm?'<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-1px;margin-inline-end:5px;color:var(--ink2)"><path d="M12 2l8 3v6c0 5-3.4 9.4-8 11-4.6-1.6-8-6-8-11V5z"/></svg>':''}${v.n}${v.hidden?' <span class="veh-hidden-tag">מוסתר</span>':''}</b>
+        <div style="font-size:11px;color:var(--mut);margin-top:1px"><span class="num">${v.plate}</span></div>
+      </td>
+      <td style="white-space:nowrap">${v.loc||'<span style="color:#C9CBC4">—</span>'}</td>
+      <td>
+        ${sm?`<div class="vscale">
+          <div class="vbar"><i style="width:${sm.pct}%;background:${sm.col}"></i></div>
+          <b class="num" style="color:${sm.col};white-space:nowrap">${sm.rem<=0?'❗ חריגה '+Math.abs(sm.rem).toLocaleString():sm.rem.toLocaleString()+' ק"מ'}</b>
+        </div>`:'<span style="color:#C9CBC4">—</span>'}
+      </td>
+      <td class="c">${expCell(v.test)}</td>
+      <td class="c">${expCell(v.ins)}</td>
+      <td class="c num">${v.km?v.km.toLocaleString():'—'}</td>
+      <td class="c num" style="color:var(--mut)">${v.svcKm?v.svcKm.toLocaleString():'—'}</td>
+      <td class="c" onclick="event.stopPropagation()">${(()=>{const d=vehDocs(v.n).license;return d?`<button class="lic-btn" title="צפייה ברישיון" onclick="viewVehDoc('${v.n.replace(/'/g,"\\'")}','license')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg></button>`:'<span style="color:#C9CBC4">—</span>'})()}</td>
+    </tr>`;}).join('')}
+    </tbody>
+  </table>
+  ${list.length?'':'<div style="padding:30px;text-align:center;color:var(--mut)">לא נמצאו רכבים</div>'}
 </div>`;
+};
+/* ===== נתוני תפעול לרכב (נגזר מהיומן) ===== */
+const FAULTS=Store.get('faults',null)||(()=>{const f={
+  'סברבן משוריין 904':[{date:'2026-06-09',note:'רעש חריקה בבלם קדמי שמאל בבלימה חזקה',sev:'mid',closed:false}],
+};Store.set('faults',f);return f})();
+/* מזהי תקלות דרך המחולל המרכזי */
+(()=>{let m=0;Object.values(FAULTS).forEach(a=>a.forEach(fl=>{if(fl.id===undefined)fl.id=IDS.next('FLT');if(fl.id>m)m=fl.id}));IDS.ensure('FLT',m)})();
+function faultsSave(){Store.set('faults',FAULTS)}
+function vehStats(name){
+  const ri=riByName(name);
+  const ts=TASKS_DB.filter(t=>t.ri===ri&&t.drv);
+  const now=DEMO_TODAY,mon=now.slice(0,7),yr=now.slice(0,4);
+  let month=0,year=0;
+  ts.forEach(t=>{
+    const km=(t.km&&t.km.start&&t.km.end)?Math.max(0,+t.km.end-+t.km.start):0;
+    if(t.date.slice(0,4)===yr)year+=km;
+    if(t.date.slice(0,7)===mon)month+=km;
+  });
+  // נהג מוביל לפי מספר משימות
+  const cnt={};ts.forEach(t=>{cnt[t.drv]=(cnt[t.drv]||0)+1});
+  let topDrv=null,topDrvN=0;Object.entries(cnt).forEach(([d,n])=>{if(n>topDrvN){topDrv=d;topDrvN=n}});
+  // נהג אחרון
+  const sorted=ts.slice().sort((a,b)=>a.date<b.date?1:-1);
+  const last=sorted[0];
+  return {month,year,topDrv,topDrvN,lastDrv:last?last.drv:null,lastDate:last?last.date:null,count:ts.length};
+}
+function fleetCompare(name){
+  const arr=VEHICLES.filter(vehActive).map(v=>({n:v.n,c:vehStats(v.n).count})).sort((a,b)=>b.c-a.c);
+  const total=arr.length,rank=arr.findIndex(x=>x.n===name)+1;
+  const pct=rank<=total/3?'מהעמוסים בצי':rank>=total*2/3?'מהפנויים בצי':'עומס ממוצע';
+  return {rank,total,pct};
+}
+
+/* ===== קישור עמוק לנהג ולקוח ===== */
+function openDriverDeep(id){
+  const d=drvById(id);if(!d)return;
+  go('drivers');
+  deepHash('driver-'+d.id);
+  DRV_Q=d.n; // מסנן את הטבלה לנהג המבוקש
+  go('drivers'); deepHash('driver-'+d.id);
+  toast('נהג #'+d.id+' · '+d.n);
+}
+function openClientDeep(id){
+  const c=cliById(id);if(!c)return;
+  go('clients'); deepHash('client-'+c.id);
+}
+
+/* ===== כרטיס רכב מלא — סקירה · טיפולים · תקלות · משימות ===== */
+let VC_NAME=null,VC_TAB='overview';
+function openVehCard(name,tab){
+  VC_NAME=name;VC_TAB=tab||'overview';
+  const v=VEHICLES.find(x=>x.n===name);if(!v)return;
+  deepHash('vehicle-'+v.id);
+  const sm=v.svcKm?svcMeta(v.km,v.svcKm):null;
+  $('#drawer').innerHTML=`
+  <div class="dr-head">
+    <div><h3>${v.arm?'🛡 ':''}${v.n}</h3><div class="tsub num">${v.plate}</div></div>
+    <div class="vc-head-acts">
+      <div class="vc-menu">
+        <button class="x" onclick="vcSettingsMenu(event)" title="הגדרות רכב"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="12" cy="19" r="1.8"/></svg></button>
+        <div class="vc-menu-pop" id="vc-settings-pop">
+          <div class="vc-menu-row">
+            <span>רכב מוסתר</span>
+            <button class="vtoggle ${v.hidden?'on':''}" onclick="toggleVehHidden('${v.n.replace(/'/g,"\\'")}')" role="switch" aria-checked="${v.hidden}"><span></span></button>
+          </div>
+          <div class="vc-menu-note">לא משובץ ולא בסטטיסטיקות · מופיע רק ברשימת הרכבים</div>
+          <button class="vc-menu-arch" onclick="archiveVeh('${v.n.replace(/'/g,"\\'")}')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7h18M5 7l1 13h12l1-13M9 7V4h6v3M10 11v5M14 11v5"/></svg>
+            העברה לארכיון
+          </button>
+        </div>
+      </div>
+      <button class="x" onclick="closeDrawer();go('vehicles')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+    </div>
+  </div>
+  <div class="vc-tabs">
+    ${[['overview','סקירה'],['svc','טיפולים'],['docs','מסמכים'],['faults','תקלות'],['tasks','משימות']].map(([k,l])=>{
+      let badge='';
+      if(k==='faults'){const o=vehOpenFaults(name).length;if(o)badge=`<span class="vc-badge">${o}</span>`}
+      return `<button class="${VC_TAB===k?'on':''}" onclick="openVehCard(VC_NAME,'${k}')">${l}${badge}</button>`;
+    }).join('')}
+  </div>
+  <div class="dr-body" id="vc-body">${vcTab(v,sm)}</div>`;
+  $('#drawer').classList.add('open');$('#scrim').classList.add('open');
+}
+function vcTab(v,sm){
+  if(VC_TAB==='svc')return vcSvc(v);
+  if(VC_TAB==='faults')return vcFaults(v);
+  if(VC_TAB==='docs')return vcDocs(v);
+  if(VC_TAB==='tasks')return vcTasks(v);
+  return vcOverview(v,sm);
+}
+
+/* ---------- שרטוט רכב מלמעלה עם 4 פינות ---------- */
+function carDiagram(state,onClick){
+  // state: {fl:{since,...}|null,...}  ·  onClick: שם פונקציה לסימון (טופס) או null (תצוגה)
+  const col=s=>{
+    if(!s)return '#D8D8D2'; // לא תועד
+    const k=s.since;
+    return k<8000?'var(--green)':k<14000?'#E8A23B':'var(--red)';
+  };
+  const corner=(c,cx,cy)=>{
+    const s=state[c];
+    const sel=onClick&&s&&s.sel; // במצב טופס: s.sel מסומן
+    const fill=onClick?(s&&s.sel?'var(--lime)':'#E3E3DD'):col(s);
+    const handler=onClick?(/^svcToggleCorner_/.test(onClick)?`svcToggleCorner(${onClick.split('_')[1]},'${c}')`:`${onClick}('${c}')`):'';
+    return `<g class="cn ${onClick?'pick':''}" ${onClick?`onclick="${handler}"`:''} style="cursor:${onClick?'pointer':'default'}">
+      <rect x="${cx-16}" y="${cy-26}" width="32" height="52" rx="9" fill="${fill}" stroke="#fff" stroke-width="2"/>
+    </g>`;
+  };
+  return `<svg viewBox="0 0 200 300" class="cardiag">
+    <rect x="46" y="40" width="108" height="220" rx="34" fill="var(--paper)" stroke="var(--line)" stroke-width="2"/>
+    <rect x="62" y="78" width="76" height="58" rx="12" fill="#EDEDE7"/>
+    <rect x="62" y="168" width="76" height="48" rx="12" fill="#EDEDE7"/>
+    <text x="100" y="34" text-anchor="middle" font-size="13" fill="var(--mut)" font-weight="700">חזית</text>
+    ${corner('fl',54,96)}${corner('fr',146,96)}
+    ${corner('rl',54,210)}${corner('rr',146,210)}
+  </svg>`;
+}
+
+/* ---------- סקירה ---------- */
+function vcOverview(v,sm){
+  const dT=dUntil(v.test),dI=dUntil(v.ins);
+  const docPill=(lbl,d,exp)=>{
+    const c=d<0?'var(--red)':d<=30?'var(--amber)':'var(--green)';
+    const bg=d<0?'var(--red-bg)':d<=30?'var(--amber-bg)':'var(--green-bg)';
+    return `<div class="vc-stat"><span class="vc-stat-l">${lbl}</span>
+      <b style="color:${c}">${d<0?'פג':d+' ימים'}</b>
+      <span class="vc-stat-s num">${exp}</span></div>`;
+  };
+  const brakes=cornerState(v.n,'brakes'),tires=cornerState(v.n,'tires');
+  const stats=vehStats(v.n);
+  const fleet=fleetCompare(v.n);
+  const openF=vehOpenFaults(v.n).length;
+  /* מד/ציר: ערך מול טווח, עם פס וצבע */
+  const meter=(lbl,valTxt,sub,pct,col)=>`
+    <div class="vc-meter">
+      <div class="vc-meter-top"><span class="vc-meter-l">${lbl}</span><b style="color:${col}">${valTxt}</b></div>
+      <div class="vc-meter-bar"><i style="width:${Math.max(3,Math.min(100,pct))}%;background:${col}"></i></div>
+      <div class="vc-meter-sub">${sub}</div>
+    </div>`;
+  const docCol2=d=>d<0?'var(--red)':d<=30?'var(--amber)':'var(--green)';
+  const docPct=d=>d<0?100:Math.max(4,Math.min(100,(1-Math.min(d,180)/180)*100)); // ככל שקרוב יותר — מלא יותר
+  return `
+  <!-- מצב תפעולי קודם -->
+  <div class="vc-grid2">
+    <div class="vc-stat"><span class="vc-stat-l">מיקום נוכחי <button class="vc-stat-edit" title="עריכה" onclick="editVehLoc('${v.n.replace(/'/g,"\\'")}')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 3a2.8 2.8 0 014 4L7.5 20.5 2 22l1.5-5.5z"/></svg></button></span><b style="font-size:15px">${v.loc||'—'}</b><span class="vc-stat-s">עדכון אחרון${stats.lastDate?' · '+ddmm(stats.lastDate):''}</span></div>
+    <div class="vc-stat"><span class="vc-stat-l">מד נוכחי <button class="vc-stat-edit" title="עריכה" onclick="editVehKm('${v.n.replace(/'/g,"\\'")}')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 3a2.8 2.8 0 014 4L7.5 20.5 2 22l1.5-5.5z"/></svg></button></span><b class="num">${v.km.toLocaleString()}</b><span class="vc-stat-s">ק"מ</span></div>
+    <div class="vc-stat"><span class="vc-stat-l">נסע החודש</span><b class="num">${stats.month.toLocaleString()}</b><span class="vc-stat-s">ק"מ</span></div>
+    <div class="vc-stat"><span class="vc-stat-l">תקלות פתוחות</span><b style="color:${openF?'var(--red)':'var(--green)'}">${openF||'אין'}</b><span class="vc-stat-s">${openF?'דורש טיפול':'הכל תקין'}</span></div>
+  </div>
+
+  <div class="vc-sec"><h4>נתוני תפעול</h4>
+    <div class="vc-grid2">
+      <div class="vc-stat"><span class="vc-stat-l">נסע השנה</span><b class="num">${stats.year.toLocaleString()}</b><span class="vc-stat-s">ק"מ</span></div>
+      <div class="vc-stat"><span class="vc-stat-l">נהג מוביל</span><b style="font-size:14px">${stats.topDrv||'—'}</b><span class="vc-stat-s">${stats.topDrvN?stats.topDrvN+' משימות':''}</span></div>
+      <div class="vc-stat"><span class="vc-stat-l">נהג אחרון</span><b style="font-size:14px">${stats.lastDrv||'—'}</b><span class="vc-stat-s">${stats.lastDate?ddmm(stats.lastDate):''}</span></div>
+      <div class="vc-stat"><span class="vc-stat-l">עומס בצי</span><b style="font-size:14px">${fleet.rank}/${fleet.total}</b><span class="vc-stat-s">${fleet.pct}</span></div>
+    </div>
+  </div>
+
+  <!-- מדים: טיפול, טסט, ביטוח -->
+  <div class="vc-sec"><h4>מדדים</h4>
+    ${sm?meter('ק"מ לטיפול',(sm.rem<=0?'חריגה '+Math.abs(sm.rem).toLocaleString():sm.rem.toLocaleString()+' ק"מ'),'הטיפול הבא ב-'+(v.svcKm?v.svcKm.toLocaleString():'—')+' · מד נוכחי '+v.km.toLocaleString(),sm.pct,sm.col):''}
+    ${meter('טסט',(dT<0?'פג תוקף':dT+' ימים'),'בתוקף עד '+(v.test.slice(0,6)+v.test.slice(8)),docPct(dT),docCol2(dT))}
+    ${meter('ביטוח',(dI<0?'פג תוקף':dI+' ימים'),'בתוקף עד '+(v.ins.slice(0,6)+v.ins.slice(8)),docPct(dI),docCol2(dI))}
+  </div>
+
+  <div class="vc-sec"><h4>מצב בלמים</h4>
+    <div class="vc-diag-wrap">
+      <div class="vc-side vc-side-r">${[['fr','קדמי ימין'],['rr','אחורי ימין']].map(([c,l])=>{const s=brakes[c];return `<div class="vc-cn"><span>${l}</span><b>${s?s.since.toLocaleString()+' ק"מ':'לא תועד'}</b>${s&&s.date?`<span class="vc-cn-date num">${s.date.slice(8,10)}/${s.date.slice(5,7)}/${s.date.slice(0,4)}</span>`:''}</div>`}).join('')}</div>
+      ${carDiagram(brakes,null)}
+      <div class="vc-side vc-side-l">${[['fl','קדמי שמאל'],['rl','אחורי שמאל']].map(([c,l])=>{const s=brakes[c];return `<div class="vc-cn"><span>${l}</span><b>${s?s.since.toLocaleString()+' ק"מ':'לא תועד'}</b>${s&&s.date?`<span class="vc-cn-date num">${s.date.slice(8,10)}/${s.date.slice(5,7)}/${s.date.slice(0,4)}</span>`:''}</div>`}).join('')}</div>
+    </div>
+    <div class="vc-hint">מאז החלפת הבלמים האחרונה בכל פינה · ירוק עד 8,000 · כתום עד 14,000 · אדום מעבר</div>
+  </div>
+
+  <div class="vc-sec"><h4>מצב צמיגים</h4>
+    <div class="vc-diag-wrap">
+      <div class="vc-side vc-side-r">${[['fr','קדמי ימין'],['rr','אחורי ימין']].map(([c,l])=>{const s=tires[c];return `<div class="vc-cn"><span>${l}</span><b>${s?s.since.toLocaleString()+' ק"מ':'לא תועד'}</b>${s&&s.date?`<span class="vc-cn-date num">${s.date.slice(8,10)}/${s.date.slice(5,7)}/${s.date.slice(0,4)}</span>`:''}</div>`}).join('')}</div>
+      ${carDiagram(tires,null)}
+      <div class="vc-side vc-side-l">${[['fl','קדמי שמאל'],['rl','אחורי שמאל']].map(([c,l])=>{const s=tires[c];return `<div class="vc-cn"><span>${l}</span><b>${s?s.since.toLocaleString()+' ק"מ':'לא תועד'}</b>${s&&s.date?`<span class="vc-cn-date num">${s.date.slice(8,10)}/${s.date.slice(5,7)}/${s.date.slice(0,4)}</span>`:''}</div>`}).join('')}</div>
+    </div>
+    <div class="vc-hint">מאז החלפת הצמיג האחרונה בכל פינה</div>
+  </div>
+
+  <div class="vc-sec"><h4>תדירות החלפות (ממוצע ק"מ בין החלפות)</h4>
+    ${(()=>{
+      const bf_p=brakeInterval(v.n,'front','pads'),bf_d=brakeInterval(v.n,'front','discs');
+      const br_p=brakeInterval(v.n,'rear','pads'),br_d=brakeInterval(v.n,'rear','discs');
+      const tf=tireInterval(v.n,'front'),tr=tireInterval(v.n,'rear');
+      const fmt=r=>r.avg?`כל ${r.avg.toLocaleString()} ק"מ`:(r.count===1?'החלפה אחת בלבד':'אין נתונים');
+      const row=(lbl,r)=>`<div class="vc-freq-row"><span>${lbl}</span><b${r.avg?'':' class="mut"'}>${fmt(r)}</b></div>`;
+      return `
+      <div class="vc-freq">
+        <div class="vc-freq-grp"><div class="vc-freq-h">בלמים — קדמי</div>${row('רפידות',bf_p)}${row('צלחות',bf_d)}</div>
+        <div class="vc-freq-grp"><div class="vc-freq-h">בלמים — אחורי</div>${row('רפידות',br_p)}${row('צלחות',br_d)}</div>
+        <div class="vc-freq-grp"><div class="vc-freq-h">צמיגים</div>${row('קדמי',tf)}${row('אחורי',tr)}</div>
+      </div>
+      <div class="vc-hint">מחושב מההיסטוריה · דורש לפחות שתי החלפות מאותו סוג כדי להציג ממוצע</div>`;
+    })()}
+  </div>
+
+
+`;
+}
+function vcSettingsMenu(ev){
+  ev.stopPropagation();
+  const pop=document.getElementById('vc-settings-pop');if(!pop)return;
+  const open=pop.classList.contains('show');
+  if(!open){pop.classList.add('show');
+    setTimeout(()=>document.addEventListener('click',function h(e){if(!pop.contains(e.target)){pop.classList.remove('show');document.removeEventListener('click',h)}}),0);
+  }else pop.classList.remove('show');
+}
+/* עריכה ידנית של ק"מ ומיקום — למצבים בלי דיווח אוטומטי */
+function editVehKm(name){
+  const v=VEHICLES.find(x=>x.n===name);if(!v)return;
+  promptBox('עדכון ק"מ נוכחי','ק"מ במד','number',v.km,val=>{
+    const km=+val;if(!km){toast('יש להזין ק״מ');return}
+    v.km=km;v.kmAt=Date.now();
+    Store.set('veh:'+v.n,{km:v.km,loc:v.loc,svcKm:v.svcKm,kmAt:v.kmAt});
+    refreshRows();openVehCard(name,'overview');toast('ק״מ עודכן ל-'+km.toLocaleString());
+  });
+}
+function editVehLoc(name){
+  const v=VEHICLES.find(x=>x.n===name);if(!v)return;
+  promptBox('עדכון מיקום נוכחי','מיקום הרכב','text',v.loc||'',val=>{
+    v.loc=(val||'').trim();
+    Store.set('veh:'+v.n,{km:v.km,loc:v.loc,svcKm:v.svcKm,kmAt:v.kmAt});
+    refreshRows();openVehCard(name,'overview');toast('המיקום עודכן');
+  });
+}
+/* תיבת קלט קטנה ומרוכזת */
+function promptBox(title,label,type,val,onOk){
+  let ov=document.getElementById('promptBox');
+  if(!ov){ov=document.createElement('div');ov.id='promptBox';document.body.appendChild(ov);}
+  ov.className='pbox-ov';
+  ov.innerHTML=`<div class="pbox">
+    <h3>${title}</h3>
+    <div class="fld"><label>${label}</label>
+      <input id="pbox-in" type="${type}" ${type==='number'?'inputmode="numeric"':''} value="${String(val).replace(/"/g,'&quot;')}"></div>
+    <div class="pbox-acts">
+      <button class="btn btn-gho" onclick="document.getElementById('promptBox').remove()">ביטול</button>
+      <button class="btn btn-pri" id="pbox-ok">שמירה</button>
+    </div>
+  </div>`;
+  const inp=document.getElementById('pbox-in');inp.focus();if(type==='text')inp.select();
+  document.getElementById('pbox-ok').onclick=()=>{const x=inp.value;ov.remove();onOk(x)};
+  inp.onkeydown=e=>{if(e.key==='Enter')document.getElementById('pbox-ok').click()};
+}
+function toggleVehHidden(name){
+  const v=VEHICLES.find(x=>x.n===name);if(!v)return;
+  setVehFlag(name,'hidden',!v.hidden);
+  openVehCard(name,'overview');
+  toast(v.hidden?'הרכב מוסתר — לא ישובץ למשימות':'הרכב גלוי שוב');
+}
+function archiveVeh(name){
+  showConfirm('העברה לארכיון','להעביר את «'+name+'» לארכיון? המשימות שביצע יישמרו.',()=>{
+    setVehFlag(name,'archived',true);
+    closeDrawer();go('vehicles');
+    toast('«'+name+'» הועבר לארכיון');
+  });
+}
+/* ===== ארכיון רכבים ===== */
+function openVehArchive(){
+  const list=VEHICLES.filter(v=>v.archived);
+  $('#drawer').innerHTML=`
+  <div class="dr-head"><div><h3>ארכיון רכבים</h3><div class="tsub">${list.length?list.length+' רכבים · המשימות שלהם נשמרות':'הארכיון ריק'}</div></div>
+  <button class="x" onclick="closeDrawer();go('vehicles')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div>
+  <div class="dr-body">
+    ${list.map(v=>{
+      const ri=riByName(v.n);const tn=TASKS_DB.filter(t=>t.ri===ri).length;
+      return `<div class="svc-card"><div class="svc-card-top">
+        <div class="svc-when"><b>${v.arm?'🛡 ':''}${v.n}</b><span class="num">${v.plate}</span><span>${tn} משימות בהיסטוריה</span></div>
+        <button class="btn btn-gho" style="flex:none" onclick="restoreVeh('${v.n.replace(/'/g,"\\'")}')">שחזור</button>
+      </div></div>`;
+    }).join('')||'<div style="color:var(--mut);text-align:center;padding:34px 10px">אין רכבים בארכיון</div>'}
+  </div>
+  <div class="dr-foot"><button class="btn btn-gho" onclick="closeDrawer();go('vehicles')">סגירה</button></div>`;
+  $('#drawer').classList.add('open');$('#scrim').classList.add('open');
+}
+function restoreVeh(name){
+  setVehFlag(name,'archived',false);
+  openVehArchive();go('vehicles');
+  toast('«'+name+'» שוחזר מהארכיון');
+}
+
+/* ---------- טיפולים (כולל הוספה) ---------- */
+function vcSvc(v){
+  const log=svcOf(v.n).slice().sort((a,b)=>a.date<b.date?1:-1);
+  const rows=log.map(r=>{
+    const head=`<div class="svc-when"><b class="num">${r.date.slice(8,10)}/${r.date.slice(5,7)}/${r.date.slice(0,4)}</b><span class="num">${(+r.km).toLocaleString()} ק"מ</span>${r.next?`<span class="svc-next">טיפול הבא: ${(+r.next).toLocaleString()}</span>`:''}</div>`;
+    const items=r.items.map(it=>{
+      const T=SVC_TYPES[it.type]||SVC_TYPES.general;
+      const SH={fl:'קד׳ שמאל',fr:'קד׳ ימין',rl:'אח׳ שמאל',rr:'אח׳ ימין'};
+      let cn='';
+      if(Array.isArray(it.corners)&&it.corners.length){
+        if(it.type==='brakes'&&it.detail){
+          cn=' · '+['fl','fr','rl','rr'].filter(c=>it.corners.includes(c)).map(c=>SH[c]+' ('+(it.detail[c]==='pads_discs'?'רפידות+צלחות':'רפידות')+')').join(', ');
+        }else{
+          cn=' · '+['fl','fr','rl','rr'].filter(c=>it.corners.includes(c)).map(c=>SH[c]).join(', ');
+        }
+      }
+      return `<div class="svc-item"><span class="svc-tag" style="color:${T.col};background:${T.bg}">${T.label}</span><span class="svc-note">${it.note||(cn?'':'<span class=mut>ללא פירוט</span>')}${cn?`<span class="mut">${cn}</span>`:''}</span></div>`;
+    }).join('');
+    return `<div class="svc-card"><div class="svc-card-top">${head}<div class="svc-card-acts"><button class="svc-edit" title="עריכה" onclick="editSvc(${r.id})"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 3a2.8 2.8 0 014 4L7.5 20.5 2 22l1.5-5.5z"/></svg></button><button class="svc-del" title="מחיקה" onclick="delSvc(${r.id})"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg></button></div></div>${items}</div>`;
+  }).join('')||'<div style="color:var(--mut);text-align:center;padding:30px 10px">אין טיפולים מתועדים</div>';
+  return `<button class="btn btn-pri" style="width:100%" onclick="openSvcForm()">+ הוסף טיפול</button><div class="svc-list">${rows}</div>`;
+}
+
+/* ---------- תקלות (דמו · יחובר למערכת התקלות) ---------- */
+function vehOpenFaults(name){return (FAULTS[name]||[]).filter(f=>!f.closed)}
+function vcFaults(v){
+  const list=(FAULTS[v.n]||[]).slice().sort((a,b)=>a.date<b.date?1:-1);
+  const rows=list.map(f=>`<div class="svc-card"><div class="svc-card-top">
+      <div class="svc-when"><b class="num">${ddmm(f.date)}</b><span class="${f.closed?'':'fault-open'}">${f.closed?'טופלה':'פתוחה'}</span>${f.sev?`<span class="sev sev-${f.sev}">${({low:'קלה',mid:'בינונית',high:'משביתה'})[f.sev]}</span>`:''}</div>
+    </div><div class="svc-item"><span class="svc-note">${f.note}</span></div></div>`).join('')||'<div style="color:var(--mut);text-align:center;padding:30px 10px">אין תקלות מתועדות</div>';
+  return `<div class="vc-hint" style="margin-bottom:10px">תקלות הרכב · יסונכרן עם מערכת התקלות</div><div class="svc-list">${rows}</div>`;
+}
+
+/* ---------- משימות אחרונות ---------- */
+function vcTasks(v){
+  const ri=riByName(v.n);
+  const list=TASKS_DB.filter(t=>t.ri===ri).slice().sort((a,b)=>a.date<b.date?1:-1).slice(0,12);
+  const rows=list.map(t=>`<div class="svc-card"><div class="svc-card-top">
+    <div class="svc-when"><b>${t.n}</b><span class="num">${ddmm(t.date)}</span>${t.drv?`<span>${t.drv}</span>`:''}</div>
+    ${(t.done||t.stage===3)?'<span class="svc-tag" style="color:var(--green);background:var(--green-bg)">בוצעה</span>':t.cls==='live'?'<span class="svc-tag" style="color:var(--red);background:var(--red-bg)">פעילה</span>':''}
+  </div></div>`).join('')||'<div style="color:var(--mut);text-align:center;padding:30px 10px">אין משימות לרכב זה</div>';
+  return `<div class="svc-list">${rows}</div>`;
+}
+
+/* ===== מסמכי רכב: רישיון + ביטוח =====
+   נשמרים דרך Store (כמו כל השאר). באב-טיפוס — תצוגה מקדימה מקומית;
+   מעבר לאונליין: הקובץ יעלה לאחסון בענן וה-Store ישמור קישור. */
+const VDOC_KINDS=[['license','רישיון רכב'],['insurance','תעודת ביטוח']];
+function vehDocs(name){return Store.get('vdocs:'+name,{})||{}}
+function vehDocsSave(name,obj){Store.set('vdocs:'+name,obj)}
+function vcDocs(v){
+  const docs=vehDocs(v.n);
+  return `<div class="vdoc-list">
+    ${VDOC_KINDS.map(([k,l])=>{
+      const d=docs[k];
+      const isImg=d&&d.type&&d.type.indexOf('image')===0;
+      return `<div class="vdoc ${d?'has':''}">
+        <div class="vdoc-head">
+          <div class="vdoc-title"><span class="vdoc-ic">${k==='license'
+            ?'<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="3" y="5" width="18" height="14" rx="2.5"/><circle cx="8" cy="11" r="2"/><path d="M13 9h5M13 13h5M5 16h7"/></svg>'
+            :'<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 3l8 3v6c0 5-3.4 9.4-8 11-4.6-1.6-8-6-8-11V6z"/><path d="M9 12l2 2 4-4"/></svg>'}</span>
+            <div><b>${l}</b>${d?`<span class="vdoc-meta">${(d.type&&d.type.indexOf('pdf')>-1?'PDF':'תמונה')} · הועלה ${ddmm(d.at.slice(0,10))}</span>`:'<span class="vdoc-meta mut">טרם הועלה</span>'}</div>
+          </div>
+          ${d?`<div class="vdoc-menu">
+            <button class="vdoc-dots" onclick="vdocMenu('${k}',event)" title="אפשרויות"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="12" cy="19" r="1.7"/></svg></button>
+            <div class="vdoc-pop" id="vdoc-pop-${k}">
+              <button onclick="viewVehDoc(VC_NAME,'${k}')">צפייה / הורדה</button>
+              <button onclick="document.getElementById('vdoc-in-${k}').click()">החלפת קובץ</button>
+              <button class="del" onclick="delVDoc('${k}')">מחיקה</button>
+            </div>
+          </div>`:''}
+        </div>
+        ${d?`<button class="vdoc-open" onclick="viewVehDoc(VC_NAME,'${k}')">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+            הצגת המסמך
+          </button>`
+        :`<button class="vdoc-up" onclick="document.getElementById('vdoc-in-${k}').click()">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 16V4M6 10l6-6 6 6M4 20h16"/></svg> העלאת ${l}
+          </button>`}
+        <input type="file" id="vdoc-in-${k}" accept="image/*,application/pdf" style="display:none" onchange="uploadVDoc('${k}',this)">
+      </div>`;
+    }).join('')}
+  </div>
+  <div class="vc-hint" style="margin-top:12px">צילום או PDF · נשמר במערכת. בגרסת הענן המסמכים יהיו זמינים לכל המשתמשים.</div>`;
+}
+/* תפריט אפשרויות (...) של מסמך */
+function vdocMenu(kind,ev){
+  ev.stopPropagation();
+  const pop=document.getElementById('vdoc-pop-'+kind);if(!pop)return;
+  const open=pop.classList.contains('show');
+  document.querySelectorAll('.vdoc-pop').forEach(p=>p.classList.remove('show'));
+  if(!open){pop.classList.add('show');
+    setTimeout(()=>document.addEventListener('click',function h(){pop.classList.remove('show');document.removeEventListener('click',h)}),0);
+  }
+}
+/* פתיחת מסמך בכרטיסיה חדשה (תמונה/PDF) */
+function viewVehDoc(name,kind){
+  const d=vehDocs(name)[kind];if(!d)return;
+  const w=window.open();
+  if(w){
+    if(d.type&&d.type.indexOf('image')===0)w.document.write('<img src="'+d.data+'" style="max-width:100%">');
+    else w.document.write('<iframe src="'+d.data+'" style="border:0;width:100%;height:100vh"></iframe>');
+  }
+}
+function uploadVDoc(kind,input){
+  const f=input.files&&input.files[0];if(!f)return;
+  if(f.size>3.5*1024*1024){toast('הקובץ גדול מדי (עד 3.5MB)');return}
+  const reader=new FileReader();
+  reader.onload=()=>{
+    const docs=vehDocs(VC_NAME);
+    docs[kind]={name:f.name,type:f.type,at:new Date().toISOString(),data:reader.result};
+    try{vehDocsSave(VC_NAME,docs)}catch(e){toast('האחסון מלא — בגרסת הענן לא תהיה מגבלה');return}
+    openVehCard(VC_NAME,'docs');
+    toast((kind==='license'?'רישיון':'ביטוח')+' הועלה');
+  };
+  reader.readAsDataURL(f);
+}
+function delVDoc(kind){
+  const nm=VC_NAME;
+  showConfirm('מחיקת מסמך','למחוק את ה'+(kind==='license'?'רישיון':'ביטוח')+'?',()=>{
+    const docs=vehDocs(nm);delete docs[kind];vehDocsSave(nm,docs);
+    openVehCard(nm,'docs');toast('המסמך נמחק');
+  });
+}
+
+function delSvc(id){
+  const arr=SVC_LOG[VC_NAME]||[];const i=arr.findIndex(r=>r.id===id);if(i<0)return;
+  const rec=arr[i];
+  showConfirm('מחיקת טיפול','למחוק את רישום הטיפול מ-'+ddmm(rec.date)+'?',()=>{
+    arr.splice(i,1);svcLogSave();openVehCard(VC_NAME);toast('הטיפול נמחק');
+  });
+}
+/* ----- טופס הוספת טיפול: כרטיס אחד עם פריט אחד או יותר ----- */
+let SVC_DRAFT=[];
+let SVC_EDIT_ID=null;
+function openSvcForm(){
+  const v=VEHICLES.find(x=>x.n===VC_NAME);if(!v)return;
+  SVC_EDIT_ID=null;
+  SVC_DRAFT=[{type:'periodic',note:''}];
+  renderSvcForm(v);
+  $('#drawer').classList.add('open');$('#scrim').classList.add('open');
+}
+function editSvc(id){
+  const v=VEHICLES.find(x=>x.n===VC_NAME);if(!v)return;
+  const rec=(SVC_LOG[VC_NAME]||[]).find(r=>r.id===id);if(!rec)return;
+  SVC_EDIT_ID=id;
+  /* טעינת הטיפול לטיוטה (כולל פינות, פירוט רפידות/צלחות, וק"מ הבא) */
+  SVC_DRAFT=rec.items.map(it=>{
+    const d={type:it.type,note:it.note||''};
+    if(Array.isArray(it.corners))d.corners=it.corners.slice();
+    if(it.detail){d.detail={};Object.keys(it.detail).forEach(c=>d.detail[c]=it.detail[c])}
+    return d;
+  });
+  if(rec.next){const per=SVC_DRAFT.find(x=>x.type==='periodic');if(per)per.next=rec.next}
+  renderSvcForm(v,rec);
+  $('#drawer').classList.add('open');$('#scrim').classList.add('open');
+}
+function renderSvcForm(v,edit){
+  window.__VC_KM=v.km;window.__VC_SVCKM=v.svcKm;
+  const today=new Date();const iso=today.getFullYear()+'-'+String(today.getMonth()+1).padStart(2,'0')+'-'+String(today.getDate()).padStart(2,'0');
+  const dateVal=edit?edit.date:iso;
+  const kmVal=edit?edit.km:'';
+  const hasPeriodic=SVC_DRAFT.some(it=>it.type==='periodic');
+  const sugg=suggestNextSvc(v.km,v.svcKm);
+  $('#drawer').innerHTML=`
+  <div class="dr-head"><div><h3>${edit?'עריכת טיפול':'טיפול חדש'} · ${v.n}</h3><div class="tsub">אפשר להוסיף כמה פעולות לאותו טיפול</div></div>
+  <button class="x" onclick="openVehCard(VC_NAME,'svc')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div>
+  <div class="dr-body">
+    <div class="dr-grid">
+      <div class="fld"><label>תאריך ביצוע</label><input type="date" id="svc-date" value="${dateVal}"></div>
+      <div class="fld"><label>ק"מ נוכחי</label>
+        <input type="number" id="svc-km" inputmode="numeric" value="${kmVal}" placeholder="ק״מ במד">
+        <button type="button" class="km-sync" onclick="document.getElementById('svc-km').value=${v.km}">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 12a9 9 0 1 1-2.6-6.4M21 4v5h-5"/></svg>
+          סנכרן ק״מ אחרון (${(v.km||0).toLocaleString()})
+        </button>
+      </div>
+    </div>
+    <div id="svc-items">
+      ${SVC_DRAFT.map((it,i)=>svcItemHTML(it,i)).join('')}
+    </div>
+    <button class="btn btn-gho" style="width:100%" onclick="svcAddItem()">+ הוסף פעולה נוספת לאותו טיפול</button>
+  </div>
+  <div class="dr-foot">
+    <button class="btn btn-gho" onclick="openVehCard(VC_NAME,'svc')">ביטול</button>
+    <button class="btn btn-pri" style="flex:2" onclick="saveSvc()">שמירה</button>
+  </div>`;
+}
+function SVC_ICON(k){
+  return {
+    periodic:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4.5 4.5 0 0 0-6 5.9L3 18a2.1 2.1 0 0 0 3 3l5.8-5.7a4.5 4.5 0 0 0 5.9-6L14.5 12l-2.5-2.5z"/></svg>',
+    brakes:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="12" r="8.5"/><circle cx="11" cy="12" r="3"/><path d="M19 6.5a9 9 0 0 1 0 11"/></svg>',
+    tires:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.4"/><path d="M12 3v3.6M12 17.4V21M3 12h3.6M17.4 12H21"/></svg>',
+    general:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/></svg>'
+  }[k]||'';
+}
+function svcItemHTML(it,i){
+  const need=(it.type==='general');
+  const isCorner=(it.type==='brakes'||it.type==='tires');
+  const sugg=suggestNextSvc(window.__VC_KM||0,window.__VC_SVCKM);
+  const ph=it.type==='brakes'?'הערות נוספות לבלמים…':it.type==='tires'?'יצרן/דגם צמיג, ונטילים…':'הזן פירוט הטיפול שבוצע';
+  const noteFld=`<div class="fld" style="margin-top:9px"><label>פירוט${need?' <span style="color:var(--red)">*</span>':' (אופציונלי)'}</label>
+      <input type="text" value="${(it.note||'').replace(/"/g,'&quot;')}" oninput="SVC_DRAFT[${i}].note=this.value" placeholder="${ph}">
+    </div>`;
+  const nextVal=(it.next!=null?it.next:'');
+  const nextFld=it.type==='periodic'?`<div class="fld" style="margin-top:9px"><label>ק"מ טיפול הבא</label>
+      <input type="number" id="svc-next" inputmode="numeric" value="${nextVal}" placeholder="ק״מ לטיפול הבא" oninput="SVC_DRAFT[${i}].next=+this.value">
+      <button type="button" class="km-sync" onclick="document.getElementById('svc-next').value=${sugg};SVC_DRAFT[${i}].next=${sugg}">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 12a9 9 0 1 1-2.6-6.4M21 4v5h-5"/></svg>
+        השתמש במוצע (${sugg.toLocaleString()})
+      </button>
+    </div>`:'';
+  return `<div class="svc-form-item" data-i="${i}">
+    <div class="svc-type-head">
+      <label>סוג טיפול</label>
+      ${i>0?`<button class="svc-rm" title="הסר פעולה" onclick="svcRmItem(${i})"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 6l12 12M18 6L6 18"/></svg></button>`:''}
+    </div>
+    <div class="svc-type-btns">
+      ${Object.entries(SVC_TYPES).map(([k,t])=>`<button type="button" class="svc-type ${it.type===k?'on':''}" onclick="svcSetType(${i},'${k}')">
+        <span class="svc-type-ic">${SVC_ICON(k)}</span><span>${t.label}</span></button>`).join('')}
+    </div>
+    ${isCorner?`
+    <div class="svc-corners">
+      <div class="svc-corners-l">סמן ${it.type==='brakes'?'בלמים':'צמיגים'} שהוחלפו:</div>
+      <div class="svc-quick">
+        <button type="button" onclick="svcQuick(${i},['fl','fr'])">קדמי</button>
+        <button type="button" onclick="svcQuick(${i},['rl','rr'])">אחורי</button>
+        <button type="button" onclick="svcQuick(${i},['fl','fr','rl','rr'])">הכל</button>
+        <button type="button" onclick="svcQuick(${i},[])">נקה</button>
+      </div>
+      ${pickDiagram(i)}
+      ${it.type==='brakes'?svcBrakeDetails(i):''}
+    </div>
+    ${noteFld}`:`${nextFld}${noteFld}`}
+  </div>`;
+}
+/* לכל פינת בלמים שנבחרה: רפידות בלבד / רפידות + צלחות */
+function svcBrakeDetails(i){
+  const it=SVC_DRAFT[i];const sel=it.corners||[];
+  if(!sel.length)return '';
+  it.detail=it.detail||{};
+  const LB={fl:'קדמי שמאל',fr:'קדמי ימין',rl:'אחורי שמאל',rr:'אחורי ימין'};
+  const order=['fl','fr','rl','rr'].filter(c=>sel.includes(c));
+  return `<div class="svc-bd">
+    ${order.map(c=>{
+      const d=it.detail[c]||'pads';
+      return `<div class="svc-bd-row">
+        <span class="svc-bd-c">${LB[c]}</span>
+        <div class="svc-bd-opts">
+          <button type="button" class="${d==='pads'?'on':''}" onclick="svcBrakeSet(${i},'${c}','pads')">רפידות</button>
+          <button type="button" class="${d==='pads_discs'?'on':''}" onclick="svcBrakeSet(${i},'${c}','pads_discs')">רפידות + צלחות</button>
+        </div>
+      </div>`;
+    }).join('')}
+  </div>`;
+}
+function svcBrakeSet(i,c,val){SVC_DRAFT[i].detail=SVC_DRAFT[i].detail||{};SVC_DRAFT[i].detail[c]=val;refreshSvcItems()}
+/* שרטוט לבחירה בטופס — מסמן/מבטל פינה */
+function pickDiagram(i){
+  const sel=SVC_DRAFT[i].corners||[];
+  const st={};CORNERS.forEach(([c])=>{st[c]=sel.includes(c)?{sel:true}:null});
+  return carDiagram(st,'svcToggleCorner_'+i);
+}
+function svcToggleCorner(i,c){
+  const it=SVC_DRAFT[i];it.corners=it.corners||[];
+  const k=it.corners.indexOf(c);
+  if(k>-1)it.corners.splice(k,1);else it.corners.push(c);
+  refreshSvcItems();
+}
+function svcQuick(i,arr){SVC_DRAFT[i].corners=arr.slice();refreshSvcItems()}
+function svcSyncFromDom(){
+  // keep notes already bound via oninput; nothing else needed
+}
+function svcSetType(i,val){SVC_DRAFT[i].type=val;refreshSvcItems()}
+function svcAddItem(){SVC_DRAFT.push({type:'general',note:''});refreshSvcItems()}
+function svcRmItem(i){SVC_DRAFT.splice(i,1);refreshSvcItems()}
+function refreshSvcItems(){
+  document.getElementById('svc-items').innerHTML=SVC_DRAFT.map((it,i)=>svcItemHTML(it,i)).join('');
+}
+function saveSvc(){
+  const date=document.getElementById('svc-date').value;
+  const km=+document.getElementById('svc-km').value;
+  if(!date||!km){toast('יש למלא תאריך וק״מ');return}
+  // כללי דורש פירוט; בלמים/צמיגים דורשים סימון פינה אחת לפחות
+  for(const it of SVC_DRAFT){
+    if(it.type==='general'&&!(it.note||'').trim()){toast('יש לפרט מה בוצע בטיפול כללי');return}
+    if((it.type==='brakes'||it.type==='tires')&&!(it.corners&&it.corners.length)){toast('יש לסמן אילו '+(it.type==='brakes'?'בלמים':'צמיגים')+' הוחלפו');return}
+  }
+  const rec={date,km,items:SVC_DRAFT.map(it=>{
+    const o={type:it.type,note:(it.note||'').trim()};
+    if((it.type==='brakes'||it.type==='tires')&&it.corners&&it.corners.length)o.corners=it.corners.slice();
+    if(it.type==='brakes'&&it.detail){o.detail={};it.corners.forEach(c=>{o.detail[c]=it.detail[c]||'pads'})}
+    return o;
+  })};
+  const per=SVC_DRAFT.find(it=>it.type==='periodic');
+  if(per){const el=document.getElementById('svc-next');const val=(el&&+el.value)||per.next||0;if(val)rec.next=val;}
+  /* אם לא הוזן ק"מ טיפול הבא — לא משנים את הסקלה הקיימת */
+  if(SVC_EDIT_ID){
+    const arr=SVC_LOG[VC_NAME]||[];const idx=arr.findIndex(r=>r.id===SVC_EDIT_ID);
+    if(idx>-1){rec.id=SVC_EDIT_ID;arr[idx]=rec;}
+    /* עדכון ק"מ/סקלה לפי הרשומה שנערכה */
+    const veh=VEHICLES.find(x=>x.n===VC_NAME);
+    if(veh){if(rec.km){veh.km=rec.km;veh.kmAt=Date.now()}if(rec.next)veh.svcKm=rec.next;Store.set('veh:'+veh.n,{km:veh.km,loc:veh.loc,svcKm:veh.svcKm,kmAt:veh.kmAt})}
+    svcLogSave();
+    SVC_EDIT_ID=null;
+    openVehCard(VC_NAME,'svc');toast('הטיפול עודכן');
+  }else{
+    addSvcRecord(VC_NAME,rec);
+    openVehCard(VC_NAME,'svc');
+    toast('הטיפול נשמר'+(rec.next?' · סקלת הטיפול אופסה':''));
+  }
+}
+
+/* ===== עריכת סדר הרכבים — תפריט צדדי עם חצים ===== */
+function openVehOrder(){
+  const ord=vehOrder();
+  $('#drawer').innerHTML=`
+  <div class="dr-head"><div><h3>עריכת סדר הרכבים</h3><div class="tsub">הסדר נשמר אוטומטית ומוצג בכל הרשימות</div></div>
+  <button class="x" onclick="closeDrawer();go('vehicles')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div>
+  <div class="dr-body" style="padding-top:10px">
+    ${ord.map((n,i)=>{
+      const v=VEHICLES.find(x=>x.n===n);if(!v)return'';
+      return `<div class="vo-row">
+        <span class="vnum num">${i+1}</span>
+        <b>${v.n}</b>
+        <span class="vo-btns">
+          <button ${i===0?'disabled':''} onclick="vMove(${i},-1)" title="העלה">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M18 15l-6-6-6 6"/></svg></button>
+          <button ${i===ord.length-1?'disabled':''} onclick="vMove(${i},1)" title="הורד">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></button>
+        </span>
+      </div>`;
+    }).join('')}
+  </div>
+  <div class="dr-foot"><button class="btn btn-pri" style="flex:1" onclick="closeDrawer();go('vehicles')">סיום</button></div>`;
+  $('#drawer').classList.add('open');$('#scrim').classList.add('open');
+}
+function vMove(i,dir){
+  const ord=vehOrder();
+  const j=i+dir;if(j<0||j>=ord.length)return;
+  [ord[i],ord[j]]=[ord[j],ord[i]];
+  VEH_ORDER=ord;vehOrderSave();
+  openVehOrder();
+}
+
+/* תא תוקף: תאריך עם רמזור — ירוק >30 יום · כתום ≤30 · אדום בחריגה */
+function expCell(s){
+  if(!s)return '<span style="color:#C9CBC4">—</span>';
+  const d=dUntil(s);
+  const col=d<0?'var(--red)':d<=30?'var(--amber)':'var(--green)';
+  const bg=d<0?'var(--red-bg)':d<=30?'var(--amber-bg)':'var(--green-bg)';
+  return `<span class="vdate" style="color:${col};background:${bg}">
+    <b class="num">${s.slice(0,6)+s.slice(8)}</b>${d<0?'<i>פג!</i>':d<=30?'<i>'+d+' ימ׳</i>':''}
+  </span>`;
+}
+/* גרירת שורות לשינוי סדר — עובד גם במגע */
+
+let DRV_Q='';
+views.drivers=()=>{
+  const q=DRV_Q.trim();
+  const list=DRIVERS.filter(d=>!q||d.n.includes(q)||d.ph.includes(q.replace(/\D/g,'')||'×'));
+  const kn=DRIVERS.filter(d=>d.knesset).length,gov=DRIVERS.filter(d=>d.gov).length;
+  const ok='<span class="pyes"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>';
+  const no='<span class="pno">—</span>';
+  return `
+<div class="topbar">
+  <div><h1>נהגים</h1><div class="sub">${DRIVERS.length} נהגים פעילים · ${gov} רישיון ממשלתי · ${kn} אישור כנסת · תעריף ₪70 חול / ₪90 שבת</div></div>
+  <div class="actions">
+    <div class="dsearch">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+      <input type="text" placeholder="חיפוש נהג…" value="${DRV_Q}"
+        oninput="DRV_Q=this.value;const p=this.selectionStart;go('drivers');const i=document.querySelector('.dsearch input');i.focus();i.setSelectionRange(p,p)">
+    </div>
+    <button class="btn btn-gho" onclick="toast('בקשת זמינות נשלחה לכל הנהגים (דמו)')">בקשת זמינות</button>
+    <button class="btn btn-pri" onclick="toast('טופס נהג חדש (דמו)')">+ נהג</button>
+  </div>
+</div>
+<div class="card scrollx">
+  <table class="tbl dtbl">
+    <thead><tr>
+      <th>נהג</th><th>נייד</th><th>ת"ז</th>
+      <th class="c">ממשלתי</th><th class="c">כנסת</th><th class="c">סיווג</th><th class="c">נשק</th>
+      <th class="c">סטטוס</th><th></th>
+    </tr></thead>
+    <tbody>
+    ${list.map(d=>`<tr>
+      <td><div class="dcell"><span class="dava">${d.n.split(' ').map(w=>w[0]).join('')}</span><b>${d.n}</b><span class="ent-id">#${d.id}</span>${d.mgr?'<span class="crown" title="מנהל"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M3 8l4.5 4L12 5l4.5 7L21 8l-1.6 10.2a1.5 1.5 0 01-1.5 1.3H6.1a1.5 1.5 0 01-1.5-1.3z"/></svg></span>':''}</div></td>
+      <td class="num">${d.ph.replace(/(\d{3})(\d{3})(\d{4})/,'$1-$2-$3')}</td>
+      <td class="num mutc">${d.tz}</td>
+      <td class="c">${d.gov?ok:no}</td>
+      <td class="c">${d.knesset?ok:no}</td>
+      <td class="c">${d.svg?ok:no}</td>
+      <td class="c">${d.gun?ok:no}</td>
+      <td class="c"><span class="chip c-green" style="padding:3px 9px"><span class="dot"></span>פעיל</span></td>
+      <td>
+        <div style="display:flex;gap:6px;justify-content:flex-end">
+          <a class="dact" href="tel:${d.ph}" title="חיוג"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7c.13.96.36 1.9.7 2.8a2 2 0 01-.45 2.1L8.1 9.9a16 16 0 006 6l1.3-1.3a2 2 0 012.1-.45c.9.34 1.84.57 2.8.7A2 2 0 0122 16.9z"/></svg></a>
+          <button class="dact" onclick="toast('עריכת נהג: ${d.n} (דמו)')" title="עריכה"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 3a2.8 2.8 0 014 4L7.5 20.5 2 22l1.5-5.5z"/></svg></button>
+        </div>
+      </td>
+    </tr>`).join('')}
+    </tbody>
+  </table>
+  ${list.length?'':'<div style="padding:30px;text-align:center;color:var(--mut)">לא נמצאו נהגים</div>'}
+</div>`;
+};
 
 views.avail=()=>`
 <div class="topbar">
@@ -1378,7 +2667,7 @@ views.pay=()=>{
   <button class="filt">👤 בר בנימין</button>
   <div class="paysum"><div class="v num">₪${tot.toLocaleString('he-IL',{minimumFractionDigits:2})}</div><div class="l">סה"כ לתשלום · 8 משימות · 44:29 שעות</div></div>
 </div>
-<div class="card scrollx">
+<div class="card scrollx has-cards">
   <table class="tbl"><thead><tr><th>משימה</th><th>תאריך</th><th>שעות</th><th>סה"כ</th></tr></thead><tbody>
   ${PAY.map(p=>`<tr>
     <td><span class="tname">${p.n}</span> ${p.adm?'<span class="chip c-violet">מנהלתית</span>':''}${p.exp?'<span class="chip c-mut">הוצאה</span>':''}${p.warn?'<span class="chip c-amber">⚠ לבדיקה</span>':''}</td>
@@ -1394,11 +2683,19 @@ views.pay=()=>{
 
 /* ================= RENDER ================= */
 function go(v){
+  window.CURV=v;
+  if(location.hash.slice(1)!==v){try{location.hash=v}catch(e){}}
   document.querySelectorAll('#nav button[data-v],#mnav button[data-v]').forEach(b=>b.classList.toggle('on',b.dataset.v===v));
+  /* אם העמוד הפעיל נמצא בעמוד התפריט השני — לעבור אליו */
+  if(typeof MN_PAGES!=='undefined'){
+    const pg=MN_PAGES.findIndex(p=>p.includes(v));
+    if(pg>-1&&pg!==MN_PG){MN_PG=pg}
+    if(typeof renderMnav==='function')renderMnav();
+  }
+  document.body.classList.toggle('show-fab', v==='home'||v==='tasks');
   $('#main').innerHTML=`<div class="view on">${views[v]()}</div>`;
   if(v==='home'){renderWeek('');requestAnimationFrame(syncSideHeight);}
   if(v==='tasks')renderTasks('');
-  if(v==='vehicles')renderVeh('');
   window.scrollTo({top:0});$('#main').scrollTo({top:0});
 }
 let WKQ='';
@@ -1424,7 +2721,7 @@ function renderWeek(q){
   if(sub)sub.textContent=fmt(WEEK_START)+' – '+fmt(addD(WEEK_START,6))+', '+WEEK_START.slice(0,4)+' · '+todayN+' משימות היום'+(liveN?' · '+liveN+' פעילה כרגע':'');
   $('#wkrows').innerHTML=ROWS.map((r,ri)=>({r,ri})).filter(o=>!q||o.r.v.includes(q)).map(({r,ri})=>{
     const SH='<svg class="sh-ic" viewBox="0 0 24 24" fill="currentColor" aria-label="משוריין"><path d="M12 2l8 3v6c0 5-3.4 9.4-8 11-4.6-1.6-8-6-8-11V5z"/></svg>';
-    const veh=`<div class="wk-veh"><b>${r.arm?SH:''}${r.v.replace(' משוריין','')}</b>${r.loc?`<span>${r.loc}</span>`:''}</div>`;
+    const veh=`<div class="wk-veh"><b>${r.arm?SH:''}${r.v}</b>${r.loc?`<span>${r.loc}</span>`:''}</div>`;
     const cells=days.map(d=>{
       const arr=tasksAt(ri,d.iso).filter(t=>SHOW_ADMIN||t.cls!=='admin');
       const past=d.iso<DEMO_TODAY;
@@ -1510,6 +2807,7 @@ function chipClick(el){
 /* פרטי משימה אמיתיים מתוך היומן */
 function openJournalTask(id){
   const t=byId(id);if(!t)return;
+  deepHash('task-'+id);
   const past=t.date<DEMO_TODAY;
   const isDone=t.done||t.stage===3||(past&&!t.cls);
   const st=isDone?'<span class="chip c-mut">בוצע</span>'
@@ -1547,6 +2845,7 @@ function openJournalTask(id){
     return `<i class="rstamp ${gap?'gap':''}">דווח בפועל ב-${act}${gap?' · פער מהשעה שדווחה':''}</i>`;
   };
   const isAdmin=t.cls==='admin';
+  const notStarted=!isDone&&t.cls!=='live'&&!(t.stage>=1); /* הודעה לנהג רק לפני תחילת המשימה */
   const stepStart={n:'התחלת משימה',d:det(ts.start,km.start),st:stamp(ts.start,rts.start),gap:ts.start&&rts.start&&gapMin(ts.start,rts.start)>20};
   const stepEnd={n:'סיום משימה',d:det(ts.end,km.end,locs.end),st:stamp(ts.end,rts.end),gap:ts.end&&rts.end&&gapMin(ts.end,rts.end)>20};
   const steps=isAdmin?[stepStart,stepEnd]:[
@@ -1579,7 +2878,7 @@ function openJournalTask(id){
   </div>
   <div class="dr-foot" style="flex-wrap:wrap">
     <button class="btn btn-gho" onclick="openEditTask(${t.id},'details')">עריכה</button>
-    ${t.drv?`<button class="btn btn-gho" onclick="toast('הודעה נשלחה ל${t.drv} (דמו)')">הודעה לנהג</button>`:''}
+    ${t.drv&&notStarted?`<button class="btn btn-gho" onclick="toast('הודעה נשלחה ל${t.drv} (דמו)')">שליחה לנהג</button>`:''}
     <div class="combo" style="flex:1">
       <button type="button" class="btn btn-gho" style="width:100%;justify-content:center" onclick="event.stopPropagation();$('#extList').classList.toggle('open');extUpdate();$('#extN')?.focus()">+ הארכה</button>
       <div class="cb-list" id="extList" data-base="${extBase}" style="top:auto;bottom:calc(100% + 6px);inset-inline:auto 0;width:178px;padding:12px">
@@ -1595,6 +2894,7 @@ function openJournalTask(id){
       </div>
     </div>
     <button class="btn btn-pri" onclick="duplicateTask(${t.id})">שכפול</button>
+    <button class="btn btn-gho" style="color:var(--red);border-color:#EBD2CD" onclick="deleteTask(${t.id})">מחיקה</button>
   </div>`;
   $('#drawer').classList.add('open');$('#scrim').classList.add('open');
 }
@@ -1612,7 +2912,7 @@ function extendTask(id,n){
   const sid=t.sid;
   const last=series.reduce((a,b)=>a.date>b.date?a:b);
   for(let i=1;i<=n;i++){
-    TASKS_DB.push({id:NEXT_ID++,ri:last.ri,date:addD(last.date,i),n:last.n,drv:last.drv,cls:last.cls,sid});
+    TASKS_DB.push({id:IDS.next('TSK'),ri:last.ri,date:addD(last.date,i),n:last.n,drv:last.drv,cls:last.cls,sid});
   }
   closeDrawer();
   renderWeek(WKQ);
@@ -1639,7 +2939,7 @@ function openEditTask(id,tab){
   </div>`;
   if(tab!=='status'){
     cbSet('cb-client',CLIENTS.map((c,i)=>({v:i,label:c.n})));
-    cbSet('cb-veh',ROWS.map((r,i)=>({v:i,label:r.v.replace(' משוריין','')+(r.arm?' 🛡':'')})).filter((_,i)=>!['משימת נהיגה','משימה חיצונית'].includes(ROWS[i].v)));
+    cbSet('cb-veh',ROWS.map((r,i)=>({v:i,label:r.v+(r.arm?' 🛡':'')})).filter((_,i)=>!['משימת נהיגה','משימה חיצונית'].includes(ROWS[i].v)));
     cbSet('cb-drv',[{v:'',label:'ללא שיבוץ כרגע'},...DRIVERS.map(d=>({v:d.n,label:d.n}))]);
   }
   $('#drawer').classList.add('open');$('#scrim').classList.add('open');
@@ -1653,8 +2953,7 @@ function edDetailsTab(t,isPseudo){
       <button type="button" class="f-datebtn dp-anchor" id="edDateBtn" onclick="openDPAt(event,v=>{ED.date=v;$('#edDateBtn').textContent=dayLabel(v)+'/'+v.slice(0,4)},ED.date)">${dayLabel(t.date)}/${t.date.slice(0,4)}</button></div>
     <div class="f-row">
       <div class="fld"><label>שעת התייצבות</label><input type="time" id="edTime" value="${t.time||''}"></div>
-      ${!isPseudo&&t.cls!=='self'?'':''}
-      ${!isPseudo?`<div class="fld"><label>שיבוץ רכב</label>${comboHTML('cb-veh','בחר רכב',ROWS[t.ri].v.replace(' משוריין',''),t.ri)}</div>`:'<div></div>'}
+      ${!isPseudo?`<div class="fld"><label>שיבוץ רכב</label>${comboHTML('cb-veh','בחר רכב',ROWS[t.ri].v,t.ri)}</div>`:'<div></div>'}
     </div>
     <div class="fld"><label>מיקום התייצבות</label><input type="text" id="edLoc" value="${t.loc||''}"></div>
     ${t.cls!=='self'&&t.cls!=='ext'?`<div class="fld"><label>שיבוץ נהג</label>${comboHTML('cb-drv','בחר נהג',t.drv||'ללא שיבוץ כרגע',t.drv||'')}</div>`:''}
@@ -1728,9 +3027,27 @@ function saveEditStatus(id){
   t.km={start:($('#edK0')?.value||'').replace(/[^\d]/g,'')||undefined,rel:($('#edK1')?.value||'').replace(/[^\d]/g,'')||undefined,end:($('#edK2')?.value||'').replace(/[^\d]/g,'')||undefined};
   t.locs={rel:$('#edL1')?.value.trim()||undefined,end:$('#edL2')?.value.trim()||undefined};
   const pay=recalcPay(t);
+  const sync=syncVehicleKm(t);
   closeDrawer();renderWeek(WKQ);
-  toast('«'+t.n+'» — עודכן'+(pay?' · שכר חושב מחדש: '+pay.h+' שע׳ × ₪'+pay.rate+(pay.shabbat?' (שבת)':'')+' = ₪'+pay.amt.toLocaleString():''),5200);
+  toast('«'+t.n+'» — עודכן'
+    +(pay?' · שכר: '+pay.h+' שע׳ = ₪'+pay.amt.toLocaleString():'')
+    +(sync?' · ק"מ הרכב עודכן (+'+sync.delta.toLocaleString()+')':''),5600);
 }
+/* דיווחי ק"מ זורמים לכרטיס הרכב: עדכון מד-אוצף + ספירה לטיפול הבא */
+function syncVehicleKm(t){
+  const rowName=ROWS[t.ri]?.v;if(!rowName)return null;
+  const veh=VEHICLES.find(v=>v.n===rowName);if(!veh)return null;
+  const reported=Math.max(...['start','rel','end'].map(k=>+(t.km?.[k]||0)));
+  if(!reported||reported<=veh.km)return null;
+  const delta=reported-veh.km;
+  veh.km=reported;veh.kmAt=Date.now();
+  /* מיקום נוכחי מתעדכן ממיקום הסיום שהנהג הזין */
+  if(t.locs&&t.locs.end){veh.loc=t.locs.end;refreshRows();}
+  Store.set('veh:'+veh.n,{km:veh.km,loc:veh.loc,svcKm:veh.svcKm,kmAt:veh.kmAt}); /* שינוי הרכב נשמר */
+  /* הווידג'טים והיומן נגזרים ישירות מ-VEHICLES */
+  return {veh,delta};
+}
+
 /* חישוב שכר מחדש לפי הדיווחים העדכניים: שעות × תעריף נהג (חול/שבת) */
 function recalcPay(t){
   if(!t.drv||!t.ts||!t.ts.start||!t.ts.end){t.pay=undefined;return null}
@@ -1740,16 +3057,51 @@ function recalcPay(t){
   let mins=(h2*60+m2)-(h1*60+m1);
   if(mins<=0)mins+=1440; // משימה שנגמרת אחרי חצות
   const shabbat=fromIso(t.date).getDay()===6;
-  const rate=shabbat?Math.round(base*1.5):base;
+  const rate=shabbat?(d?.rateS||90):(d?.rate||70);
   const amt=Math.round(mins/60*rate);
   const km=(t.km&&t.km.start&&t.km.end)?Math.max(0,+t.km.end-+t.km.start):undefined;
   const h=String(Math.floor(mins/60)).padStart(2,'0')+':'+String(mins%60).padStart(2,'0');
   t.pay={h,rate,amt,km,shabbat};
   return t.pay;
 }
+/* ריכוז חודשי ללקוח — כל המשימות של הלקוח באותו חודש, מתוך אותו מסד */
+function durOf(t){
+  if(!t.ts||!t.ts.start||!t.ts.end)return null;
+  const p=x=>{const[a,b]=x.split(':').map(Number);return a*60+b};
+  let m=p(t.ts.end)-p(t.ts.start);if(m<=0)m+=1440;
+  return m;
+}
+function openClientSummary(client,iso){
+  const _c=cliByName(client);
+  deepHash('client-'+(_c?_c.id:encodeURIComponent(client)));
+  const mon=iso.slice(0,7);
+  const monLabel=fromIso(mon+'-01').toLocaleDateString('he-IL',{month:'long',year:'numeric'});
+  const list=TASKS_DB.filter(t=>t.client===client&&t.date.slice(0,7)===mon)
+                     .sort((a,b)=>a.date<b.date?-1:1);
+  const totMin=list.reduce((s,t)=>s+(durOf(t)||0),0);
+  const hh=m=>String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0');
+  $('#drawer').innerHTML=`
+  <div class="dr-head"><div><h3>ריכוז חודשי · ${client}</h3><div class="tsub">${monLabel} · ${list.length} משימות${totMin?' · '+hh(totMin)+' שעות מדווחות':''}</div></div>
+  <button class="x" onclick="closeDrawer()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div>
+  <div class="dr-body">
+    ${list.map(t=>{
+      const d=durOf(t);
+      const vehN=ROWS[t.ri].v==='משימת נהיגה'?'רכב הלקוח':ROWS[t.ri].v==='משימה חיצונית'?'רכב חיצוני':ROWS[t.ri].v;
+      return`<div class="dr-item" style="margin-bottom:8px">
+        <span class="l num">${ddmm(t.date)}</span>
+        <span class="v">${t.n} · ${vehN}${t.drv?' · '+t.drv:''}${d?' · <span class=num>'+hh(d)+'</span>':''}</span>
+      </div>`;
+    }).join('')||'<div style="color:var(--mut);text-align:center;padding:20px">אין משימות ללקוח בחודש זה</div>'}
+  </div>
+  <div class="dr-foot">
+    <button class="btn btn-gho" onclick="closeDrawer()">סגירה</button>
+    <button class="btn btn-pri" onclick="toast('הפקת דו"ח PDF ללקוח — אוטומציה בהמשך')">הפקת דו"ח ללקוח</button>
+  </div>`;
+  $('#drawer').classList.add('open');$('#scrim').classList.add('open');
+}
 function duplicateTask(id){
   const t=byId(id);if(!t)return;
-  TASKS_DB.push({id:NEXT_ID++,ri:t.ri,date:t.date,n:t.n,drv:t.drv,cls:t.cls==='live'?undefined:t.cls});
+  TASKS_DB.push({id:IDS.next('TSK'),ri:t.ri,date:t.date,n:t.n,drv:t.drv,cls:t.cls==='live'?undefined:t.cls});
   closeDrawer();renderWeek(WKQ);
   toast('«'+t.n+'» שוכפלה לאותו יום ורכב');
 }
@@ -1767,7 +3119,7 @@ function openSelMenu(kind,e){
   closeSelMenus();
   if(was)return;
   if(kind==='drv')m.innerHTML=DRIVERS.map(d=>`<button onclick="bulkDriver('${d.n}')">${d.n}</button>`).join('');
-  else m.innerHTML=ROWS.map((r,i)=>(r.v==='משימת נהיגה'||r.v==='משימה חיצונית')?'':`<button onclick="bulkVehicle(${i})">${r.v.replace(' משוריין','')}${r.arm?' 🛡':''}</button>`).join('');
+  else m.innerHTML=ROWS.map((r,i)=>(r.v==='משימת נהיגה'||r.v==='משימה חיצונית')?'':`<button onclick="bulkVehicle(${i})">${r.v}${r.arm?' 🛡':''}</button>`).join('');
   m.classList.add('open');
 }
 function restorePos(snap){
@@ -1797,12 +3149,84 @@ function bulkVehicle(tri){
   },8000);
   seriesPrompt(list,ch=>ch.forEach(t=>t.ri=tri));
 }
+/* מחיקה ממסך הפרטים — אישור מיידי בתוך החלון, כולל אפשרות רצף */
+function seriesChainOf(t){
+  if(!t.sid)return[];
+  const rest=TASKS_DB.filter(x=>x.sid===t.sid&&x.date>t.date).sort((a,b)=>a.date<b.date?-1:1);
+  const chain=[];let next=addD(t.date,1);
+  for(const x of rest){
+    if(x.date===next){chain.push(x);next=addD(next,1)}
+    else if(x.date>next)break;
+  }
+  return chain;
+}
+function deleteTask(id){
+  const t=byId(id);if(!t)return;
+  const chain=seriesChainOf(t);
+  const f=document.querySelector('#drawer .dr-foot');if(!f)return;
+  f.innerHTML=`
+    <span style="font-size:12.5px;font-weight:800;color:var(--red);margin-inline-end:auto">למחוק את «${t.n}»?</span>
+    <button class="btn btn-gho" onclick="openJournalTask(${id})">ביטול</button>
+    ${chain.length?`<button class="btn" style="background:var(--red-bg);color:var(--red);font-weight:800" onclick="doDeleteTask(${id},1)">מחק גם ${chain.length} הבאים</button>`:''}
+    <button class="btn" style="background:var(--red);color:#fff;font-weight:800" onclick="doDeleteTask(${id},0)">${chain.length?'מחק יום זה בלבד':'מחק'}</button>`;
+}
+function doDeleteTask(id,withChain){
+  const t=byId(id);if(!t)return;
+  const list=[t].concat(withChain?seriesChainOf(t):[]);
+  const snap=list.map(x=>({t:x,ri:x.ri,date:x.date}));
+  const sigs=list.map(tSig);
+  list.forEach(x=>{
+    TRASH.unshift({sig:tSig(x),t:JSON.parse(JSON.stringify(x)),at:Date.now(),by:(typeof SESSION!=='undefined'&&SESSION&&SESSION.name)||'מנהל'});
+    const i=TASKS_DB.indexOf(x);if(i>-1)TASKS_DB.splice(i,1);
+  });
+  trashSave();
+  closeDrawer();renderWeek(WKQ);
+  toastA(list.length>1?list.length+' משימות נמחקו מהרצף':'המשימה «'+t.n+'» נמחקה','בטל מחיקה',()=>{
+    TRASH=TRASH.filter(e=>!sigs.includes(e.sig));trashSave();
+    restorePos(snap);renderWeek(WKQ);toast('המחיקה בוטלה');
+  },8000);
+}
+/* ===== מסך סל המחיקה ===== */
+function openTrash(){
+  const dleft=e=>Math.max(1,Math.ceil((TRASH_TTL-(Date.now()-e.at))/86400000));
+  const ago=e=>{const d=Math.floor((Date.now()-e.at)/86400000);return d===0?'היום':d===1?'אתמול':'לפני '+d+' ימים'};
+  $('#drawer').innerHTML=`
+  <div class="dr-head"><div><h3>סל מחיקה</h3><div class="tsub">${TRASH.length?TRASH.length+' משימות · נשמרות 30 יום ואז נמחקות לצמיתות':'הסל ריק'}</div></div>
+  <button class="x" onclick="closeDrawer()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div>
+  <div class="dr-body">
+    ${TRASH.map((e,i)=>`<div class="dr-item" style="margin-bottom:9px;align-items:center">
+      <span class="l">
+        <b style="color:var(--ink);font-size:13px">${e.t.n}</b><br>
+        <span class="num">${ddmm(e.t.date)}</span>${e.t.drv?' · '+e.t.drv:''}<br>
+        <span style="font-size:11px">נמחקה ${ago(e)} ע"י מנהל${e.by&&e.by!=='מנהל'?' ('+e.by.split(' ')[0]+')':''} · מחיקה סופית בעוד ${dleft(e)} ימים</span>
+      </span>
+      <button class="btn btn-gho" style="flex:none" onclick="restoreTrash(${i})">שחזור</button>
+    </div>`).join('')||'<div style="color:var(--mut);text-align:center;padding:34px 10px">משימות שנמחקות מגיעות לכאן<br>ונשמרות 30 יום לפני מחיקה סופית</div>'}
+  </div>
+  <div class="dr-foot"><button class="btn btn-gho" onclick="closeDrawer()">סגירה</button></div>`;
+  $('#drawer').classList.add('open');$('#scrim').classList.add('open');
+}
+function restoreTrash(i){
+  const e=TRASH[i];if(!e)return;
+  TRASH.splice(i,1);trashSave();
+  const t=e.t;
+  if(!TASKS_DB.some(x=>tSig(x)===e.sig))TASKS_DB.push(t);
+  renderWeek(WKQ);openTrash();
+  toast('«'+t.n+'» ('+ddmm(t.date)+') שוחזרה ליומן');
+}
 function bulkDelete(){
   const list=selTasks();if(!list.length)return;
   const snap=list.map(({t})=>({t,ri:t.ri,date:t.date}));
-  list.forEach(({t})=>{const i=TASKS_DB.indexOf(t);if(i>-1)TASKS_DB.splice(i,1)});
+  const sigs=list.map(({t})=>tSig(t));
+  /* גם מחיקה קבוצתית נכתבת לסל המחיקה ושורדת רענון */
+  list.forEach(({t})=>{
+    TRASH.unshift({sig:tSig(t),t:JSON.parse(JSON.stringify(t)),at:Date.now(),by:(typeof SESSION!=='undefined'&&SESSION&&SESSION.name)||'מנהל'});
+    const i=TASKS_DB.indexOf(t);if(i>-1)TASKS_DB.splice(i,1);
+  });
+  trashSave();
   endSelMode();
   toastA(list.length+' משימות נמחקו','בטל מחיקה',()=>{
+    TRASH=TRASH.filter(e=>!sigs.includes(e.sig));trashSave();
     restorePos(snap);toast('המחיקה בוטלה');
   },8000);
 }
@@ -1813,6 +3237,9 @@ document.addEventListener('pointerdown',e=>{
   const t=e.target.closest('.wk-task');
   if(!t||e.button>0)return;
   if(t.classList.contains('is-done'))return; // משימה שהושלמה — לא ניתנת לגרירה
+  const _tk=byId(t.dataset.id);
+  if(_tk&&(_tk.cls==='live'||_tk.stage>=1))return; // נסיעה שכבר התחילה — לא ניתנת לגרירה
+  if(_tk&&_tk.cls==='ext')return; // משימה חיצונית — לא ניתנת לגרירה
   DND.el=t;DND.moved=false;DND.active=false;DND.sx=e.clientX;DND.sy=e.clientY;
   DND.src={id:+t.dataset.id,ri:+t.dataset.ri,date:t.dataset.date};
   if(e.pointerType==='touch'){
@@ -1943,6 +3370,11 @@ const CLIENTS=[
  {n:'מודיעין אזרחי בע"מ',contacts:['גיא אלון · 050-9090909']},
  {n:'מחצבות',contacts:['שלמה דהן · 054-5050505']},
 ];
+/* מזהי לקוחות: CLI-n */
+CLIENTS.forEach((c,i)=>{if(c.id===undefined)c.id=i+1});
+IDS.ensure('CLI',CLIENTS.length);
+const cliById=id=>CLIENTS.find(c=>c.id===+id);
+const cliByName=nm=>CLIENTS.find(c=>c.n===nm);
 const NT={type:'regular',start:null,end:null};
 /* ---- combobox: הקלדה + בחירה מרשימה ---- */
 function comboHTML(id,placeholder,initLabel,initV){
@@ -2022,7 +3454,7 @@ function openNewTask(ri,dateIso){
     <div class="f-row" id="f-time-row">
       <div class="fld" id="f-time"><label>שעת התייצבות</label><input type="time" id="ntTime"></div>
       <div class="fld" id="f-veh"><label>שיבוץ רכב <span class="hint">(טנטטיבי)</span></label>
-        ${comboHTML('cb-veh','בחר רכב',hasVeh?ROWS[ri].v.replace(' משוריין',''):'',hasVeh?ri:'')}
+        ${comboHTML('cb-veh','בחר רכב',hasVeh?ROWS[ri].v:'',hasVeh?ri:'')}
       </div>
     </div>
 
@@ -2040,7 +3472,7 @@ function openNewTask(ri,dateIso){
     <button class="btn btn-pri" id="ntSend" onclick="saveTask(true)">סיום ושליחה לנהג</button>
   </div>`;
   cbSet('cb-client',CLIENTS.map((c,i)=>({v:i,label:c.n})));
-  cbSet('cb-veh',ROWS.map((r,i)=>({v:i,label:r.v.replace(' משוריין','')+(r.arm?' 🛡':'')})).filter((_,i)=>!['משימת נהיגה','משימה חיצונית'].includes(ROWS[i].v)));
+  cbSet('cb-veh',ROWS.map((r,i)=>({v:i,label:r.v+(r.arm?' 🛡':'')})).filter((_,i)=>!['משימת נהיגה','משימה חיצונית'].includes(ROWS[i].v)));
   cbSet('cb-drv',[{v:'',label:'ללא שיבוץ כרגע'},...DRIVERS.map(d=>({v:d.n,label:d.n}))]);
   ntContacts();ntDates();
   $('#drawer').classList.add('open');$('#scrim').classList.add('open');
@@ -2096,7 +3528,7 @@ function saveTask(send){
   const client=$('#ntCasual')?.checked?($('#ntCasualName').value.trim()||undefined):(cbVal('cb-client')!==''?cbLabel('cb-client'):undefined);
   const time=$('#ntTime')?.value||undefined,loc=$('#ntLoc')?.value.trim()||undefined,notes=$('#ntNotes')?.value.trim()||undefined;
   for(let i=0;i<n;i++){
-    TASKS_DB.push({id:NEXT_ID++,ri,date:addD(s,i),n:name,drv:drv||undefined,cls,sid,client,time,loc,notes});
+    TASKS_DB.push({id:IDS.next('TSK'),ri,date:addD(s,i),n:name,drv:drv||undefined,cls,sid,client,time,loc,notes});
   }
   closeDrawer();
   WEEK_START=startOfWeek(s);
@@ -2140,29 +3572,6 @@ function renderTasks(q){
       <div><span class="l">שעות</span><span class="v">${t.h||'—'}</span></div>
     </div></div>`).join('');
 }
-function renderVeh(q){
-  q=(q||'').trim();
-  $('#vgrid').innerHTML=VEHICLES.filter(v=>!q||(v.n+v.plate).includes(q)).map(v=>{
-    const pct=Math.max(4,Math.min(100,v.svc/12000*100));
-    const col=v.svc<2000?'var(--red)':v.svc<4000?'var(--amber)':'var(--green)';
-    const st=v.st==='task'?'<span class="chip c-blue"><span class="dot"></span>במשימה</span>'
-      :v.st==='admin'?'<span class="chip c-violet"><span class="dot"></span>מנהלתית</span>'
-      :v.st==='down'?'<span class="chip c-red">מושבת</span>'
-      :'<span class="chip c-green"><span class="dot"></span>פנוי</span>';
-    return`<div class="card vcard" onclick="toast('כרטיס רכב: ${v.n} (דמו)')">
-    <div class="vtop"><div><div class="vname">${v.n} ${v.arm?'<span class="vshield">משוריין</span>':''}</div><div class="vplate">${v.plate}</div></div>${st}</div>
-    <div class="vstats">
-      <div class="vstat"><span class="l">ק"מ נוכחי</span><span class="v">${v.km.toLocaleString()}</span></div>
-      <div class="vstat"><span class="l">תוקף טסט</span><span class="v">${v.test}</span></div>
-    </div>
-    <div>
-      <div style="display:flex;justify-content:space-between;font-size:11.5px;color:var(--mut);margin-bottom:4px">
-        <span>ק"מ נותר לטיפול</span><b class="num" style="color:${col}">${v.svc.toLocaleString()}</b></div>
-      <div class="vbar"><i style="width:${pct}%;background:${col}"></i></div>
-    </div>
-    <div class="vfoot"><span>${v.loc}</span>${v.warn?`<span class="chip c-red">🔔 ${v.warn}</span>`:''}</div>
-    </div>`}).join('');
-}
 function openTask(id){
   const t=TASKS.find(x=>x.id===id)||TASKS[0];
   const steps=[
@@ -2190,14 +3599,76 @@ function openTask(id){
   </div>
   <div class="dr-foot">
     <button class="btn btn-gho" onclick="openEditTask(${t.id},'details')">עריכה</button>
-    <button class="btn btn-gho" onclick="toast('הודעה נשלחה לנהג (דמו)')">הודעה לנהג</button>
+    <button class="btn btn-gho" onclick="toast('הודעה נשלחה לנהג (דמו)')">שליחה לנהג</button>
     <button class="btn btn-pri" onclick="toast('שכפול משימה (דמו)')">שכפול</button>
   </div>`;
   $('#drawer').classList.add('open');$('#scrim').classList.add('open');
 }
-function closeDrawer(){$('#drawer').classList.remove('open');$('#scrim').classList.remove('open')}
-document.querySelectorAll('#nav button[data-v],#mnav button[data-v]').forEach(b=>b.onclick=()=>go(b.dataset.v));
-go('home');
+function closeDrawer(){
+  if(/^#(task|client|vehicle|driver)-/.test(location.hash))deepHash(window.CURV||'home');$('#drawer').classList.remove('open');$('#scrim').classList.remove('open')}
+document.querySelectorAll('#nav button[data-v]').forEach(b=>b.onclick=()=>go(b.dataset.v));
+
+/* ===== תפריט תחתון במובייל — שני עמודים, היומן במרכז ===== */
+const MN_I={
+  board:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><rect x="7" y="12" width="3" height="6" rx="1"/><rect x="12" y="8" width="3" height="10" rx="1"/><rect x="17" y="5" width="3" height="13" rx="1"/></svg>',
+  tasks:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5h10M9 12h10M9 19h10M4 5h.01M4 12h.01M4 19h.01"/></svg>',
+  home:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 4V2M16 4V2"/></svg>',
+  vehicles:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 16l1.5-5h11L19 16M5 16h14M5 16v3h2v-2h10v2h2v-3M8 8h8"/></svg>',
+  drivers:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></svg>',
+  clients:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.4 3.3-5 6.5-5s5.7 1.6 6.5 5"/><circle cx="17" cy="9" r="2.8"/><path d="M16 15.2c3 .2 5 1.7 5.5 4.8"/></svg>',
+  pay:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="13" rx="2"/><path d="M2 10h20"/></svg>',
+  expenses:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 3h14v18l-2.3-1.5L14.4 21l-2.4-1.5L9.6 21l-2.3-1.5L5 21z"/><path d="M9 8h6M9 12h6"/></svg>',
+  goDriver:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg>',
+};
+/* עמוד 1: דשבורד · משימות · יומן (מרכז) · רכבים · ‹ | עמוד 2: נהגים · לקוחות · שכר · הוצאות · › */
+const MN_PAGES=[['board','tasks','home','vehicles'],['drivers','clients','pay','expenses','_free','goDriver']]; /* _free: משבצת שמורה לעמוד הבא */
+let MN_PG=0;
+function renderMnav(){
+  const w=document.getElementById('mnav');if(!w)return;
+  const cur=document.querySelector('#nav button.on')?.dataset.v;
+  const btns=MN_PAGES[MN_PG].map(v=>
+    v==='_free'?'<button disabled style="visibility:hidden"></button>'
+    :v==='goDriver'
+      ?`<button title="מעבר לממשק נהג" onclick="location.href='911vip-driver.html'" style="color:var(--lime)">${MN_I[v]}</button>`
+      :`<button data-v="${v}" class="${cur===v?'on':''}" onclick="go('${v}')">${MN_I[v]}</button>`
+  ).join('');
+  const pager=`<button class="mn-pager" onclick="MN_PG=1-MN_PG;renderMnav()">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+      ${MN_PG===0?'<path d="M14 6l-6 6 6 6"/>':'<path d="M10 6l6 6-6 6"/>'}
+    </svg></button>`;
+  /* בעמוד 1 החץ בקצה השמאלי · בעמוד 2 חץ החזרה בקצה הימני */
+  w.innerHTML=MN_PG===0?btns+pager:pager+btns;
+}
+renderMnav();
+/* לכל עמוד קישור משלו: ‎#home ‎#tasks ‎#board ‎#vehicles ‎#drivers ‎#clients ‎#avail ‎#pay ‎#expenses */
+window.addEventListener('hashchange',()=>{
+  const v=location.hash.slice(1);
+  if(v&&views[v]&&v!==window.CURV){go(v);return}
+  if(/^(vehicle|driver|client|task)-/.test(v))routeHash(v);
+});
+/* קישור עמוק: עדכון שקט של שורת הכתובת — בלי רינדור מחדש ובלי הכבדה */
+function deepHash(h){try{history.replaceState(null,'','#'+h)}catch(e){}}
+function routeHash(h){
+  let m;
+  if(m=h.match(/^task-(\d+)$/)){go('home');if(byId(+m[1]))openJournalTask(+m[1]);return true}
+  if(m=h.match(/^vehicle-(\d+)$/)){const v=vehById(+m[1]);go('vehicles');if(v)openVehCard(v.n);return true}
+  if(m=h.match(/^driver-(\d+)$/)){const d=drvById(+m[1]);go('drivers');if(d){DRV_Q=d.n;go('drivers');deepHash('driver-'+d.id);}return true}
+  if(m=h.match(/^client-(\d+)$/)){const c=cliById(+m[1]);go('clients');if(c)openClientSummary(c.n,DEMO_TODAY);return true}
+  if(m=h.match(/^client-(.+)$/)){go('clients');openClientSummary(decodeURIComponent(m[1]),DEMO_TODAY);return true}
+  return false;
+}
+const _h0=location.hash.slice(1);
+if(!routeHash(_h0))go(views[_h0]?_h0:'home');
+/* שם המשתמש המחובר בפרופיל */
+if(SESSION){
+  const nm=document.getElementById('meName');
+  if(nm){
+    nm.textContent=SESSION.name;
+    if(SESSION.role==='manager')nm.insertAdjacentHTML('beforeend',
+      ' <span class="crown" title="מנהל" style="vertical-align:-2px"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M3 8l4.5 4L12 5l4.5 7L21 8l-1.6 10.2a1.5 1.5 0 01-1.5 1.3H6.1a1.5 1.5 0 01-1.5-1.3z"/></svg></span>');
+  }
+  const av=document.getElementById('meAva');if(av)av.textContent=SESSION.name.split(' ').map(x=>x[0]).join('');
+}
 </script>
 </body>
 </html>
