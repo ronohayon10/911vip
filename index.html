@@ -1140,6 +1140,9 @@ body.dragging-now .wk-wrap{overscroll-behavior:none}
 .set-stat{display:flex;align-items:center;justify-content:space-between;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:11px 14px;font-size:13px}
 .set-stat b{font-weight:800;color:var(--ink)}
 @media(max-width:760px){.set-grid{grid-template-columns:1fr}.set-ds-grid{grid-template-columns:1fr}}
+.set-danger{border-color:#E7C3BC;background:#FCF6F4}
+.set-wipe{background:var(--red);color:#fff;border:1px solid var(--red);font-weight:800}
+.set-wipe:hover{background:#A82E22;border-color:#A82E22}
 .podium{display:flex;align-items:flex-end;justify-content:center;gap:9px;padding:10px 2px 2px}
 .pod{flex:1;display:flex;flex-direction:column;align-items:center;min-width:0}
 .pod-card{text-align:center;width:100%;margin-bottom:8px;min-width:0}
@@ -1458,6 +1461,7 @@ const Store=(()=>{
   function getRaw(key){try{const r=localStorage.getItem(PREFIX+key);return r!=null?JSON.parse(r):null}catch(e){return null}}
   return {set,get,remove,reload,keys,getRaw,PREFIX};
 })();
+let _NOSEED=false;try{_NOSEED=Store.get('noseed',false)===true}catch(e){}
 
 /* ============================================================
    מזהים: מונה אינקרמנטלי מרכזי לכל ישות. נשמר ב-Store ולא חוזר
@@ -1482,8 +1486,8 @@ else if(SESSION.role==='driver'){location.replace('911vip-driver.html')}
 function vipLogout(){Store.remove('session');location.replace('911vip-login.html')}
 /* ================= DEMO DATA ================= */
 /* רשימת הרכבים האמיתית (vehicles.xlsx) · o = סדר תצוגה */
-const VEHICLES=(window.VIP_SEED&&window.VIP_SEED.vehicles)?window.VIP_SEED.vehicles.map(o=>Object.assign({},o)):[];
-const DRIVERS=(window.VIP_SEED&&window.VIP_SEED.drivers)?window.VIP_SEED.drivers.map(o=>Object.assign({},o)):[];
+const VEHICLES=(!_NOSEED&&window.VIP_SEED&&window.VIP_SEED.vehicles)?window.VIP_SEED.vehicles.map(o=>Object.assign({},o)):[];
+const DRIVERS=(!_NOSEED&&window.VIP_SEED&&window.VIP_SEED.drivers)?window.VIP_SEED.drivers.map(o=>Object.assign({},o)):[];
 /* מזהי נהגים: DRV-n לפי סדר ההגדרה */
 DRIVERS.forEach((d,i)=>{if(d.id===undefined)d.id=i+1});
 /* נהגים שנוספו דרך טופס "הוספת נהג" — נטענים מהמאגר המשותף */
@@ -1539,14 +1543,14 @@ const fmtHM=m=>Math.floor(m/60)+':'+String(Math.round(m%60)).padStart(2,'0');
 IDS.ensure('DRV',DRIVERS.length);
 const drvById=id=>DRIVERS.find(d=>d.id===+id);
 const drvByName=nm=>DRIVERS.find(d=>d.n===nm);
-const TASKS=(window.VIP_SEED&&window.VIP_SEED.weekTasks)?window.VIP_SEED.weekTasks:[];
-const FEED=(window.VIP_SEED&&window.VIP_SEED.feed)?window.VIP_SEED.feed:[];
-const ALERTS=(window.VIP_SEED&&window.VIP_SEED.alerts)?window.VIP_SEED.alerts:[];
+const TASKS=(!_NOSEED&&window.VIP_SEED&&window.VIP_SEED.weekTasks)?window.VIP_SEED.weekTasks:[];
+const FEED=(!_NOSEED&&window.VIP_SEED&&window.VIP_SEED.feed)?window.VIP_SEED.feed:[];
+const ALERTS=(!_NOSEED&&window.VIP_SEED&&window.VIP_SEED.alerts)?window.VIP_SEED.alerts:[];
 const HOURS=['06','08','10','12','14','16','18','20','22','24'];
-const TL=(window.VIP_SEED&&window.VIP_SEED.timeline)?window.VIP_SEED.timeline:[];
+const TL=(!_NOSEED&&window.VIP_SEED&&window.VIP_SEED.timeline)?window.VIP_SEED.timeline:[];
 const AV_DAYS=['א׳ 07/06','ב׳ 08/06','ג׳ 09/06','ד׳ 10/06','ה׳ 11/06','ו׳ 12/06','ש׳ 13/06'];
-const AVAIL=(window.VIP_SEED&&window.VIP_SEED.avail)?window.VIP_SEED.avail:[];
-const PAY=(window.VIP_SEED&&window.VIP_SEED.pay)?window.VIP_SEED.pay:[];
+const AVAIL=(!_NOSEED&&window.VIP_SEED&&window.VIP_SEED.avail)?window.VIP_SEED.avail:[];
+const PAY=(!_NOSEED&&window.VIP_SEED&&window.VIP_SEED.pay)?window.VIP_SEED.pay:[];
 
 /* ===== מודל תאריכים ===== */
 const DEMO_TODAY=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Jerusalem',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date()); // היום האמיתי לפי שעון ישראל
@@ -1642,9 +1646,9 @@ function resolveTaskRi(t){
 }
 
 /* משימות לפי תאריך אמיתי. ri = אינדקס רכב */
-const TASKS_DB=(window.VIP_SEED&&window.VIP_SEED.tasks)?window.VIP_SEED.tasks(DEMO_TODAY,addD):[];
+const TASKS_DB=(!_NOSEED&&window.VIP_SEED&&window.VIP_SEED.tasks)?window.VIP_SEED.tasks(DEMO_TODAY,addD):[];
 /* קישור משימות דמו ללקוחות — בייצור: client_id מטבלת הלקוחות */
-const CLIENT_OF=(window.VIP_SEED&&window.VIP_SEED.clientOf)?window.VIP_SEED.clientOf:{};
+const CLIENT_OF=(!_NOSEED&&window.VIP_SEED&&window.VIP_SEED.clientOf)?window.VIP_SEED.clientOf:{};
 TASKS_DB.forEach(t=>{if(!t.client&&CLIENT_OF[t.n])t.client=CLIENT_OF[t.n]});
 TASKS_DB.forEach((t,i)=>{if(t.id===undefined)t.id=i+1});
 IDS.ensure('TSK',TASKS_DB.length);
@@ -1818,7 +1822,7 @@ function suggestNextSvc(km,plannedNext){
 /* היסטוריית טיפולים לרכב (מהדמו + מה שנשמר) */
 let SVC_LOG=Store.get('svclog',null);
 if(!SVC_LOG){
-  SVC_LOG=(window.VIP_SEED&&window.VIP_SEED.services)?window.VIP_SEED.services:{};
+  SVC_LOG=(!_NOSEED&&window.VIP_SEED&&window.VIP_SEED.services)?window.VIP_SEED.services:{};
   Store.set('svclog',SVC_LOG);
 }
 function svcOf(name){return SVC_LOG[name]||[]}
@@ -2246,7 +2250,7 @@ views.clients=()=>{
 };
 
 /* ===== הוצאות ===== */
-const EXPENSES=(window.VIP_SEED&&window.VIP_SEED.expenses)?window.VIP_SEED.expenses(DEMO_TODAY,addD):[];
+const EXPENSES=(!_NOSEED&&window.VIP_SEED&&window.VIP_SEED.expenses)?window.VIP_SEED.expenses(DEMO_TODAY,addD):[];
 EXPENSES.forEach((e,i)=>{if(e.id===undefined)e.id=i+1});
 IDS.ensure('EXP',EXPENSES.length);
 const expById=id=>EXPENSES.find(e=>e.id===+id);
@@ -2490,7 +2494,7 @@ const ftypeOf=id=>FTYPES.find(t=>t.id===id)||{id:'other',name:'אחר',color:'#9
 const fimpOf=id=>FIMPS.find(i=>i.id===id)||FIMPS[0];
 let FAULTS2=Store.get('faults2',null);
 if(!FAULTS2){
-  FAULTS2=(window.VIP_SEED&&window.VIP_SEED.faults)?window.VIP_SEED.faults.map(o=>Object.assign({},o)):[];
+  FAULTS2=(!_NOSEED&&window.VIP_SEED&&window.VIP_SEED.faults)?window.VIP_SEED.faults.map(o=>Object.assign({},o)):[];
   Store.set('faults2',FAULTS2);
 }
 function faults2Save(){Store.set('faults2',FAULTS2)}
@@ -4050,6 +4054,26 @@ function autoBackupCheck(){
   }catch(e){}
 }
 function downloadAutoBackup(){const bk=Store.get('autobackup',null);if(!bk){toast('טרם נוצר גיבוי אוטומטי');return;}_dl('911vip-גיבוי-אוטומטי-'+_stamp()+'.json',bk);toast('הגיבוי האוטומטי הורד ✓');}
+function loadSampleData(){
+  showConfirm('טעינת נתוני דוגמה','לטעון מחדש את נתוני הבסיס (הדמו)? נתונים שהוספת ידנית יישמרו, אך נתוני הבסיס יחזרו.',()=>{
+    try{Store.remove('noseed');toast('טוען נתוני בסיס…');setTimeout(()=>{try{location.reload()}catch(e){}},500);}catch(e){toast('הפעולה נכשלה')}
+  },'טעינה');
+}
+function wipeAllData(){
+  const PW='250725';
+  let p1;try{p1=window.prompt('מחיקת כל הנתונים — אימות 1 מתוך 2\nהזן סיסמה:')}catch(e){p1=null}
+  if(p1===null)return;
+  if(p1.trim()!==PW){toast('סיסמה שגויה — המחיקה בוטלה');return;}
+  let p2;try{p2=window.prompt('אישור סופי — אימות 2 מתוך 2\nהזן שוב את הסיסמה למחיקה מוחלטת:')}catch(e){p2=null}
+  if(p2===null)return;
+  if(p2.trim()!==PW){toast('סיסמה שגויה — המחיקה בוטלה');return;}
+  try{
+    Store.keys().forEach(k=>Store.remove(k)); /* מחיקת כל מפתחות vip_ כולל גיבוי אוטומטי */
+    Store.set('noseed',true);                 /* מונע טעינה חוזרת של נתוני הבסיס — המערכת תישאר ריקה */
+    toast('כל הנתונים נמחקו · מאפס…');
+    setTimeout(()=>{try{location.reload()}catch(e){}},700);
+  }catch(e){toast('המחיקה נכשלה')}
+}
 views.settings=()=>{
   const m=Store.get('autobackupMeta',null);
   const lastTxt=(m&&m.at)?new Date(m.at).toLocaleString('he-IL',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}):'טרם בוצע';
@@ -4085,6 +4109,12 @@ views.settings=()=>{
     <div class="card set-card">
       <div class="set-h"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v6c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 11v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg>אחסון הנתונים</div>
       <p class="set-note">כל הנתונים נשמרים במסד הנתונים המקומי של הדפדפן (Database). הקוד עצמו הוא תבנית בלבד — נתוני הבסיס הראשוניים נמצאים בקובץ החיצוני <b>911vip-data.js</b>. מומלץ לשמור גיבוי חיצוני באופן קבוע.</p>
+    </div>
+    <div class="card set-card set-danger">
+      <div class="set-h" style="color:var(--red)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14M10 11v5M14 11v5"/></svg>אזור בדיקות</div>
+      <p class="set-note">מחיקת <b>כל</b> הנתונים שנשמרו בדפדפן (זמניים וקבועים) ואיפוס המערכת. מיועד לבדיקות בלבד · דורש אימות סיסמה כפול · אינו ניתן לביטול.</p>
+      <button class="btn set-wipe" style="width:100%;justify-content:center" onclick="wipeAllData()">מחיקת כל הנתונים</button>
+      <button class="btn btn-gho" style="width:100%;justify-content:center;margin-top:9px" onclick="loadSampleData()">טעינת נתוני דוגמה (איפוס לבסיס)</button>
     </div>
   </div>`;
 };
@@ -4778,7 +4808,7 @@ function endDrag(){
 }
 
 /* ============ טופס הקמת משימה ============ */
-const CLIENTS=(window.VIP_SEED&&window.VIP_SEED.clients)?window.VIP_SEED.clients.map(c=>Object.assign({},c,{contacts:(c.contacts||[]).slice()})):[];
+const CLIENTS=(!_NOSEED&&window.VIP_SEED&&window.VIP_SEED.clients)?window.VIP_SEED.clients.map(c=>Object.assign({},c,{contacts:(c.contacts||[]).slice()})):[];
 /* מזהי לקוחות: CLI-n */
 CLIENTS.forEach((c,i)=>{if(c.id===undefined)c.id=i+1});
 /* אנשי קשר שנוספו דרך טופס משימה — נשמרים לכרטיס הלקוח ומוצעים בעתיד */
