@@ -1539,60 +1539,14 @@ const fmtHM=m=>Math.floor(m/60)+':'+String(Math.round(m%60)).padStart(2,'0');
 IDS.ensure('DRV',DRIVERS.length);
 const drvById=id=>DRIVERS.find(d=>d.id===+id);
 const drvByName=nm=>DRIVERS.find(d=>d.n===nm);
-const TASKS=[
- {id:1,name:'צבי סוכות',client:'כנסת ישראל',drv:'טירן שרון',veh:'סברבן משוריין 603',day:'חמישי',date:'11/06',s:'08:32',rel:'11:47',e:'13:02',km:106,st:'live',h:'04:30'},
- {id:2,name:'תפוצות',client:'מודיעין אזרחי בע"מ',drv:'דוד יעקב',veh:'',day:'חמישי',date:'11/06',s:'09:10',rel:'',e:'',km:0,st:'pend',h:''},
- {id:3,name:'חדשות 13',client:'חדשות 10 בע"מ',drv:'בר בנימין',veh:'סברבן משוריין 901',day:'רביעי',date:'10/06',s:'06:30',rel:'10:52',e:'11:07',km:33,st:'done',h:'04:37'},
- {id:4,name:'לפיד',client:'כנסת ישראל',drv:'אופיר אוחיון',veh:'קאדילק משוריין 003',day:'רביעי',date:'10/06',s:'13:09',rel:'23:29',e:'23:55',km:104,st:'done',h:'10:46'},
- {id:5,name:'בית הנשיא',client:'בית הנשיא',drv:'טירן שרון',veh:'סברבן משוריין 603',day:'רביעי',date:'10/06',s:'04:43',rel:'14:22',e:'17:30',km:567,st:'done',h:'12:47'},
- {id:6,name:'תחבורה',client:'משרד ראש הממשלה',drv:'איתן אוחיון',veh:'סברבן משוריין 203',day:'רביעי',date:'10/06',s:'14:55',rel:'20:10',e:'21:09',km:132,st:'done',h:'06:14'},
- {id:7,name:'בית הנשיא',client:'בית הנשיא',drv:'שבי מזרחי',veh:'קאדילק משוריין 004',day:'רביעי',date:'10/06',s:'04:39',rel:'17:18',e:'17:45',km:590,st:'done',h:'13:06'},
- {id:8,name:'מחצבות (נוף ים)',client:'מחצבות',drv:'דוד יעקב',veh:'ספרינטר משוריין 290',day:'ראשון',date:'07/06',s:'06:42',rel:'15:26',e:'17:00',km:135,st:'done',h:'10:18'},
- {id:9,name:'עליה וקליטה',client:'משרד ראש הממשלה',drv:'עמיר אלוני',veh:'סברבן משוריין 203',day:'ראשון',date:'07/06',s:'16:48',rel:'18:14',e:'18:14',km:66,st:'done',h:'01:26'},
-];
-const FEED=[
- {t:'13:02',x:'<b>צבי סוכות</b> — הסתיימה. הרכב במיקום: כנסת ישראל'},
- {t:'11:47',x:'<b>צבי סוכות</b> — הסרת אחריות במיקום כנסת ישראל'},
- {t:'09:10',x:'<b>תפוצות</b> — דוד יעקב יצא לנסיעה מנהלתית'},
- {t:'08:32',x:'יציאה למשימה <b>צבי סוכות</b> — טירן שרון, סברבן 603'},
- {t:'07:55',x:'תזכורת נשלחה: <b>בית הנשיא</b> מחר 04:30 — טרם אושר ע"י הנהג'},
-];
-const ALERTS=[
- {ic:'red',t:'קאדילק רך 403 — טסט וביטוח פגי תוקף החודש',s:'טסט 03/07 · ביטוח 30/06 · הרכב מושבת'},
- {ic:'amber',t:'מרצדס S — טסט מתקרב',s:'בתוקף עד 30/06/2026 · 19 ימים'},
- {ic:'amber',t:'קאדילק 004 — 1,513 ק"מ לטיפול',s:'טיפול הבא ב-57,500 ק"מ'},
- {ic:'blue',t:'שחר שמאי לא אישר שיבוץ למחר',s:'משימת בית הנשיא · נשלחה תזכורת לפני שעה'},
-];
+const TASKS=(window.VIP_SEED&&window.VIP_SEED.weekTasks)?window.VIP_SEED.weekTasks:[];
+const FEED=(window.VIP_SEED&&window.VIP_SEED.feed)?window.VIP_SEED.feed:[];
+const ALERTS=(window.VIP_SEED&&window.VIP_SEED.alerts)?window.VIP_SEED.alerts:[];
 const HOURS=['06','08','10','12','14','16','18','20','22','24'];
-const TL=[
- {veh:'סברבן 603',bars:[{s:8.53,e:13.03,n:'צבי סוכות · טירן',cls:'live-bar'}]},
- {veh:'מודיעין אזרחי',bars:[{s:9.16,e:11.5,n:'מנהלתית · דוד יעקב',cls:'admin'}]},
- {veh:'סברבן 203',bars:[{s:14.9,e:21.15,n:'תחבורה · איתן',cls:''}]},
- {veh:'קאדילק 003',bars:[{s:13.15,e:23.9,n:'לפיד · אופיר',cls:''}]},
- {veh:'סברבן 901',bars:[{s:6.5,e:11.1,n:'חדשות 13 · בר',cls:'done'}]},
-];
+const TL=(window.VIP_SEED&&window.VIP_SEED.timeline)?window.VIP_SEED.timeline:[];
 const AV_DAYS=['א׳ 07/06','ב׳ 08/06','ג׳ 09/06','ד׳ 10/06','ה׳ 11/06','ו׳ 12/06','ש׳ 13/06'];
-const AVAIL=[
- {n:'עמיר אלוני',d:['task:עליה וקליטה','y','y','y','y','y','y']},
- {n:'בר בנימין',d:['task:מחצבות','y','y','task:חדשות 13','y','y','y']},
- {n:'דוד יעקב',d:['task:מחצבות','y','y','task:תפוצות','task:תפוצות','n','n']},
- {n:'טירן שרון',d:['n','task:בית הנשיא','y','task:בית הנשיא','task:צבי סוכות','p:עד 16:00','n']},
- {n:'שבי מזרחי',d:['y','p:עד שש בערב','y','task:בית הנשיא','p:עד שש בערב','task:ביסמוט','y']},
- {n:'שחר שמאי',d:['p:מ-15:30','p:מ-15:30','p:מ-18:30','n','n','n','n']},
- {n:'דניס פרוסקוב',d:['y','y','n','n','n','n','n']},
- {n:'דורון גולדברג',d:['t','t','t','t','t','t','t']},
-];
-const PAY=[
- {n:'משימה מנהלתית',d:'02/06 · שלישי',h:'00:54',v:63.00,adm:1},
- {n:'ECI',d:'03/06 · רביעי',h:'12:55',v:904.40},
- {n:'IBC',d:'04/06 · חמישי',h:'05:55',v:414.40,warn:1},
- {n:'משימה מנהלתית',d:'06/06 · שבת',h:'00:55',v:64.40,adm:1},
- {n:'מחצבות',d:'07/06 · ראשון',h:'12:32',v:877.10},
- {n:'משימה מנהלתית',d:'09/06 · שלישי',h:'00:45',v:52.50,adm:1},
- {n:'חדשות 13',d:'10/06 · רביעי',h:'04:37',v:323.40,warn:1},
- {n:'משימה מנהלתית',d:'10/06 · רביעי',h:'05:56',v:415.10,adm:1},
- {n:'הוצאות · נוזל שמשות',d:'30/06',h:'',v:25.00,exp:1},
-];
+const AVAIL=(window.VIP_SEED&&window.VIP_SEED.avail)?window.VIP_SEED.avail:[];
+const PAY=(window.VIP_SEED&&window.VIP_SEED.pay)?window.VIP_SEED.pay:[];
 
 /* ===== מודל תאריכים ===== */
 const DEMO_TODAY=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Jerusalem',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date()); // היום האמיתי לפי שעון ישראל
@@ -1692,7 +1646,7 @@ const TASKS_DB=(window.VIP_SEED&&window.VIP_SEED.tasks)?window.VIP_SEED.tasks(DE
 /* '81' — נהיגה עצמית קבועה */
 for(let i=0;i<14;i++)TASKS_DB.push({ri:15,date:addD('2026-06-07',i),n:'81',cls:'self'});
 /* קישור משימות דמו ללקוחות — בייצור: client_id מטבלת הלקוחות */
-const CLIENT_OF={'בית הנשיא':'בית הנשיא','כנסת ישראל':'כנסת ישראל','צבי סוכות':'כנסת ישראל','תחבורה':'כנסת ישראל','חדשות 13':'חדשות 10 בע"מ','איגור':'ECI אי סי איי טלקום','ECI':'ECI אי סי איי טלקום','IBC':'IBC — איי בי סי','מחצבות':'מחצבות','לפיד':'משרד ראש הממשלה','ביסמוט':'משרד ראש הממשלה','טום ניידס':'משרד ראש הממשלה','עליה וקליטה':'משרד ראש הממשלה','איסוף שגריר':'משרד ראש הממשלה'};
+const CLIENT_OF=(window.VIP_SEED&&window.VIP_SEED.clientOf)?window.VIP_SEED.clientOf:{};
 TASKS_DB.forEach(t=>{if(!t.client&&CLIENT_OF[t.n])t.client=CLIENT_OF[t.n]});
 TASKS_DB.forEach((t,i)=>{if(t.id===undefined)t.id=i+1});
 IDS.ensure('TSK',TASKS_DB.length);
@@ -2294,13 +2248,7 @@ views.clients=()=>{
 };
 
 /* ===== הוצאות ===== */
-const EXPENSES=[
- {id:1,date:addD(DEMO_TODAY,-1),drv:'בר בנימין',veh:'סברבן 901',what:'תדלוק',amt:420,st:'ok'},
- {id:2,date:addD(DEMO_TODAY,-1),drv:'טירן שרון',veh:'סברבן 603',what:'שטיפה',amt:80,st:'ok'},
- {id:3,date:DEMO_TODAY,drv:'דוד יעקב',veh:'ספרינטר 290',what:'חניה',amt:36,st:'pend'},
- {id:4,date:DEMO_TODAY,drv:'טירן שרון',veh:'סברבן 603',what:'תדלוק',amt:510,st:'pend'},
- {id:5,date:addD(DEMO_TODAY,-3),drv:'שבי מזרחי',veh:'קאדילק 004',what:'כביש 6',amt:64,st:'ok'},
-];
+const EXPENSES=(window.VIP_SEED&&window.VIP_SEED.expenses)?window.VIP_SEED.expenses(DEMO_TODAY,addD):[];
 EXPENSES.forEach((e,i)=>{if(e.id===undefined)e.id=i+1});
 IDS.ensure('EXP',EXPENSES.length);
 const expById=id=>EXPENSES.find(e=>e.id===+id);

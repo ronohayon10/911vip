@@ -454,6 +454,7 @@ input,select,textarea{font-family:inherit}
 <div class="sheet" id="sheet"></div>
 <div class="toast" id="toast"></div>
 
+<script src="911vip-data.js"></script>
 <script>
 /* ============================================================
    Store — שכבת אחסון מרכזית אחת לכל המערכת (זהה בכל הקבצים).
@@ -478,7 +479,7 @@ if(sessionExpired(SESSION)){Store.remove('session');location.replace('911vip-log
 function vipLogout(){Store.remove('session');location.replace('911vip-login.html')}
 /* נהג מחובר (דמו). במערכת אמיתית: OTP, והשרת מחזיר רק את נתוני הנהג.
    הרשאות: נהג ניגש אך ורק לעמוד זה · מנהל/סדרן ניגשים לכל העמודים ופועלים גם כנהג. */
-const ME={n:'טירן שרון',rate:70,rateS:90,home:'מבשרת ציון, האלון 12'}; /* תעריף אחיד לכל הנהגים: 70 חול · 90 שבת */
+const ME=(window.VIP_SEED&&window.VIP_SEED.driver&&window.VIP_SEED.driver.me)?window.VIP_SEED.driver.me:{}; /* תעריף אחיד לכל הנהגים: 70 חול · 90 שבת */
 const DEMO_TODAY=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Jerusalem',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date()); // היום האמיתי לפי שעון ישראל
 const DAY_NAMES=['ראשון','שני','שלישי','רביעי','חמישי','שישי','שבת'];
 const fromIso=s=>new Date(s+'T00:00:00');
@@ -493,51 +494,14 @@ function waHref(p){const i=ilIntl(p);return i?'https://wa.me/'+i:''}
 const dayLabel=s=>DAY_NAMES[fromIso(s).getDay()]+' '+ddmm(s);
 const nowHM=()=>{const d=new Date();return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')};
 
-let VEHICLES=[
- {n:'קאדילק 003',loc:'מוסך רחובות',km:87652,arm:1},
- {n:'קאדילק 004',loc:'הר חוצבים',km:55987,arm:1},
- {n:'סברבן 904',loc:'המצור ירושלים',km:16269,arm:1},
- {n:'סברבן 603',loc:'ראשל"צ ויקטורי',km:99218,arm:1},
- {n:'סברבן 203',loc:'קדר',km:104807,arm:1},
- {n:'טאהו 303',loc:'רון ויקטורי',km:91888,arm:1},
- {n:'סילברדו 503',loc:'פיק"א 44',km:10300,arm:1},
- {n:'סילברדו 801',loc:'הכרכום 11, מעלה אדומים',km:10300,arm:1},
- {n:'סברבן 901',loc:'גבעת זאב, רח׳ הזית',km:239563,arm:1},
- {n:'ספרינטר 911',loc:'ראשל"צ ויקטורי',km:82000,arm:1},
- {n:'ספרינטר 290',loc:'רון',km:104326,arm:1},
- {n:'טאהו רך 703',loc:'החומה מעלה אדומים',km:82444,arm:0},
- {n:'סברבן רך 803',loc:'מבשרת - אליאב',km:50000,arm:0},
- {n:'קאדילק רך 403',loc:'מוסך רחובות',km:50000,arm:0},
- {n:'קאדילק אסקלייד V',loc:'קידר',km:50000,arm:0},
-];
+let VEHICLES=(window.VIP_SEED&&window.VIP_SEED.driver&&window.VIP_SEED.driver.vehicles)?window.VIP_SEED.driver.vehicles:[];
 /* אם המנהל פרסם את רשימת הרכבים הקנונית (שמות מלאים) — נשתמש בה, כדי שדיווחי ק"מ
    (כולל נסיעה מנהלתית) יגיעו לרכב הנכון אצל המנהל */
 try{const _vl=Store.get('vehlist',null);if(_vl&&Array.isArray(_vl)&&_vl.length)VEHICLES=_vl;}catch(e){}
 VEHICLES.forEach(v=>{if(v.oilType===undefined)v.oilType='5W-30'});
 
 /* stage: -1 ממתין לאישור · 0 מאושרת · 1 בנסיעה · 2 אחרי הסרת אחריות · 3 הסתיימה */
-const DEMO_TASKS=[
- /* טירן שרון */
- {id:1,drv:'טירן שרון',n:'צבי סוכות',client:'כנסת ישראל',date:DEMO_TODAY,time:'06:30',loc:'ראשל"צ ויקטורי',veh:'סברבן 603',stage:1,
-  ts:{start:'06:30'},km:{start:'99218'},rts:{ap:'21:14',start:'06:31'},locs:{}},
- {id:2,drv:'טירן שרון',n:'בית הנשיא',client:'בית הנשיא',date:addD(DEMO_TODAY,1),time:'07:45',loc:'הר חוצבים',veh:'סברבן 603',stage:-1,ts:{},km:{},rts:{},locs:{}},
- {id:3,drv:'טירן שרון',n:'איגור',client:'ECI',date:addD(DEMO_TODAY,2),time:'09:00',loc:'קידר',veh:'קאדילק אסקלייד V',stage:-1,ts:{},km:{},rts:{},locs:{}},
- {id:4,drv:'טירן שרון',n:'בית הנשיא',client:'בית הנשיא',date:addD(DEMO_TODAY,-1),time:'07:30',loc:'הר חוצבים',veh:'סברבן 603',stage:3,
-  ts:{start:'07:25',rel:'13:10',end:'13:55'},km:{start:'99102',rel:'99166',end:'99180'},rts:{ap:'20:02',start:'07:26',rel:'13:11',end:'13:57'},locs:{rel:'בית הנשיא',end:'בית'}},
- /* רון אוחיון */
- {id:5,drv:'רון אוחיון',n:'ליווי אח"מ — נתב"ג',client:'משרד ראש הממשלה',date:DEMO_TODAY,time:'18:00',loc:'טרמינל 3 · שער VIP',veh:'קאדילק 004',stage:-1,note:'האח"מ מגיע בטיסה LY028. להמתין בשער היציאה עם שלט.',contact:{name:'דנה לוי (לשכה)',phone:'052-880-4417'},ts:{},km:{},rts:{},locs:{}},
- {id:12,drv:'רון אוחיון',n:'הסעת בוקר — קריה',client:'משרד הביטחון',date:DEMO_TODAY,time:'07:30',loc:'מגורי הנוסע · רעננה',veh:'קאדילק 004',stage:-1,note:'איסוף מהבית, נסיעה ישירה לקריה בת"א.',contact:{name:'אמיר (מאבטח אישי)',phone:'0547778899'},ts:{},km:{},rts:{},locs:{}},
- {id:6,drv:'רון אוחיון',n:'סיור ביטחוני',client:'ECI',date:addD(DEMO_TODAY,2),time:'08:30',loc:'קריית הממשלה ת"א',veh:'טאהו 303',stage:-1,ts:{},km:{},rts:{},locs:{}},
- {id:7,drv:'רון אוחיון',n:'ועידת חירום — ירושלים',client:'משרד ראש הממשלה',date:addD(DEMO_TODAY,-2),time:'06:00',loc:'',veh:'קאדילק 004',stage:3,
-  ts:{start:'05:50',rel:'14:20',end:'15:05'},km:{start:'55720',rel:'55905',end:'55960'},rts:{ap:'19:11',start:'05:52',rel:'14:21',end:'15:06'},locs:{rel:'בנייני האומה',end:'בית'}},
- /* אופיר אוחיון */
- {id:8,drv:'אופיר אוחיון',n:'בית הנשיא',client:'בית הנשיא',date:addD(DEMO_TODAY,1),time:'07:00',loc:'הר חוצבים',veh:'סברבן 904',stage:-1,ts:{},km:{},rts:{},locs:{}},
- {id:9,drv:'אופיר אוחיון',n:'חדשות — אולפן',client:'חדשות 10 בע"מ',date:addD(DEMO_TODAY,-1),time:'16:00',loc:'',veh:'ספרינטר 290',stage:3,
-  ts:{start:'15:45',rel:'22:30',end:'23:10'},km:{start:'104210',rel:'104298',end:'104326'},rts:{ap:'12:40',start:'15:47',rel:'22:31',end:'23:12'},locs:{rel:'אולפני נווה אילן',end:'בית'}},
- /* בר בנימין · שבי מזרחי */
- {id:10,drv:'בר בנימין',n:'ביסמוט',client:'משרד ראש הממשלה',date:addD(DEMO_TODAY,1),time:'08:15',loc:'קריה ת"א',veh:'סברבן 901',stage:-1,ts:{},km:{},rts:{},locs:{}},
- {id:11,drv:'שבי מזרחי',n:'בית הנשיא',client:'בית הנשיא',date:DEMO_TODAY,time:'07:30',loc:'הר חוצבים',veh:'קאדילק 003',stage:-1,ts:{},km:{},rts:{},locs:{}},
-];
+const DEMO_TASKS=(window.VIP_SEED&&window.VIP_SEED.driver&&window.VIP_SEED.driver.tasks)?window.VIP_SEED.driver.tasks(DEMO_TODAY,addD):[];
 let NEXT_ID=100;
 
 /* ===== DB משותף — מקור אמת אחד לנהג ולמנהל (localStorage 'tasks') =====
@@ -1069,10 +1033,7 @@ views.pay=()=>{
 }
 
 /* ================= הוצאות ================= */
-let MY_EXP=[
- {date:addD(DEMO_TODAY,-1),what:'שטיפה',veh:'סברבן 603',amt:80,st:'ok'},
- {date:DEMO_TODAY,what:'תדלוק',veh:'סברבן 603',amt:510,st:'pend'},
-];
+let MY_EXP=(window.VIP_SEED&&window.VIP_SEED.driver&&window.VIP_SEED.driver.expenses)?window.VIP_SEED.driver.expenses(DEMO_TODAY,addD):[];
 views.exp=()=>{
   const tot=MY_EXP.reduce((s,e)=>s+e.amt,0);
   const pend=MY_EXP.filter(e=>e.st==='pend').length;
