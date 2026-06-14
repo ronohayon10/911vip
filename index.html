@@ -4019,8 +4019,8 @@ function _dcount(g){const v=g();return Array.isArray(v)?v.length:Object.keys(v||
 function downloadDataset(name){const ds=DATASETS[name];if(!ds)return;_dl('911vip-'+name+'-'+_stamp()+'.json',{meta:{app:'911vip',type:'dataset',dataset:name,at:new Date().toISOString()},data:ds.get()});toast(ds.label+' הורדו ✓');}
 function restoreFromBackup(obj){
   const meta=(obj&&obj.meta)||obj||{};
-  if(meta.app!=='911vip'){toast('קובץ לא מזוהה כגיבוי 911VIP');return;}
-  if(meta.type==='full'&&obj.store){
+  /* גיבוי מלא — מזוהה לפי קיום אובייקט store (גם אם meta.app חסר/ישן) */
+  if(obj&&obj.store&&typeof obj.store==='object'){
     showConfirm('שחזור גיבוי מלא','פעולה זו תחליף את כל הנתונים הקיימים בנתוני הגיבוי. הפעולה אינה ניתנת לביטול. להמשיך?',()=>{
       try{
         Store.keys().forEach(k=>{if(k!=='autobackup')Store.remove(k);});
@@ -4029,9 +4029,10 @@ function restoreFromBackup(obj){
         setTimeout(()=>{try{location.reload()}catch(e){}},600);
       }catch(e){toast('השחזור נכשל')}
     },'שחזור');
-  } else if(meta.type==='dataset'){
-    toast('זהו קובץ מערך בודד · לשחזור העלה קובץ «גיבוי מלא»');
-  } else {toast('סוג קובץ לא נתמך לשחזור')}
+    return;
+  }
+  if(meta.type==='dataset'||obj&&obj.data){toast('זהו קובץ מערך בודד · לשחזור מלא העלה קובץ «גיבוי מלא»');return;}
+  toast('הקובץ אינו גיבוי 911VIP תקין');
 }
 function importBackupFile(input){
   const f=input.files&&input.files[0];if(!f)return;
@@ -4065,8 +4066,8 @@ views.settings=()=>{
       <p class="set-note">הורדת קובץ JSON אחד עם כל נתוני המערכת — לקוחות, רכבים, נהגים, משימות, טיפולים, תקלות ובדיקות.</p>
       <button class="btn btn-pri" style="width:100%;justify-content:center" onclick="downloadBackup()">הורדת גיבוי מלא</button>
       <div class="set-up">
-        <label class="btn btn-gho" style="width:100%;justify-content:center;cursor:pointer">העלאת גיבוי לשחזור
-          <input type="file" accept="application/json,.json" style="display:none" onchange="importBackupFile(this)"></label>
+        <input type="file" id="bk-import" accept=".json,application/json,text/json,text/plain" style="display:none" onchange="importBackupFile(this)">
+        <button class="btn btn-gho" style="width:100%;justify-content:center" onclick="document.getElementById('bk-import').click()">העלאת גיבוי לשחזור</button>
         <p class="set-note" style="margin-top:8px">השחזור יחליף את כל הנתונים הקיימים בדפדפן.</p>
       </div>
     </div>
