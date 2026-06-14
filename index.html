@@ -1643,8 +1643,6 @@ function resolveTaskRi(t){
 
 /* משימות לפי תאריך אמיתי. ri = אינדקס רכב */
 const TASKS_DB=(window.VIP_SEED&&window.VIP_SEED.tasks)?window.VIP_SEED.tasks(DEMO_TODAY,addD):[];
-/* '81' — נהיגה עצמית קבועה */
-for(let i=0;i<14;i++)TASKS_DB.push({ri:15,date:addD('2026-06-07',i),n:'81',cls:'self'});
 /* קישור משימות דמו ללקוחות — בייצור: client_id מטבלת הלקוחות */
 const CLIENT_OF=(window.VIP_SEED&&window.VIP_SEED.clientOf)?window.VIP_SEED.clientOf:{};
 TASKS_DB.forEach(t=>{if(!t.client&&CLIENT_OF[t.n])t.client=CLIENT_OF[t.n]});
