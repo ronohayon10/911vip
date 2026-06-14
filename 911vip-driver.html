@@ -54,10 +54,10 @@ input,select,textarea{font-family:inherit}
   border-radius:0 0 30px 30px;
   position:relative;z-index:1;
 }
-.hd-row{display:flex;align-items:center;gap:12px}
-.hd img{height:26px;opacity:.95}
+.hd-row{display:flex;align-items:center;gap:9px}
+.hd img{height:26px;opacity:.95;margin-inline-end:auto}
 .hd .mgr{
-  margin-inline-start:auto;font-size:10.5px;color:#9DA0A6;text-decoration:none;
+  font-size:10.5px;color:#9DA0A6;text-decoration:none;
   border:1px solid #2A2C30;border-radius:999px;padding:5px 11px;font-weight:600;
 }
 .hd .hello{margin-top:16px}
@@ -92,7 +92,36 @@ input,select,textarea{font-family:inherit}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 .h-status .when{margin-inline-start:auto;font-size:11.5px;color:var(--mut);font-weight:700}
 .hero h2{font-size:24px;letter-spacing:-.01em}
-.hero .cl{font-size:13px;color:var(--mut);font-weight:600;margin-top:2px}
+.h-title{display:flex;align-items:baseline;justify-content:space-between;gap:14px}
+.h-title h2{flex:1;min-width:0}
+.h-date{font-size:24px;font-weight:800;color:var(--ink);letter-spacing:-.01em;white-space:nowrap;line-height:1.1}
+.tnote{margin-top:12px;border:1px solid var(--line);border-radius:12px;padding:9px 12px;font-size:13.5px;font-weight:600;color:var(--ink);line-height:1.5}
+.ti-sum{display:flex;gap:10px;margin-bottom:14px}
+.ti-sum-c{flex:1;background:var(--paper);border-radius:13px;padding:11px 13px}
+.ti-sum-c span{display:flex;align-items:center;gap:5px;font-size:11.5px;font-weight:700;color:var(--mut);margin-bottom:5px}
+.ti-sum-c b{font-size:20px;letter-spacing:-.01em}
+.ti-tl{position:relative;padding-inline-start:18px;margin-top:2px}
+.ti-tl::before{content:'';position:absolute;inset-inline-start:5px;top:8px;bottom:10px;width:2px;background:var(--line)}
+.ti-tl-i{position:relative;padding:0 0 15px}
+.ti-tl-i:last-child{padding-bottom:2px}
+.ti-tl-i::before{content:'';position:absolute;inset-inline-start:-17px;top:4px;width:11px;height:11px;border-radius:50%;background:var(--green);box-shadow:0 0 0 3px var(--card)}
+.ti-tl-l{font-size:14px;font-weight:800;color:var(--ink)}
+.ti-tl-d{font-size:12.5px;color:var(--mut);font-weight:600;margin-top:3px;line-height:1.6}
+.ti-tl-d svg{vertical-align:-1px;margin-inline-end:2px;opacity:.8}
+.ti-sep{margin:0 7px;opacity:.5}
+.tnote-h{display:block;font-size:11px;font-weight:800;color:var(--mut);letter-spacing:.04em;margin-bottom:3px}
+.ctc{margin-top:11px;border:1px solid var(--line);border-radius:12px;padding:9px 12px}
+.ctc-h{display:flex;align-items:center;gap:5px;font-size:10.5px;font-weight:800;color:var(--mut);letter-spacing:.02em;margin-bottom:5px}
+.ctc-row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.ctc-id{display:flex;align-items:baseline;gap:9px;min-width:0;flex-wrap:wrap}
+.ctc-id b{font-size:14.5px}
+.ctc-ph{font-size:13.5px;color:var(--mut);font-weight:700;direction:ltr}
+.ctc-acts{display:flex;gap:8px;flex:none}
+.ctc-ic{width:40px;height:40px;border-radius:11px;display:inline-grid;place-items:center;text-decoration:none}
+.ctc-call{background:var(--lime);color:#fff}
+.ctc-wa{background:#25D366;color:#fff}
+.mkpri{align-self:center;background:var(--lime-soft);color:var(--lime);border:none;border-radius:999px;padding:8px 14px;font-size:12.5px;font-weight:800;white-space:nowrap;cursor:pointer;font-family:inherit}
+.sec-hint{font-weight:600;color:var(--mut);letter-spacing:0}
 
 .h-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:15px}
 .tile{background:var(--paper);border-radius:15px;padding:11px 13px;min-width:0}
@@ -133,9 +162,9 @@ input,select,textarea{font-family:inherit}
 }
 .ap-btn:active{transform:scale(.985)}
 .bigact.approve{background:var(--green);color:#fff;box-shadow:0 8px 22px rgba(31,157,85,.3)}
-.bigact.start{background:var(--btn);color:var(--lime);box-shadow:0 8px 22px rgba(14,15,17,.28)}
-.bigact.rel{background:var(--lime);color:#fff;box-shadow:0 8px 22px rgba(224,137,47,.32)}
-.bigact.end{background:var(--btn);color:var(--lime);box-shadow:0 8px 22px rgba(14,15,17,.28)}
+.bigact.start{background:var(--lime);color:#0E0F11;box-shadow:0 8px 22px rgba(224,137,47,.3)}
+.bigact.rel{background:var(--lime);color:#0E0F11;box-shadow:0 8px 22px rgba(224,137,47,.32)}
+.bigact.end{background:var(--lime);color:#0E0F11;box-shadow:0 8px 22px rgba(224,137,47,.3)}
 
 /* ================= lists ================= */
 .sec-t{font-size:12px;font-weight:800;color:var(--mut);letter-spacing:.05em;margin:22px 4px 10px}
@@ -148,6 +177,9 @@ input,select,textarea{font-family:inherit}
 }
 .dchip b{display:block;font-size:17px;font-family:var(--mono);font-weight:700;line-height:1}
 .dchip span{font-size:9.5px;color:var(--mut);font-weight:700}
+.dchip.done{background:var(--green-bg)}
+.dchip.done b{color:var(--green)}
+.dchip.done span{color:var(--green)}
 .row .bd{flex:1;min-width:0}
 .row .bd h3{font-size:14.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .row .bd p{font-size:11.5px;color:var(--mut);font-weight:500;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -197,8 +229,8 @@ input,select,textarea{font-family:inherit}
 }
 .sheet.open{transform:translateY(0)}
 .grab{width:38px;height:4px;border-radius:99px;background:var(--line2);margin:4px auto 16px}
-.sheet h3{font-size:19px;padding-inline-end:52px}
-.sheet .sub{font-size:12.5px;color:var(--mut);margin:3px 0 17px;font-weight:600;padding-inline-end:52px}
+.sheet h3{font-size:19px;padding-inline-start:52px}
+.sheet .sub{font-size:12.5px;color:var(--mut);margin:3px 0 17px;font-weight:600;padding-inline-start:52px}
 .fld{margin-bottom:13px}
 .fld>label{display:block;font-size:11.5px;font-weight:800;color:var(--ink2);margin-bottom:6px}
 .fld input,.fld select{
@@ -224,9 +256,64 @@ input,select,textarea{font-family:inherit}
 .fh-btn:active{background:var(--paper)}
 .s-act{
   width:100%;border-radius:16px;padding:17px;font-size:17.5px;font-weight:800;
-  background:var(--btn);color:var(--lime);text-align:center;margin-top:5px;
+  background:var(--lime);color:#0E0F11;text-align:center;margin-top:5px;
 }
 .s-x{position:absolute;top:16px;inset-inline-start:16px;width:32px;height:32px;border-radius:50%;background:var(--paper);display:grid;place-items:center}
+/* ===== תקלות / תקינות — ממשק נהג ===== */
+.fld textarea{width:100%;border:1.5px solid var(--line2);border-radius:14px;padding:14px;font-size:16px;background:var(--card);outline:none;font-weight:600;resize:vertical;min-height:92px;font-family:inherit}
+.fld textarea:focus{border-color:var(--ink)}
+.fld select{appearance:none;-webkit-appearance:none}
+.vchev{flex:none;color:var(--mut);font-size:22px;line-height:1;font-weight:700;margin-inline-start:2px}
+.vm-btn{display:flex;align-items:center;gap:14px;width:100%;padding:16px;border-radius:16px;background:var(--paper);border:1.5px solid var(--line);margin-bottom:11px;text-align:start}
+.vm-btn:active{transform:scale(.985)}
+.vm-btn .ic{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;flex:none;background:var(--lime-soft);color:var(--lime)}
+.vm-btn .tx{flex:1;min-width:0}
+.vm-btn .tx b{font-size:16px;display:block}
+.vm-btn .tx span{font-size:12px;color:var(--mut);font-weight:600}
+.lnk{color:var(--lime);font-weight:700;font-size:13.5px;background:none}
+.insp-title{font-size:21px;font-weight:800;margin:2px 0;display:flex;align-items:center;gap:7px}
+.insp-h{font-size:15.5px;font-weight:800;margin:24px 0 11px}
+.insp-card{background:var(--card);border-radius:16px;padding:2px 15px;box-shadow:0 1px 3px rgba(14,15,17,.05)}
+.chk-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 0;border-bottom:1px solid var(--line)}
+.chk-row:last-child{border-bottom:0}
+.chk-lbl{font-size:15.5px;font-weight:600}
+.chk-sw{width:60px;height:33px;border-radius:999px;background:var(--line2);position:relative;flex:none;transition:.16s;cursor:pointer}
+.chk-sw.on{background:var(--green)}
+.chk-sw .knob{position:absolute;top:3px;inset-inline-start:3px;width:27px;height:27px;border-radius:50%;background:#fff;display:grid;place-items:center;transition:.16s;box-shadow:0 1px 3px rgba(0,0,0,.22);color:var(--mut)}
+.chk-sw.on .knob{inset-inline-start:30px;color:var(--green)}
+.chk-sw .knob svg{width:15px;height:15px}
+.rseg{display:flex;flex-direction:column;gap:9px}
+.rseg button{display:flex;align-items:center;gap:12px;width:100%;text-align:start;padding:15px;border:1.5px solid var(--line2);border-radius:14px;background:var(--card);font-size:15.5px;font-weight:600;color:var(--ink)}
+.rseg button .dot{width:21px;height:21px;border-radius:50%;border:2px solid var(--line2);flex:none;transition:.14s}
+.rseg button.on{border-color:var(--lime);background:var(--lime-soft)}
+.rseg button.on .dot{border-color:var(--lime);background:var(--lime);box-shadow:inset 0 0 0 3.5px var(--card)}
+.iseg{display:flex;gap:8px}
+.iseg button{flex:1;padding:12px;border-radius:12px;border:1.5px solid var(--line2);background:var(--card);font-weight:700;font-size:14px;color:var(--mut)}
+.iseg button.on{color:#fff}
+.insp-flt{border:1.5px solid var(--line2);border-radius:16px;padding:17px;margin-top:22px;text-align:center}
+.insp-flt h4{font-size:16px;margin-bottom:5px;display:flex;align-items:center;justify-content:center;gap:7px}
+.insp-flt p{font-size:12.5px;color:var(--mut);margin-bottom:13px;font-weight:600}
+.df-media-btns{display:flex;gap:9px}
+.df-mbtn{flex:1;border:1.5px dashed var(--line2);border-radius:13px;padding:15px 10px;font-weight:700;font-size:13.5px;color:var(--ink2);background:var(--card);display:flex;align-items:center;justify-content:center;gap:7px}
+.df-mbtn:active{background:var(--paper)}
+.df-thumbs{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.df-thumb{position:relative;width:74px;height:74px;border-radius:12px;overflow:hidden;background:var(--paper)}
+.df-thumb img,.df-thumb video{width:100%;height:100%;object-fit:cover}
+.df-vtag{position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-size:20px;text-shadow:0 1px 5px rgba(0,0,0,.7);pointer-events:none}
+.df-rm{position:absolute;top:3px;inset-inline-start:3px;width:21px;height:21px;border-radius:50%;background:rgba(14,15,17,.72);color:#fff;font-size:11px;display:grid;place-items:center;line-height:1}
+.veh-loc{display:inline-flex;align-items:center;gap:5px}
+.veh-loc svg{flex:none;opacity:.75}
+.veh-bd{display:flex;align-items:center;gap:10px;min-width:0;justify-content:space-between}
+.veh-bd h3{white-space:nowrap;flex:none}
+.veh-bd .veh-loc{font-size:12.5px;color:var(--mut);font-weight:500;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;justify-content:flex-end}
+.veh-oil{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--mut);font-weight:600;margin-top:6px}
+.veh-oil svg{opacity:.8;flex:none}
+.combo{position:relative}
+.cb-list{position:absolute;top:calc(100% + 6px);inset-inline:0;z-index:70;display:none;background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:0 16px 40px rgba(14,15,17,.28);max-height:244px;overflow:auto;padding:5px}
+.cb-list.open{display:block}
+.cb-list button{display:block;width:100%;text-align:start;padding:13px 14px;border-radius:10px;font-size:15.5px;font-weight:600;color:var(--ink)}
+.cb-list button:active{background:var(--paper)}
+.cb-list .cb-empty{padding:12px 14px;color:var(--mut);font-size:13px}
 
 /* ================= avail / pay ================= */
 .av-head{
@@ -322,6 +409,11 @@ input,select,textarea{font-family:inherit}
   box-shadow:0 10px 26px rgba(14,15,17,.3);
 }
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.set-ava{width:96px;height:96px;border-radius:50%;background:var(--lime-soft);color:var(--lime);display:grid;place-items:center;font-weight:700;font-size:30px;overflow:hidden}
+.set-ava img{width:100%;height:100%;object-fit:cover}
+.set-photo-btn{color:var(--lime);font-weight:700;font-size:14px;cursor:pointer}
+.set-photo-rm{color:var(--mut);font-size:13px;background:none}
+.set-logout{width:100%;margin-top:14px;padding:13px;border-radius:14px;background:none;border:1px solid var(--line);color:#C0392B;font-weight:700;font-size:15px}
 </style>
 </head>
 <body>
@@ -330,6 +422,7 @@ input,select,textarea{font-family:inherit}
     <div class="hd-row">
       <img src="data:image/png;base64,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" alt="911VIP">
       <button class="mgr" id="themeBtn" onclick="toggleTheme()" style="display:grid;place-items:center;width:32px;padding:5px 0"></button>
+      <button class="mgr" id="setBtn" onclick="go('settings')" title="הגדרות" style="display:grid;place-items:center;width:32px;padding:5px 0"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
       <a class="mgr" id="backToAdmin" href="index.html" style="display:none">חזרה לניהול ←</a>
       <button class="mgr" id="logoutBtn" style="display:none" onclick="vipLogout()">התנתקות</button>
     </div>
@@ -391,6 +484,12 @@ const DAY_NAMES=['ראשון','שני','שלישי','רביעי','חמישי','�
 const fromIso=s=>new Date(s+'T00:00:00');
 const addD=(s,n)=>{const d=fromIso(s);d.setDate(d.getDate()+n);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
 const ddmm=s=>s.slice(8,10)+'/'+s.slice(5,7);
+const ddmmyy=s=>s?s.slice(8,10)+'/'+s.slice(5,7)+'/'+s.slice(2,4):'';
+/* טלפון: התעלמות ממקפים/רווחים · ישראל +972 לחיוג ולוואטסאפ */
+const telDigits=p=>(p||'').replace(/\D/g,'');
+function ilIntl(p){let d=telDigits(p);if(!d)return '';if(d.indexOf('972')===0)return d;if(d[0]==='0')d=d.slice(1);return '972'+d;}
+function telHref(p){const i=ilIntl(p);return i?'tel:+'+i:''}
+function waHref(p){const i=ilIntl(p);return i?'https://wa.me/'+i:''}
 const dayLabel=s=>DAY_NAMES[fromIso(s).getDay()]+' '+ddmm(s);
 const nowHM=()=>{const d=new Date();return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')};
 
@@ -414,6 +513,7 @@ let VEHICLES=[
 /* אם המנהל פרסם את רשימת הרכבים הקנונית (שמות מלאים) — נשתמש בה, כדי שדיווחי ק"מ
    (כולל נסיעה מנהלתית) יגיעו לרכב הנכון אצל המנהל */
 try{const _vl=Store.get('vehlist',null);if(_vl&&Array.isArray(_vl)&&_vl.length)VEHICLES=_vl;}catch(e){}
+VEHICLES.forEach(v=>{if(v.oilType===undefined)v.oilType='5W-30'});
 
 /* stage: -1 ממתין לאישור · 0 מאושרת · 1 בנסיעה · 2 אחרי הסרת אחריות · 3 הסתיימה */
 const DEMO_TASKS=[
@@ -425,7 +525,8 @@ const DEMO_TASKS=[
  {id:4,drv:'טירן שרון',n:'בית הנשיא',client:'בית הנשיא',date:addD(DEMO_TODAY,-1),time:'07:30',loc:'הר חוצבים',veh:'סברבן 603',stage:3,
   ts:{start:'07:25',rel:'13:10',end:'13:55'},km:{start:'99102',rel:'99166',end:'99180'},rts:{ap:'20:02',start:'07:26',rel:'13:11',end:'13:57'},locs:{rel:'בית הנשיא',end:'בית'}},
  /* רון אוחיון */
- {id:5,drv:'רון אוחיון',n:'ליווי אח"מ — נתב"ג',client:'משרד ראש הממשלה',date:DEMO_TODAY,time:'18:00',loc:'טרמינל 3 · שער VIP',veh:'קאדילק 004',stage:-1,ts:{},km:{},rts:{},locs:{}},
+ {id:5,drv:'רון אוחיון',n:'ליווי אח"מ — נתב"ג',client:'משרד ראש הממשלה',date:DEMO_TODAY,time:'18:00',loc:'טרמינל 3 · שער VIP',veh:'קאדילק 004',stage:-1,note:'האח"מ מגיע בטיסה LY028. להמתין בשער היציאה עם שלט.',contact:{name:'דנה לוי (לשכה)',phone:'052-880-4417'},ts:{},km:{},rts:{},locs:{}},
+ {id:12,drv:'רון אוחיון',n:'הסעת בוקר — קריה',client:'משרד הביטחון',date:DEMO_TODAY,time:'07:30',loc:'מגורי הנוסע · רעננה',veh:'קאדילק 004',stage:-1,note:'איסוף מהבית, נסיעה ישירה לקריה בת"א.',contact:{name:'אמיר (מאבטח אישי)',phone:'0547778899'},ts:{},km:{},rts:{},locs:{}},
  {id:6,drv:'רון אוחיון',n:'סיור ביטחוני',client:'ECI',date:addD(DEMO_TODAY,2),time:'08:30',loc:'קריית הממשלה ת"א',veh:'טאהו 303',stage:-1,ts:{},km:{},rts:{},locs:{}},
  {id:7,drv:'רון אוחיון',n:'ועידת חירום — ירושלים',client:'משרד ראש הממשלה',date:addD(DEMO_TODAY,-2),time:'06:00',loc:'',veh:'קאדילק 004',stage:3,
   ts:{start:'05:50',rel:'14:20',end:'15:05'},km:{start:'55720',rel:'55905',end:'55960'},rts:{ap:'19:11',start:'05:52',rel:'14:21',end:'15:06'},locs:{rel:'בנייני האומה',end:'בית'}},
@@ -485,12 +586,16 @@ function setTheme(t){
   let mc=document.querySelector('meta[name="theme-color"]');
   if(!mc){mc=document.createElement('meta');mc.name='theme-color';document.head.appendChild(mc)}
   mc.content=t==='dark'?'#101114':'#F2F2EE';
-  Store.set('theme',t);
   const b=$('#themeBtn');if(b)b.innerHTML=t==='dark'
     ?'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.6 4.6l1.8 1.8M17.6 17.6l1.8 1.8M19.4 4.6l-1.8 1.8M6.4 17.6l-1.8 1.8"/></svg>'
     :'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>';
 }
-function toggleTheme(){setTheme(document.documentElement.dataset.theme==='dark'?'light':'dark')}
+/* ערכת נושא לפי שעה: כהה מ-19:00 עד 06:00, בהיר בשאר היום — קבוע לכל הנהגים.
+   החלפה ידנית גוברת עד גבול הזמן הבא (חזרה אוטומטית לבהיר ב-06:00 ולכהה ב-19:00). */
+function scheduledTheme(){const h=new Date().getHours();return (h>=19||h<6)?'dark':'light';}
+function themeWindowStart(){const n=new Date();const h=n.getHours();const b=new Date(n);b.setMinutes(0,0,0);if(h>=19)b.setHours(19);else if(h<6){b.setDate(b.getDate()-1);b.setHours(19);}else b.setHours(6);return b.getTime();}
+function applyScheduledTheme(){let t=scheduledTheme();try{const ov=Store.get('drvTheme',null);if(ov&&ov.theme&&ov.at>=themeWindowStart())t=ov.theme;}catch(e){}setTheme(t);}
+function toggleTheme(){const t=document.documentElement.dataset.theme==='dark'?'light':'dark';setTheme(t);try{Store.set('drvTheme',{theme:t,at:Date.now()})}catch(e){}}
 
 /* ===== דיווח אופליין: תור שנשמר במכשיר ונשלח כשחוזרת רשת ===== */
 let OUTBOX=[];
@@ -516,6 +621,7 @@ function go(v){
   document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));
   $('#main').innerHTML=views[v]();
   $('#main').scrollTop=0;
+  if(typeof markSeen==='function')markSeen();
 }
 window.addEventListener('hashchange',()=>{
   const v=location.hash.slice(1);
@@ -531,6 +637,7 @@ const ACT_META={
   '2':{label:'סיום משימה',cls:'end'},
 };
 const TI={
+  odo:'<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M3.34 19a10 10 0 1 1 17.32 0"/><path d="M12 14l4-4"/></svg>',
   clock:'<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
   cal:'<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><rect x="3" y="4" width="18" height="17" rx="3"/><path d="M8 2v4M16 2v4M3 9h18"/></svg>',
   pin:'<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>',
@@ -557,6 +664,24 @@ function stepper(t){
     return `<div class="snode ${cls}"><span class="sdot">${done?TI.check:''}</span><small>${lbl}</small></div>`;
   }).join('')+'</div>';
 }
+let PRIMARY_ID=null; /* בחירת הנהג איזו משימה עתידית להציג כ"ראשית" */
+function setPrimary(id){PRIMARY_ID=+id;go('tasks');try{$('#main').scrollTo({top:0})}catch(e){}}
+function noteBlock(t){const n=t.note||t.notes;return n?`<div class="tnote"><span class="tnote-h">הערה</span><span>${n}</span></div>`:''}
+function contactBlock(t){
+  const c=t.contact||{};const ph=c.phone||'';
+  if(!c.name&&!ph)return '';
+  const ic='<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 20a5.5 5.5 0 0 1 11 0"/></svg>';
+  return `<div class="ctc">
+    <div class="ctc-h">${ic} איש קשר מטעם הלקוח</div>
+    <div class="ctc-row">
+      <div class="ctc-id"><b>${c.name||'—'}</b>${ph?`<span class="num ctc-ph">${ph}</span>`:''}</div>
+      ${ph?`<div class="ctc-acts">
+        <a class="ctc-ic ctc-call" href="${telHref(ph)}" title="חיוג" aria-label="חיוג"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2 4.2 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.6a2 2 0 0 1-.4 2.1L8 9.6a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c.8.3 1.7.6 2.6.7a2 2 0 0 1 1.7 2Z"/></svg></a>
+        <a class="ctc-ic ctc-wa" href="${waHref(ph)}" target="_blank" rel="noopener" title="וואטסאפ" aria-label="וואטסאפ"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.5 15.2L2 22l4.9-1.3A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.2-.7-2.7-1.1-4.4-3.9-4.5-4.1-.1-.2-1.1-1.4-1.1-2.7 0-1.3.7-1.9.9-2.2.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.6-.1l.8-1c.2-.2.4-.2.6-.1l1.8.9c.2.1.4.2.5.3.1.2.1.8-.1 1.4Z"/></svg></a>
+      </div>`:''}
+    </div>
+  </div>`;
+}
 function heroCard(t){
   const live=t.stage===1||t.stage===2;
   /* כפתור הפעולה הראשי הוא תמיד שלב הנסיעה הבא — גם אם השיבוץ טרם אושר
@@ -569,9 +694,11 @@ function heroCard(t){
     :'<span class="pill next">המשימה הבאה שלך</span>';
   return `
   <div class="hero">
-    <div class="h-status">${pill}<span class="when num">${ddmm(t.date)}</span></div>
-    <h2>${t.adm?'<span class="adm-ic" style="display:inline-grid;vertical-align:-2px;margin-inline-end:8px">מ</span>':''}${t.n}</h2>
-    ${t.client?`<div class="cl">${t.client}</div>`:''}
+    <div class="h-status">${pill}</div>
+    <div class="h-title">
+      <h2>${t.adm?'<span class="adm-ic" style="display:inline-grid;vertical-align:-2px;margin-inline-end:8px">מ</span>':''}${t.n}</h2>
+      <span class="h-date num">${ddmmyy(t.date)}</span>
+    </div>
     ${t.stage===-1?`<button class="ap-btn" onclick="approveTask(${t.id})">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M5 13l4 4L19 7"/></svg>
       אשר שיבוץ</button>`:''}
@@ -581,35 +708,43 @@ function heroCard(t){
       ${t.veh?`<div class="tile ${t.loc?'':'w'}"><span>${TI.car} רכב</span><b>${t.veh}</b></div>`:''}
       ${t.loc?`<div class="tile"><span>${TI.pin} ${t.adm?'הערה':'מיקום התייצבות'}</span><b>${t.loc}</b></div>`:''}
     </div>
+    ${contactBlock(t)}
+    ${noteBlock(t)}
     ${stepper(t)}
     ${t.stage<3?`<button class="bigact ${a.cls}" onclick="actOn(${t.id})">${lbl}
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M14 6l-6 6 6 6"/></svg></button>`:''}
   </div>`;
 }
-function rowCard(t){
+function rowCard(t,canPrimary,doneStyle){
   const d=fromIso(t.date);
   return `<div class="row" onclick="openTaskInfo(${t.id})" style="cursor:pointer">
-    <div class="dchip"><b>${t.date.slice(8,10)}</b><span>${DAY_NAMES[d.getDay()]}</span></div>
+    <div class="dchip${doneStyle?' done':''}"><b>${t.date.slice(8,10)}</b><span>${DAY_NAMES[d.getDay()]}</span></div>
     <div class="bd">
       <h3>${t.adm?'<span class="adm-ic" style="display:inline-grid;vertical-align:-2px;margin-inline-end:5px">מ</span>':''}${t.n}</h3>
-      <p>${[t.client,t.time,t.veh].filter(Boolean).join(' · ')}</p>
+      <p>${[t.time,t.veh].filter(Boolean).join(' · ')||'—'}</p>
     </div>
-    ${t.stage===-1?`<button class="ok" onclick="event.stopPropagation();approveTask(${t.id})">אשר שיבוץ</button>`:stChip(t)}
+    ${canPrimary?`<button class="mkpri" onclick="event.stopPropagation();setPrimary(${t.id})">הצג כראשית</button>`:t.stage===-1?`<button class="ok" onclick="event.stopPropagation();approveTask(${t.id})">אשר שיבוץ</button>`:stChip(t)}
   </div>`;
 }
 views.tasks=()=>{
-  const open=MY_TASKS().filter(t=>t.stage<3&&t.date>=DEMO_TODAY).sort((a,b)=>a.date<b.date?-1:a.date>b.date?1:(b.stage-a.stage));
+  const tmin=s=>{const m=String(s||'').match(/(\d{1,2}):(\d{2})/);return m?+m[1]*60+ +m[2]:99999};
+  const open=MY_TASKS().filter(t=>t.stage<3&&t.date>=DEMO_TODAY)
+    .sort((a,b)=>a.date<b.date?-1:a.date>b.date?1:(tmin(a.time)-tmin(b.time))||(b.stage-a.stage));
   const live=open.find(t=>t.stage===1||t.stage===2);
-  const hero=live||open[0];
+  let hero;
+  if(live)hero=live;
+  else if(PRIMARY_ID!=null&&open.some(t=>t.id===PRIMARY_ID))hero=open.find(t=>t.id===PRIMARY_ID);
+  else hero=open[0];
   const rest=open.filter(t=>t!==hero);
-  const done=MY_TASKS().filter(t=>t.stage===3||t.date<DEMO_TODAY);
+  const canChoose=!live&&open.length>1; /* יותר ממשימה אחת עתידית — אפשר לבחור ראשית */
+  const done=MY_TASKS().filter(t=>t.stage===3||t.date<DEMO_TODAY).sort((a,b)=>a.date<b.date?1:-1);
   return `
     ${OUTBOX.length?`<div style="background:var(--amber-bg);color:var(--amber);border-radius:14px;padding:10px 14px;font-size:12px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:8px">
       <span class="dot pulse" style="background:var(--amber)"></span>${OUTBOX.length} דיווחים שמורים במכשיר · יסונכרנו כשתחזור הקליטה</div>`:''}
     ${hero?heroCard(hero):'<div class="hero"><div class="empty">אין כרגע משימות קרובות</div></div>'}
     <button class="fab-adm" onclick="openAdm()"><span class="adm-ic">מ</span>פתיחת משימה מנהלתית</button>
-    ${rest.length?`<div class="sec-t">המשימות הקרובות</div>${rest.map(rowCard).join('')}`:''}
-    ${done.length?`<div class="sec-t">משימות שבוצעו</div>${done.map(rowCard).join('')}`:''}
+    ${rest.length?`<div class="sec-t">המשימות הקרובות${canChoose?' <span class="sec-hint">· בחר משימה להצגה כראשית</span>':''}</div>${rest.map(t=>rowCard(t,canChoose)).join('')}`:''}
+    ${done.length?`<div class="sec-t">משימות אחרונות שבוצעו</div>${done.slice(0,3).map(t=>rowCard(t,false,true)).join('')}`:''}
   `;
 }
 
@@ -618,25 +753,36 @@ views.tasks=()=>{
 function openTaskInfo(id){
   const t=byId(id);if(!t)return;
   const log=[
-    {l:'התחלה',h:t.ts.start,k:t.km.start,loc:null},
+    {l:'התחלת משימה',h:t.ts.start,k:t.km.start,loc:null},
     {l:'הסרת אחריות',h:t.ts.rel,k:t.km.rel,loc:t.locs.rel},
-    {l:'סיום',h:t.ts.end,k:t.km.end,loc:t.locs.end},
+    {l:'סיום משימה',h:t.ts.end,k:t.km.end,loc:t.locs.end},
   ].filter(x=>x.h||x.k);
+  const pmin=s=>{const m=String(s||'').match(/(\d{1,2}):(\d{2})/);return m?+m[1]*60+ +m[2]:null};
+  let workMin=null;if(t.ts.start&&t.ts.end){const a=pmin(t.ts.start),b=pmin(t.ts.end);if(a!=null&&b!=null){workMin=b-a;if(workMin<0)workMin+=1440;}}
+  const fmtDur=m=>m==null?null:Math.floor(m/60)+':'+String(m%60).padStart(2,'0');
+  let kmDr=null;if(t.km.start!=null&&t.km.start!==''&&t.km.end!=null&&t.km.end!=='')kmDr=(+t.km.end)-(+t.km.start);
+  const showSummary=workMin!=null||kmDr!=null;
   openSheet(`
     <button class="s-x" onclick="closeSheet()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
     <h3>${t.adm?'<span class="adm-ic" style="display:inline-grid;vertical-align:-2px;margin-inline-end:7px">מ</span>':''}${t.n}</h3>
-    <div class="sub">${[t.client,dayLabel(t.date)+'/'+t.date.slice(0,4)].filter(Boolean).join(' · ')}</div>
+    <div class="sub">${dayLabel(t.date)+'/'+t.date.slice(2,4)}</div>
     <div style="margin-bottom:13px">${stChip(t)}</div>
+    ${showSummary?`<div class="ti-sum">
+      <div class="ti-sum-c"><span>${TI.clock} זמן עבודה</span><b class="num">${fmtDur(workMin)||'—'}</b></div>
+      <div class="ti-sum-c"><span>${TI.odo} ק"מ נסיעה</span><b class="num">${kmDr!=null?kmDr.toLocaleString():'—'}</b></div>
+    </div>`:''}
     <div class="h-grid" style="margin-top:0;margin-bottom:${log.length?'15px':'4px'}">
       ${t.time?`<div class="tile"><span>${TI.clock} התייצבות</span><b class="num">${t.time}</b></div>`:''}
       ${t.veh?`<div class="tile"><span>${TI.car} רכב</span><b>${t.veh}</b></div>`:''}
       ${t.loc?`<div class="tile w"><span>${TI.pin} ${t.adm?'הערה':'מיקום התייצבות'}</span><b>${t.loc}</b></div>`:''}
     </div>
-    ${log.length?`<div class="sec-t" style="margin:0 2px 8px">הדיווחים שלי</div>
-      ${log.map(x=>`<div class="row" style="padding:11px 14px">
-        <div class="bd"><h3 style="font-size:13.5px">${x.l}</h3>
-        <p>${[x.h,x.k?(+x.k).toLocaleString()+' ק"מ':null,x.loc].filter(Boolean).join(' · ')}</p></div>
-      </div>`).join('')}`:''}
+    ${contactBlock(t)}
+    ${noteBlock(t)}
+    ${log.length?`<div class="sec-t" style="margin:2px 2px 10px">דיווחי הנסיעה</div>
+      <div class="ti-tl">${log.map(x=>`<div class="ti-tl-i">
+        <div class="ti-tl-l">${x.l}</div>
+        <div class="ti-tl-d">${[x.h?TI.clock+' '+x.h:null,(x.k!=null&&x.k!=='')?TI.odo+' '+(+x.k).toLocaleString()+' ק"מ':null,x.loc?TI.pin+' '+x.loc:null].filter(Boolean).join('<span class="ti-sep">·</span>')}</div>
+      </div>`).join('')}</div>`:''}
     ${t.stage===-1?`<button class="s-act" style="background:var(--green);color:#fff" onclick="approveTask(${t.id});closeSheet()">אשר שיבוץ ‹‹</button>`:''}
   `);
 }
@@ -660,47 +806,27 @@ function actOn(id){
   const prevKm=kind.k==='rel'?{l:'ק"מ שהזנת בהתחלה',v:t.km.start}
               :kind.k==='end'?{l:'ק"מ שהזנת בהסרת אחריות',v:t.km.rel||t.km.start}
               :null;
+  const noVeh=!t.veh;
+  const kmBlock=noVeh?'':`<div class="fld"><label>${kind.kmL}</label><input type="text" inputmode="numeric" id="rK" placeholder="הזן מספר"></div>`
+    +(lastKm?`<div class="fhelp"><span class="fh-info">ק"מ אחרון שדווח: <b class="num">${(+lastKm).toLocaleString()}</b></span><button type="button" class="fh-btn" onclick="$('#rK').value='${lastKm}'">סנכרן</button></div>`:'')
+    +(prevKm&&prevKm.v?`<div class="fhelp"><span class="fh-info">${prevKm.l}: <b class="num">${(+prevKm.v).toLocaleString()}</b></span></div>`:'');
   openSheet(`
     <button class="s-x" onclick="closeSheet()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
     <h3>${kind.t}</h3>
     <div class="sub">«${t.n}»${t.veh?' · '+t.veh:''}</div>
-    <div class="fld"><label>${kind.kmL}</label><input type="text" inputmode="numeric" id="rK" placeholder="הזן מספר"></div>
-    ${lastKm?`<div class="fhelp">
-      <span class="fh-info">ק"מ אחרון שדווח: <b class="num">${(+lastKm).toLocaleString()}</b></span>
-      <button type="button" class="fh-btn" onclick="$('#rK').value='${lastKm}'">סנכרן</button>
-    </div>`:''}
-    ${prevKm&&prevKm.v?`<div class="fhelp">
-      <span class="fh-info">${prevKm.l}: <b class="num">${(+prevKm.v).toLocaleString()}</b></span>
-    </div>`:''}
+    ${kmBlock}
     <div class="fld"><label>${kind.tL}</label><input type="time" id="rT" value="${nowHM()}"></div>
     <div class="fnote">השעה ניתנת לעריכה · שעת הדיווח בפועל נרשמת אוטומטית</div>
     ${kind.loc?`<div class="fld"><label>${kind.lph}</label><input type="text" id="rL" placeholder="הזן כתובת"></div>
-    <div class="fhelp">
-      <button type="button" class="fh-btn" onclick="gpsFill('rL',this)">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><circle cx="12" cy="12" r="8"/></svg>
-        המיקום שלי</button>
-      ${kind.k==='end'?`<button type="button" class="fh-btn" onclick="$('#rL').value='${ME.home}'">
+    ${kind.k==='end'&&ME.home?`<div class="fhelp">
+      <button type="button" class="fh-btn" onclick="$('#rL').value='${ME.home.replace(/'/g,"\\'")}'">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M3 11l9-8 9 8v9a2 2 0 01-2 2h-4v-7h-6v7H5a2 2 0 01-2-2z"/></svg>
-        בית</button>`:''}
-    </div>`:''}
+        בית</button>
+    </div>`:''}`:''}
     ${kind.notes?`<div class="fld"><label>הערות נהג (לא חובה)</label><input type="text" id="rN"></div>`:''}
     <button class="s-act" id="sheetGo" onclick="doReport(${t.id},${next},'${kind.k}',${!!kind.loc})">${kind.btn} ‹‹</button>
   `);
   setTimeout(()=>$('#rK')?.focus(),260);
-}
-/* מילוי מיקום מ-GPS של המכשיר */
-function gpsFill(id,btn){
-  if(!navigator.geolocation){toast('המכשיר לא תומך באיתור מיקום');return}
-  const orig=btn.innerHTML;btn.innerHTML='מאתר…';btn.disabled=true;
-  navigator.geolocation.getCurrentPosition(
-    p=>{
-      $('#'+id).value='GPS: '+p.coords.latitude.toFixed(5)+', '+p.coords.longitude.toFixed(5);
-      btn.innerHTML=orig;btn.disabled=false;
-      toast('המיקום נקלט ✓');
-    },
-    ()=>{btn.innerHTML=orig;btn.disabled=false;toast('לא ניתן לקבל מיקום — בדוק הרשאות')},
-    {enableHighAccuracy:true,timeout:8000}
-  );
 }
 function doReport(id,next,key,hasLoc){
   const t=byId(id);
@@ -708,22 +834,25 @@ function doReport(id,next,key,hasLoc){
   if(!t||t.stage>=next){closeSheet();return}
   const b=$('#sheetGo');
   if(b){if(b.disabled)return;b.disabled=true;b.style.opacity=.6;b.textContent='שולח…'}
-  const time=$('#rT').value,km=($('#rK').value||'').replace(/[^\d]/g,'');
-  if(!km){toast('חסר דיווח ק"מ');$('#rK').focus();
-    if(b){b.disabled=false;b.style.opacity=1;b.textContent='שמור ‹‹'}return}
-  /* ולידציה: ק"מ לא יכול להיות נמוך מהאחרון שתועד לרכב (טעות הקלדה ברוב המקרים) */
-  const _ref=+(vehKmOf(t.veh)||0);
-  if(_ref&&+km<_ref){
-    toast('ק"מ שהזנת ('+(+km).toLocaleString()+') נמוך מהאחרון במערכת ('+_ref.toLocaleString()+' ק"מ) — בדוק שוב',4600);
-    if(b){b.disabled=false;b.style.opacity=1;b.textContent='שמור ‹‹'}$('#rK').focus();return}
+  const time=$('#rT').value;
+  const rk=$('#rK');const km=rk?(rk.value||'').replace(/[^\d]/g,''):'';
+  if(t.veh){
+    if(!km){toast('חסר דיווח ק"מ');if(rk)rk.focus();
+      if(b){b.disabled=false;b.style.opacity=1;b.textContent='שמור ‹‹'}return}
+    /* ולידציה: ק"מ לא יכול להיות נמוך מהאחרון שתועד לרכב (טעות הקלדה ברוב המקרים) */
+    const _ref=+(vehKmOf(t.veh)||0);
+    if(_ref&&+km<_ref){
+      toast('ק"מ שהזנת ('+(+km).toLocaleString()+') נמוך מהאחרון במערכת ('+_ref.toLocaleString()+' ק"מ) — בדוק שוב',4600);
+      if(b){b.disabled=false;b.style.opacity=1;b.textContent='שמור ‹‹'}if(rk)rk.focus();return}
+  }
   if(t.stage===-1&&!t.rts.ap)t.rts.ap=nowHM(); /* התחלה לפני אישור = אישור מובלע */
-  t.ts[key]=time;t.km[key]=km;t.rts[key]=nowHM();
+  t.ts[key]=time;if(km)t.km[key]=km;t.rts[key]=nowHM();
   if(hasLoc){const l=$('#rL').value.trim();if(l)t.locs[key]=l}
   const nEl=$('#rN');if(nEl&&nEl.value.trim())t.dnotes=nEl.value.trim();
   t.stage=next;
   if(next>=1&&t.cls!=='admin')t.cls='live';        /* התחלה → המנהל רואה «בנסיעה» */
   if(next===3){t.done=true;if(t.cls==='live')t.cls=undefined;} /* סיום → המנהל רואה «בוצע» */
-  bumpVehicleKm(t.veh,km,key==='end'?(t.locs.end||''):'');  /* ק"מ → ק"מ נוכחי של הרכב (סופר לטיפול) */
+  if(t.veh)bumpVehicleKm(t.veh,km,key==='end'?(t.locs.end||''):'');  /* ק"מ → ק"מ נוכחי של הרכב (סופר לטיפול) */
   saveAll();                                        /* כתיבה למאגר המשותף — המנהל מתעדכן מיד */
   closeSheet();go('tasks');
   if(!navigator.onLine){
@@ -740,14 +869,9 @@ function openAdm(){
   openSheet(`
     <button class="s-x" onclick="closeSheet()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
     <h3><span class="adm-ic" style="display:inline-grid;vertical-align:-2px;margin-inline-end:7px">מ</span>נסיעה מנהלתית</h3>
-    <div class="sub">החלפת רכב, טיפול, שטיפה וכד׳ — ללא חיוב לקוח · הנסיעה מתחילה מיד</div>
-    <div class="fld"><label>תיאור הנסיעה</label><input type="text" id="aN" placeholder="לדוגמה: החלפת רכב, טיפול במוסך"></div>
-    <div class="fld"><label>רכב</label>
-      <select id="aV" onchange="admKmHint()">
-        <option value="" selected disabled>בחר רכב</option>
-        ${VEHICLES.map(v=>`<option value="${v.n}">${v.n}</option>`).join('')}
-      </select></div>
-    <div class="fld"><label>ק"מ בהתחלת נסיעה</label><input type="text" inputmode="numeric" id="aK" placeholder="הזן מספר"></div>
+    <div class="fld" style="margin-top:14px"><label>סיבת הנסיעה *</label><input type="text" id="aN" placeholder="לדוגמה: החלפת רכב, טיפול במוסך"></div>
+    <div class="fld"><label>רכב</label>${comboHTML('a-cb-veh','בחר רכב…','','')}</div>
+    <div class="fld" id="aKmFld"><label>ק"מ בהתחלת נסיעה</label><input type="text" inputmode="numeric" id="aK" placeholder="הזן מספר"></div>
     <div class="fhelp" id="aKmHint" style="display:none">
       <span class="fh-info">ק"מ אחרון שדווח: <b class="num" id="aKmVal"></b></span>
       <button type="button" class="fh-btn" onclick="$('#aK').value=$('#aKmVal').dataset.v">סנכרן</button>
@@ -755,29 +879,36 @@ function openAdm(){
     <div class="fld"><label>שעת התחלה</label><input type="time" id="aT" value="${nowHM()}"></div>
     <button class="s-act" id="sheetGo" onclick="startAdm()">התחל נסיעה מנהלתית ‹‹</button>
   `);
+  cbSet('a-cb-veh',[{v:'__none__',label:'ללא רכב'}].concat(VEHICLES.filter(v=>!v.hidden&&!v.archived).map(v=>({v:v.n,label:v.n}))));
 }
-function admKmHint(){
-  const name=$('#aV').value;
-  const km=vehKmOf(name);
-  const h=$('#aKmHint');
-  if(km!=null){h.style.display='';$('#aKmVal').textContent=(+km).toLocaleString();$('#aKmVal').dataset.v=km}
-  else h.style.display='none';
+function admVehPicked(v){
+  const noVeh=(v==='__none__'||!v);
+  const kf=document.getElementById('aKmFld'),kh=document.getElementById('aKmHint');
+  if(kf)kf.style.display=noVeh?'none':'';
+  if(noVeh){if(kh)kh.style.display='none';return;}
+  const km=vehKmOf(v);
+  if(km!=null&&kh){kh.style.display='';$('#aKmVal').textContent=(+km).toLocaleString();$('#aKmVal').dataset.v=km;}
+  else if(kh)kh.style.display='none';
 }
 function startAdm(){
   const b=$('#sheetGo');if(b&&b.disabled)return;
   const name=$('#aN').value.trim();
-  if(!name){toast('חסר תיאור הנסיעה');$('#aN').focus();return}
-  const veh=$('#aV').value;
-  if(!veh){toast('בחר רכב');return}
-  const km=($('#aK').value||'').replace(/[^\d]/g,'');
-  if(!km){toast('חסר דיווח ק"מ');$('#aK').focus();return}
-  const _ref=+(vehKmOf(veh)||0);
-  if(_ref&&+km<_ref){toast('ק"מ שהזנת ('+(+km).toLocaleString()+') נמוך מהאחרון במערכת ('+_ref.toLocaleString()+' ק"מ) — בדוק שוב',4600);$('#aK').focus();return}
+  if(!name){toast('יש להזין סיבת נסיעה');$('#aN').focus();return}
+  let veh=cbVal('a-cb-veh');
+  const noVeh=(veh==='__none__'||!veh);
+  let km='';
+  if(noVeh){veh='';}
+  else{
+    km=($('#aK').value||'').replace(/[^\d]/g,'');
+    if(!km){toast('חסר דיווח ק"מ');$('#aK').focus();return}
+    const _ref=+(vehKmOf(veh)||0);
+    if(_ref&&+km<_ref){toast('ק"מ שהזנת ('+(+km).toLocaleString()+') נמוך מהאחרון במערכת ('+_ref.toLocaleString()+' ק"מ) — בדוק שוב',4600);$('#aK').focus();return}
+  }
   if(b){b.disabled=true;b.style.opacity=.6;b.textContent='מתחיל…'}
-  const t={id:Date.now(),drv:ME.n,n:name,client:'',date:DEMO_TODAY,time:'',loc:'',veh,
-    stage:1,adm:true,cls:'admin',ts:{start:$('#aT').value},km:{start:km},rts:{ap:nowHM(),start:nowHM()},locs:{}};
+  const t={id:Date.now(),drv:ME.n,n:name,client:'',date:DEMO_TODAY,time:'',loc:'',veh,noVeh:noVeh||undefined,
+    stage:1,adm:true,cls:'admin',ts:{start:$('#aT').value},km:noVeh?{}:{start:km},rts:{ap:nowHM(),start:nowHM()},locs:{}};
   ALL.unshift(t);saveAll();
-  bumpVehicleKm(veh,km);
+  if(!noVeh)bumpVehicleKm(veh,km);
   closeSheet();go('tasks');
   if(!navigator.onLine){queueReport('התחלת מנהלתית «'+name+'»');toast('אין קליטה — הדיווח נשמר במכשיר ויסונכרן אוטומטית',3800)}
   else toast('הנסיעה המנהלתית התחילה · הסדרן עודכן');
@@ -994,17 +1125,154 @@ function saveExp(){
 /* ================= רכבים ================= */
 views.veh=()=>{
   return `
-    <div style="height:34px"></div>
-    <div class="sec-t" style="margin-top:0">מיקומי הרכבים</div>
-    ${VEHICLES.map(v=>`<div class="row">
+    <div style="height:46px"></div>
+    <div class="sec-t" style="margin-top:0">מצבת רכבים</div>
+    ${VEHICLES.filter(v=>!v.hidden&&!v.archived).map(v=>`<div class="row" style="cursor:pointer" onclick="openVehMenu('${v.n.replace(/'/g,"\\'")}')">
       <div class="bd">
-        <h3>${v.arm?'<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-1px;margin-inline-end:5px"><path d="M12 2l8 3v6c0 5-3.4 9.4-8 11-4.6-1.6-8-6-8-11V5z"/></svg>':''}${v.n}</h3>
-        <p>${v.loc||'—'}</p>
+        <div class="veh-bd"><h3>${v.arm?'<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-1px;margin-inline-end:5px"><path d="M12 2l8 3v6c0 5-3.4 9.4-8 11-4.6-1.6-8-6-8-11V5z"/></svg>':''}${v.n}</h3>
+        <span class="veh-loc"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.3-7-11a7 7 0 0 1 14 0c0 4.7-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>${v.loc||'—'}</span></div>
+        ${v.oilType?`<div class="veh-oil"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M3 16v-3h7l2.2-2H15l5 3.2V16a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/><path d="M6 13v-2h4v2"/><path d="M20 11.5c.9-1 1.6-1.7 1.6-1.7s.7.7.7 1.4a.7.7 0 0 1-1.4 0"/></svg>${v.oilType}</div>`:''}
       </div>
-      ${v.loc?`<a class="ok" style="text-decoration:none" href="https://waze.com/ul?q=${encodeURIComponent(v.loc)}" target="_blank">נווט</a>`:''}
+      <span class="vchev">‹</span>
     </div>`).join('')}
-    <div class="fnote" style="margin-top:12px;text-align:center">המיקום מתעדכן לפי דיווחי סיום המשימות</div>
+    <div class="fnote" style="margin-top:12px;text-align:center">לחץ על רכב לפתיחת תקלה או בדיקת תקינות</div>
   `;
+}
+/* ===== תקלות + תקינות (ממשק נהג) — מחובר למאגר המשותף faults2 ===== */
+const FTYPES_DEFAULT=[
+  {id:'cosmetic',name:'קוסמטי',color:'#8AA0C8'},{id:'mech',name:'מכני/חשמל',color:'#C2705B'},
+  {id:'tire',name:'צמיגים',color:'#4F9D8C'},{id:'brake',name:'בלמים',color:'#C2584B'},
+  {id:'completion',name:'השלמה',color:'#C9A23B'},{id:'other',name:'אחר',color:'#9A8FA8'},
+];
+const FIMPS=[{id:'norm',name:'רגילה',color:'#9AA0A6'},{id:'med',name:'גבוהה',color:'#E0892F'},{id:'high',name:'קריטית',color:'#C0392B'}];
+function drvFTypes(){let c=null;try{c=Store.reload('fcfg')}catch(e){c=Store.get('fcfg',null)}return (c&&c.types&&c.types.length)?c.types:FTYPES_DEFAULT;}
+function vehPlate(name){const v=VEHICLES.find(x=>x.n===name);return v&&v.plate?v.plate:''}
+function drvAddFault(obj){let arr=[];try{arr=Store.reload('faults2')||[]}catch(e){arr=Store.get('faults2',[])||[]}arr.push(obj);Store.set('faults2',arr);}
+/* קומבו עם חיפוש — זהה לזה שבטופסי המנהל */
+const CB_ITEMS={};
+function comboHTML(id,placeholder,initLabel,initV){
+  return `<div class="combo" id="${id}"><input type="text" placeholder="${placeholder}" value="${(initLabel||'').replace(/"/g,'&quot;')}" data-v="${initV==null?'':String(initV).replace(/"/g,'&quot;')}" oninput="cbRender('${id}',this.value)" onfocus="cbFocus(this,'${id}')" autocomplete="off"><div class="cb-list"></div></div>`;
+}
+function cbSet(id,items){CB_ITEMS[id]=items}
+function cbFocus(inp,id){cbRender(id,'');try{inp.select()}catch(e){}setTimeout(()=>{try{inp.select()}catch(e){}},0);}
+function cbRender(id,q){const el=document.getElementById(id);if(!el)return;const list=el.querySelector('.cb-list');const items=(CB_ITEMS[id]||[]).filter(it=>!q||it.label.includes(q));list.innerHTML=items.length?items.map(it=>`<button type="button" onclick="cbPick('${id}','${String(it.v).replace(/'/g,"\\'")}',this.textContent)">${it.label}</button>`).join(''):'<div class="cb-empty">אין תוצאות</div>';list.classList.add('open');}
+function cbPick(id,v,label){const el=document.getElementById(id);if(!el)return;const inp=el.querySelector('input');inp.value=label;inp.dataset.v=v;el.querySelector('.cb-list').classList.remove('open');if(id==='a-cb-veh'&&typeof admVehPicked==='function')admVehPicked(v);}
+const cbVal=id=>{const i=document.querySelector('#'+id+' input');return i?(i.dataset.v||''):''};
+const cbLabel=id=>{const i=document.querySelector('#'+id+' input');return i?(i.value||''):''};
+document.addEventListener('click',e=>{if(!e.target.closest('.combo'))document.querySelectorAll('.cb-list').forEach(l=>l.classList.remove('open'));});
+const _IC_FAULT='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg>';
+const _IC_CHECK='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>';
+const _IC_OK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>';
+const _IC_X='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>';
+/* תפריט רכב — 2 פעולות + חזרה */
+function openVehMenu(name){
+  const safe=name.replace(/'/g,"\\'");
+  openSheet(`
+    <h3>${name}</h3><div class="sub">בחר פעולה</div>
+    <button class="vm-btn" onclick="openDrvFault('${safe}','menu')"><span class="ic">${_IC_FAULT}</span><span class="tx"><b>פתיחת תקלה</b><span>דיווח על תקלה ברכב</span></span></button>
+    <button class="vm-btn" onclick="openInspect('${safe}')"><span class="ic">${_IC_CHECK}</span><span class="tx"><b>בדיקת תקינות</b><span>בדיקה תקופתית של הרכב</span></span></button>
+    <button class="fh-btn" style="width:100%;justify-content:center;margin-top:4px" onclick="closeSheet()">חזרה</button>
+  `);
+}
+/* טופס פתיחת תקלה — מצומצם, נהג מזוהה אוטומטית, עם מדיה */
+let DF_IMP='norm',DF_VEH='',DF_FROM='',DF_MEDIA=[];
+function openDrvFault(name,from){
+  DF_IMP='norm';DF_VEH=name;DF_FROM=from||'';DF_MEDIA=[];const types=drvFTypes();
+  openSheet(`
+    <h3>פתיחת תקלה</h3>
+    <div class="fld" style="margin-top:14px"><label>רכב</label>${comboHTML('df-cb-veh','בחר רכב…',name||'',name||'')}</div>
+    <div class="fld"><label>סוג התקלה</label>${comboHTML('df-cb-type','בחר סוג…','','')}</div>
+    <div class="fld"><label>חשיבות</label><div class="iseg" id="df-imp">${FIMPS.map(i=>`<button data-v="${i.id}" class="${i.id==='norm'?'on':''}" style="${i.id==='norm'?'background:'+i.color+';border-color:'+i.color:''}" onclick="dfImp('${i.id}')">${i.name}</button>`).join('')}</div></div>
+    <div class="fld"><label>תיאור התקלה</label><textarea id="df-desc" placeholder="מה התקלה?"></textarea></div>
+    <div class="fld"><label>תמונה / סרטון</label>
+      <div class="df-media-btns">
+        <button type="button" class="df-mbtn" onclick="document.getElementById('df-cam').click()"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg> צלם/י עכשיו</button>
+        <button type="button" class="df-mbtn" onclick="document.getElementById('df-gal').click()"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg> העלה/י מהגלריה</button>
+      </div>
+      <input type="file" id="df-cam" accept="image/*,video/*" capture="environment" style="display:none" onchange="dfAddMedia(this)">
+      <input type="file" id="df-gal" accept="image/*,video/*" multiple style="display:none" onchange="dfAddMedia(this)">
+      <div class="df-thumbs" id="df-thumbs"></div>
+      <div class="fnote" style="margin-top:9px">אפשר לצרף כמה קבצים — לסרטונים עדיף קצרים, כדי שההעלאה תהיה מהירה.</div>
+    </div>
+    <button class="s-act" onclick="submitDrvFault()">פתיחת תקלה »»»</button>
+    <button class="fh-btn" style="width:100%;justify-content:center;margin-top:10px" onclick="drvFaultBack()">חזור</button>
+  `);
+  cbSet('df-cb-veh',VEHICLES.map(v=>({v:v.n,label:v.n})));
+  cbSet('df-cb-type',types.map(t=>({v:t.id,label:t.name})));
+}
+function drvFaultBack(){if(DF_FROM==='menu')openVehMenu(DF_VEH);else closeSheet();}
+function dfImp(id){DF_IMP=id;document.querySelectorAll('#df-imp button').forEach(b=>{const on=b.dataset.v===id,c=(FIMPS.find(x=>x.id===b.dataset.v)||{}).color;b.classList.toggle('on',on);b.style.background=on?c:'';b.style.borderColor=on?c:'';});}
+function dfAddMedia(input){
+  const files=[...(input.files||[])];input.value='';
+  files.forEach(file=>{const r=new FileReader();r.onload=()=>{
+    if(file.type.indexOf('image')===0){const img=new Image();img.onload=()=>{const max=1280;let w=img.width,h=img.height;if(w>max||h>max){const s=max/Math.max(w,h);w=Math.round(w*s);h=Math.round(h*s);}const c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);DF_MEDIA.push({type:'image',url:c.toDataURL('image/jpeg',.8)});renderDfThumbs();};img.src=r.result;}
+    else{DF_MEDIA.push({type:'video',url:r.result});renderDfThumbs();}
+  };r.readAsDataURL(file);});
+}
+function renderDfThumbs(){const el=document.getElementById('df-thumbs');if(!el)return;el.innerHTML=DF_MEDIA.map((m,i)=>`<div class="df-thumb">${m.type==='video'?`<video src="${m.url}" muted></video><span class="df-vtag">▶</span>`:`<img src="${m.url}">`}<button type="button" class="df-rm" onclick="dfRmMedia(${i})">✕</button></div>`).join('');}
+function dfRmMedia(i){DF_MEDIA.splice(i,1);renderDfThumbs();}
+function submitDrvFault(){
+  const veh=cbVal('df-cb-veh')||cbLabel('df-cb-veh'),desc=($('#df-desc').value||'').trim();
+  if(!veh){toast('יש לבחור רכב');return}
+  if(!desc){toast('יש להזין תיאור תקלה');return}
+  const rec={id:'flt'+Date.now().toString(36)+Math.random().toString(36).slice(2,5),vehicle:veh,plate:vehPlate(veh),type:cbVal('df-cb-type')||'other',desc,handler:'',driver:ME.n,source:'driver',importance:DF_IMP,status:'open',openDate:DEMO_TODAY,closeDate:'',notes:'',createdAt:Date.now()};
+  if(DF_MEDIA.length)rec.media=DF_MEDIA.slice();
+  try{drvAddFault(rec);}
+  catch(e){delete rec.media;try{drvAddFault(rec);closeSheet();DF_MEDIA=[];toast('הקבצים גדולים לשמירה מקומית — התקלה נשמרה ללא מדיה',3800);return;}catch(e2){toast('השמירה נכשלה, נסה שוב');return;}}
+  closeSheet();DF_MEDIA=[];toast('התקלה דווחה ונשלחה למנהל ✓',3200);
+}
+/* ===== בדיקת תקינות ===== */
+const INSP_ITEMS=[['arg','ארגונית'],['jack','ג׳ק שמן'],['vest','אפוד זוהר'],['handle','ידית כוח'],['oil','שמן מנוע'],['gloves','כפפות'],['emblems','סמלי מדינה'],['sticker','מדבקת גג 911']];
+const INSP_OIL=[{v:'ok',l:'בדקתי, תקין'},{v:'filled',l:'בדקתי ומילאתי'},{v:'need',l:'חסר ונדרש למלא'}];
+const INSP_WASHER=[{v:'done',l:'בוצע'},{v:'need',l:'לא בוצע, נדרש למלא'}];
+let INSP_VEH='';
+function openInspect(name){INSP_VEH=name;closeSheet();go('inspect');}
+function inspPickVeh(){
+  openSheet(`<h3>בחר רכב</h3><div class="sub">לבדיקת התקינות</div>${VEHICLES.filter(v=>!v.hidden&&!v.archived).map(v=>`<button class="vm-btn" style="padding:14px 16px" onclick="INSP_VEH='${v.n.replace(/'/g,"\\'")}';closeSheet();go('inspect')"><span class="tx"><b>${v.n}</b><span>${v.loc||'—'}</span></span></button>`).join('')}<button class="fh-btn" style="width:100%;justify-content:center;margin-top:4px" onclick="closeSheet()">ביטול</button>`);
+}
+function inspToggle(k){const sw=document.getElementById('ci-'+k);if(!sw)return;const on=!sw.classList.contains('on');sw.classList.toggle('on',on);const kn=sw.querySelector('.knob');if(kn)kn.innerHTML=on?_IC_OK:_IC_X;}
+function inspRad(group,v){document.querySelectorAll('#'+group+' button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));}
+function saveInspection(){
+  const items={};INSP_ITEMS.forEach(([k])=>{const e=document.getElementById('ci-'+k);items[k]=!!(e&&e.classList.contains('on'))});
+  const oilEl=document.querySelector('#insp-oil button.on'),washerEl=document.querySelector('#insp-washer button.on');
+  const oil=oilEl?oilEl.dataset.v:'',washer=washerEl?washerEl.dataset.v:'';
+  const notes=($('#insp-notes').value||'').trim();
+  const rec={id:'insp'+Date.now().toString(36),vehicle:INSP_VEH,plate:vehPlate(INSP_VEH),driver:ME.n,date:DEMO_TODAY,location:'',items,oil,washer,notes,createdAt:Date.now()};
+  let arr=[];try{arr=Store.reload('inspections')||[]}catch(e){arr=Store.get('inspections',[])||[]}arr.unshift(rec);Store.set('inspections',arr);
+  toast('בדיקת התקינות נשמרה ✓',3200);go('veh');
+}
+views.inspect=()=>{
+  if(!INSP_VEH){return `<div style="height:46px"></div><div class="empty">לא נבחר רכב</div><button class="bigact start" onclick="inspPickVeh()">בחר רכב</button>`;}
+  const name=INSP_VEH,v=VEHICLES.find(x=>x.n===name)||{};
+  return `
+  <div style="height:46px"></div>
+  <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px">
+    <button class="lnk" onclick="go('veh')">‹ חזרה</button>
+    <button class="lnk" onclick="inspPickVeh()">בחר רכב</button>
+  </div>
+  <div class="insp-title">${v.arm?'<svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l8 3v6c0 5-3.4 9.4-8 11-4.6-1.6-8-6-8-11V5z"/></svg>':''}${name}</div>
+  <div class="fnote" style="margin:2px 0 6px">בדיקת תקינות תקופתית · ${ME.n}</div>
+
+  <div class="insp-h" style="margin-top:18px">האם קיים ברכב?</div>
+  <div class="insp-card">${INSP_ITEMS.map(([k,l])=>`<div class="chk-row"><span class="chk-lbl">${l}</span><div class="chk-sw on" id="ci-${k}" onclick="inspToggle('${k}')"><div class="knob">${_IC_OK}</div></div></div>`).join('')}</div>
+
+  <div class="insp-h">בדיקת שמן / מים</div>
+  <div class="rseg" id="insp-oil">${INSP_OIL.map((o,i)=>`<button class="${i===0?'on':''}" data-v="${o.v}" onclick="inspRad('insp-oil','${o.v}')"><span class="dot"></span>${o.l}</button>`).join('')}</div>
+
+  <div class="insp-h">מילוי מים בווישרים</div>
+  <div class="rseg" id="insp-washer">${INSP_WASHER.map((o,i)=>`<button class="${i===0?'on':''}" data-v="${o.v}" onclick="inspRad('insp-washer','${o.v}')"><span class="dot"></span>${o.l}</button>`).join('')}</div>
+
+  <div class="insp-h">תקלות נוספות / מנורות בלוח שעונים / הערות</div>
+  <div class="fld"><textarea id="insp-notes" placeholder="התשובה שלך"></textarea></div>
+
+  <div class="insp-flt">
+    <h4><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg> זיהית משהו חריג?</h4>
+    <p>פתח תקלה לרכב והיא תגיע ישירות למנהל</p>
+    <button class="ap-btn" style="margin-top:0;border-color:var(--lime);color:var(--lime);background:var(--lime-soft)" onclick="openDrvFault(INSP_VEH)">+ פתיחת תקלה</button>
+  </div>
+
+  <button class="bigact start" onclick="saveInspection()">שמירת בדיקה »»»</button>
+  <div style="height:34px"></div>`;
 }
 
 /* נעילת זום — תחושת אפליקציה */
@@ -1012,6 +1280,30 @@ document.addEventListener('gesturestart',e=>e.preventDefault());
 document.addEventListener('gesturechange',e=>e.preventDefault());
 document.addEventListener('gestureend',e=>e.preventDefault());
 document.addEventListener('touchmove',e=>{if(e.scale!==undefined&&e.scale!==1)e.preventDefault()},{passive:false});
+
+/* ===== פרופיל הנהג + הגדרות + נראה לאחרונה ===== */
+function markSeen(){try{const m=Store.reload('drvseen')||{};m[ME.n]=Date.now();Store.set('drvseen',m)}catch(e){}}
+function persistProfile(){try{const cur=Store.get('drv:'+ME.n,{})||{};Store.set('drv:'+ME.n,Object.assign({},cur,{ph:ME.ph||'',home:ME.home||'',photo:ME.photo||''}))}catch(e){}}
+function renderAva(){const a=$('#ava');if(!a)return;if(ME.photo){a.style.backgroundImage='url('+ME.photo+')';a.style.backgroundSize='cover';a.style.backgroundPosition='center';a.textContent='';}else{a.style.backgroundImage='';a.textContent=ME.n.split(' ').map(x=>x[0]).join('');}a.style.cursor='pointer';a.onclick=()=>go('settings');}
+function onPhotoPick(e){const f=e.target.files&&e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{const img=new Image();img.onload=()=>{const c=document.createElement('canvas');const sz=240,s=Math.min(img.width,img.height);c.width=c.height=sz;c.getContext('2d').drawImage(img,(img.width-s)/2,(img.height-s)/2,s,s,0,0,sz,sz);ME.photo=c.toDataURL('image/jpeg',.82);persistProfile();renderAva();go('settings');toast('התמונה עודכנה');};img.src=r.result;};r.readAsDataURL(f);}
+function removePhoto(){ME.photo='';persistProfile();renderAva();go('settings')}
+function saveSettings(){ME.home=($('#setHome').value||'').trim();persistProfile();markSeen();renderAva();toast('ההגדרות נשמרו ✓');go('tasks');}
+views.settings=()=>`
+  <div style="max-width:520px;margin:0 auto;padding-bottom:80px">
+    <h2 style="font-size:22px;margin:4px 0 3px">הגדרות</h2>
+    <div style="color:var(--mut);font-size:13px;margin-bottom:20px">הפרטים האישיים וההעדפות שלך</div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:11px;margin-bottom:24px">
+      <div class="set-ava" id="setAva">${ME.photo?`<img src="${ME.photo}" alt="">`:ME.n.split(' ').map(x=>x[0]).join('')}</div>
+      <label class="set-photo-btn"><input type="file" accept="image/*" style="display:none" onchange="onPhotoPick(event)">${ME.photo?'החלפת תמונה':'הוספת תמונת פרופיל'}</label>
+      ${ME.photo?'<button class="set-photo-rm" onclick="removePhoto()">הסרת תמונה</button>':''}
+    </div>
+    <div class="fld"><label>שם</label><input type="text" value="${ME.n}" readonly style="opacity:.65"></div>
+    <div class="fnote" style="margin-top:-6px">השם מוגדר על־ידי המשרד.</div>
+    <div class="fld"><label>כתובת בית</label><input type="text" id="setHome" value="${ME.home||''}" placeholder="רחוב ומספר, עיר"></div>
+    <div class="fnote">כתובת הבית משמשת לכפתור «בית» בדיווח סיום משימה.</div>
+    <button class="s-act" style="margin-top:10px" onclick="saveSettings()">שמירת הגדרות</button>
+    <button class="set-logout" onclick="vipLogout()">התנתקות</button>
+  </div>`;
 
 /* init */
 (function(){
@@ -1022,13 +1314,16 @@ document.addEventListener('touchmove',e=>{if(e.scale!==undefined&&e.scale!==1)e.
     else $('#logoutBtn').style.display='';
   }
   loadAll();
-  let th=Store.get('theme','light');
-  setTheme(th);
+  /* טעינת פרופיל הנהג (בית/תמונה/טלפון/תעריף) מהמאגר המשותף */
+  try{const dp=Store.get('drv:'+ME.n,null);if(dp){if(dp.home!=null&&dp.home!=='')ME.home=dp.home;if(dp.photo)ME.photo=dp.photo;if(dp.ph)ME.ph=dp.ph;if(dp.rate!=null)ME.rate=dp.rate;if(dp.rateS!=null)ME.rateS=dp.rateS;}}catch(e){}
+  markSeen();
+  applyScheduledTheme();
+  setInterval(applyScheduledTheme,60000);
   if(navigator.onLine)setTimeout(flushOutbox,800);
   const h=new Date().getHours();
   $('#hello').textContent=(h<5?'לילה טוב':h<12?'בוקר טוב':h<18?'צהריים טובים':'ערב טוב')+', '+ME.n+'!';
   $('#helloDate').textContent='היום '+fromIso(DEMO_TODAY).toLocaleDateString('he-IL',{day:'numeric',month:'long',year:'numeric'});
-  $('#ava').textContent=ME.n.split(' ').map(x=>x[0]).join('');
+  renderAva();
 })();
 const _h0=location.hash.slice(1);
 go(views[_h0]?_h0:'tasks');

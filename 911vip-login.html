@@ -52,7 +52,7 @@ button{font-family:inherit;border:none;background:none;cursor:pointer;color:inhe
 .fld input:focus{border-color:var(--ink)}
 .go{
   width:100%;border-radius:16px;padding:16px;font-size:16.5px;font-weight:800;
-  background:var(--ink);color:var(--lime);margin-top:4px;
+  background:var(--lime);color:#0E0F11;margin-top:4px;
 }
 .go:disabled{opacity:.5}
 .err{
@@ -137,12 +137,25 @@ const $=s=>document.querySelector(s);
   $('#hello').textContent=h<5?'לילה טוב':h<12?'בוקר טוב':h<18?'צהריים טובים':'ערב טוב';
 })();
 let CUR=null;
+/* איתור משתמש: קודם הרשימה הקבועה, אחר כך נהגים שנוספו דרך המנהל (לפי נייד) */
+function findUser(p){
+  let u=USERS.find(x=>x.phone===p);
+  if(!u){try{const e=(Store.get('drvextra',[])||[]).find(d=>String(d.ph||'').replace(/\D/g,'')===p);if(e)u={phone:p,name:e.n,role:'driver'};}catch(err){}}
+  return u;
+}
+/* נהג פעיל? (מנהל תמיד פעיל) — נקבע ע"י המנהל ב-drv:<name> או ברשומת הנהג שנוסף */
+function isActiveDriver(name){
+  try{const o=Store.get('drv:'+name,null);if(o&&o.active!=null)return o.active!==0;}catch(e){}
+  try{const e=(Store.get('drvextra',[])||[]).find(d=>d.n===name);if(e&&e.active!=null)return e.active!==0;}catch(e){}
+  return true;
+}
 function err(id,msg){const e=$(id);e.textContent=msg;e.classList.add('show')}
 function sendOtp(){
   $('#err1').classList.remove('show');
   const p=($('#phone').value||'').replace(/[^\d]/g,'');
-  const u=USERS.find(x=>x.phone===p);
+  const u=findUser(p);
   if(!u){err('#err1','המספר אינו רשום במערכת — פנה למנהל');return}
+  if(u.role!=='manager'&&!isActiveDriver(u.name)){err('#err1','המשתמש אינו פעיל — אין גישה למערכת. פנה למנהל');return}
   CUR=u;
   $('#otpTo').textContent=p.replace(/(\d{3})(\d{3})(\d{4})/,'$1-$2-$3');
   $('#step1').style.display='none';$('#step2').style.display='';
